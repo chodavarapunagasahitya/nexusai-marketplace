@@ -1,0 +1,1187 @@
+const bcrypt = require('bcryptjs');
+
+const getHashedPassword = (pw) => bcrypt.hashSync(pw, 10);
+
+const defaultPassword = 'password123';
+const hashedPassword = getHashedPassword(defaultPassword);
+
+// REAL-WORLD PLATFORM USERS (Clients, Creators, Admins)
+const seedUsers = [
+  // Clients
+  {
+    _id: 'usr_client_1',
+    id: 'usr_client_1',
+    name: 'Sarah Chen',
+    email: 'client@techflow.com',
+    password: hashedPassword,
+    role: 'client',
+    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
+    title: 'VP of Growth & Brand at TechFlow',
+    bio: 'Scaling AI-native B2B developer tools. Frequently hiring top-tier video creators, technical ghostwriters, and generative 3D artists.',
+    favorites: ['usr_creator_1', 'usr_creator_2', 'usr_creator_5'],
+    status: 'active',
+    createdAt: new Date('2025-01-10')
+  },
+  {
+    _id: 'usr_client_2',
+    id: 'usr_client_2',
+    name: 'Julian Rossi',
+    email: 'julian@aetherlabs.ai',
+    password: hashedPassword,
+    role: 'client',
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80',
+    title: 'Founding Creative Director at Aether Labs',
+    bio: 'Pioneering frontier robotics and physical AI. Sourcing high-fidelity synthography and cinematic product launch films.',
+    favorites: ['usr_creator_1', 'usr_creator_3'],
+    status: 'active',
+    createdAt: new Date('2025-02-01')
+  },
+  {
+    _id: 'usr_client_3',
+    id: 'usr_client_3',
+    name: 'Amara Sterling',
+    email: 'amara@novawear.com',
+    password: hashedPassword,
+    role: 'client',
+    avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80',
+    title: 'Chief Marketing Officer at NovaWear',
+    bio: 'Direct-to-consumer AI-tailored smart athleisure. Scaling TikTok creative velocity and interactive 3D apparel models.',
+    favorites: ['usr_creator_3', 'usr_creator_7'],
+    status: 'active',
+    createdAt: new Date('2025-02-15')
+  },
+  {
+    _id: 'usr_client_4',
+    id: 'usr_client_4',
+    name: 'Harrison Vance',
+    email: 'harrison@hyperioncap.com',
+    password: hashedPassword,
+    role: 'client',
+    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80',
+    title: 'Partner at Hyperion Capital',
+    bio: 'Fintech Series A/B venture studio. Seeking executive LinkedIn ghostwriters and institutional research whitepapers.',
+    favorites: ['usr_creator_2', 'usr_creator_4'],
+    status: 'active',
+    createdAt: new Date('2025-03-01')
+  },
+
+  // Creators
+  {
+    _id: 'usr_creator_1',
+    id: 'usr_creator_1',
+    name: 'Elena Vance',
+    email: 'elena@creator.io',
+    password: hashedPassword,
+    role: 'creator',
+    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80',
+    title: 'AI Storyteller & Short-Form Video Director',
+    bio: 'Pioneering AI-accelerated vertical video production. Over 45M collective views produced for brands like Notion, Figma, and Perplexity.',
+    favorites: [],
+    status: 'active',
+    createdAt: new Date('2025-01-05')
+  },
+  {
+    _id: 'usr_creator_2',
+    id: 'usr_creator_2',
+    name: 'Marcus Thorne',
+    email: 'marcus@creator.io',
+    password: hashedPassword,
+    role: 'creator',
+    avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=150&auto=format&fit=crop&q=80',
+    title: 'Prompt Engineer & Senior Tech Copywriter',
+    bio: 'Ex-Stripe technical writer specializing in LLM prompt optimization, enterprise whitepapers, and viral tech breakdown newsletters.',
+    favorites: [],
+    status: 'active',
+    createdAt: new Date('2025-01-08')
+  },
+  {
+    _id: 'usr_creator_3',
+    id: 'usr_creator_3',
+    name: 'Maya Lin',
+    email: 'maya@creator.io',
+    password: hashedPassword,
+    role: 'creator',
+    avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop&q=80',
+    title: 'Generative 3D Artist & Creative Technologist',
+    bio: 'Crafting mesmerizing synthography, Midjourney character rigs, and brand hero imagery with consistent multi-angle generation.',
+    favorites: [],
+    status: 'active',
+    createdAt: new Date('2025-01-12')
+  },
+  {
+    _id: 'usr_creator_4',
+    id: 'usr_creator_4',
+    name: 'David Okafor',
+    email: 'david@creator.io',
+    password: hashedPassword,
+    role: 'creator',
+    avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&auto=format&fit=crop&q=80',
+    title: 'B2B Growth Content Strategist & Podcaster',
+    bio: 'Helps Series A-C tech startups build high-intent inbound organic pipeline through thought leadership scripts and LinkedIn playbooks.',
+    favorites: [],
+    status: 'active',
+    createdAt: new Date('2025-01-15')
+  },
+  {
+    _id: 'usr_creator_5',
+    id: 'usr_creator_5',
+    name: 'Kaelen Voss',
+    email: 'kaelen@creator.io',
+    password: hashedPassword,
+    role: 'creator',
+    avatar: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=150&auto=format&fit=crop&q=80',
+    title: 'Frontier AI Video Producer & Sora/Runway Specialist',
+    bio: 'Director specializing in hyper-photorealistic cinematic teasers. Worked with Nike and Red Bull on generative motion campaigns.',
+    favorites: [],
+    status: 'active',
+    createdAt: new Date('2025-01-20')
+  },
+  {
+    _id: 'usr_creator_6',
+    id: 'usr_creator_6',
+    name: 'Soraya Al-Mansoor',
+    email: 'soraya@creator.io',
+    password: hashedPassword,
+    role: 'creator',
+    avatar: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=150&auto=format&fit=crop&q=80',
+    title: 'Voice Cloning Director & Sound Synthesis Engineer',
+    bio: 'Sound designer combining ElevenLabs custom voice architectures, Suno spatial stems, and broadcast-ready audio mastering.',
+    favorites: [],
+    status: 'active',
+    createdAt: new Date('2025-01-22')
+  },
+  {
+    _id: 'usr_creator_7',
+    id: 'usr_creator_7',
+    name: 'Lucas Brandau',
+    email: 'lucas@creator.io',
+    password: hashedPassword,
+    role: 'creator',
+    avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&auto=format&fit=crop&q=80',
+    title: 'E-commerce AI Commercial Photographer & Model Rigger',
+    bio: 'Creating virtual product studios, digital fashion models, and high-conversion e-commerce ad imagery with zero physical photoshoot costs.',
+    favorites: [],
+    status: 'active',
+    createdAt: new Date('2025-01-25')
+  },
+  {
+    _id: 'usr_creator_8',
+    id: 'usr_creator_8',
+    name: 'Zoe Nakamura',
+    email: 'zoe@creator.io',
+    password: hashedPassword,
+    role: 'creator',
+    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
+    title: 'Design Systems & AI Interactive UI/UX Architect',
+    bio: 'Turning generative design prototypes into production Figma systems and interactive WebGL Spline components for SaaS unicorns.',
+    favorites: [],
+    status: 'active',
+    createdAt: new Date('2025-02-02')
+  },
+
+  // Admin
+  {
+    _id: 'usr_admin_1',
+    id: 'usr_admin_1',
+    name: 'Alex Rivera (Admin)',
+    email: 'admin@nexusai.io',
+    password: hashedPassword,
+    role: 'admin',
+    avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80',
+    title: 'Marketplace Operations & AI Safety Lead',
+    bio: 'Overseeing creator vetting, platform governance, copyright integrity, and escrow dispute resolutions.',
+    favorites: [],
+    status: 'active',
+    createdAt: new Date('2024-12-01')
+  }
+];
+
+// REAL-WORLD CREATOR MARKETPLACE PROFILES
+const seedCreators = [
+  {
+    _id: 'prof_creator_1',
+    id: 'prof_creator_1',
+    userId: 'usr_creator_1',
+    name: 'Elena Vance',
+    title: 'AI Storyteller & Short-Form Video Director',
+    bio: 'Pioneering AI-accelerated vertical video production. Over 45M collective views produced for brands like Notion, Figma, and Perplexity. Combines Runway Gen-3, ElevenLabs voice cloning, and custom editing workflows.',
+    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=250&auto=format&fit=crop&q=80',
+    coverImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&auto=format&fit=crop&q=80',
+    category: 'Video & Motion',
+    skills: ['AI Video Generation', 'Runway Gen-3', 'TikTok Growth', 'Reels Strategy', 'ElevenLabs Audio', 'CapCut Pro', 'Storyboarding'],
+    languages: ['English', 'Spanish'],
+    hourlyRate: 85,
+    startingPrice: 350,
+    rating: 4.96,
+    reviewsCount: 48,
+    availability: 'Available',
+    location: 'Los Angeles, CA',
+    completedProjects: 52,
+    portfolio: [
+      {
+        id: 'port_101',
+        title: 'Viral AI Tech Demo Series for DevTool',
+        description: 'Produced 5 high-converting vertical videos highlighting automated code review. Resulted in 4.8M impressions.',
+        category: 'Short-Form Video',
+        imageUrl: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&auto=format&fit=crop&q=80',
+        link: 'https://vimeo.com',
+        metrics: '4.8M Views • +32% Signups',
+        date: 'Jan 2026'
+      },
+      {
+        id: 'port_102',
+        title: 'Cyberpunk Aesthetic Brand Teaser',
+        description: 'Hybrid cinematography leveraging Midjourney v6 depth maps and Runway Alpha motion tracking for a futuristic hardware brand.',
+        category: 'Motion Design',
+        imageUrl: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=600&auto=format&fit=crop&q=80',
+        link: 'https://vimeo.com',
+        metrics: '1.2M Views • Award Winner',
+        date: 'Dec 2025'
+      },
+      {
+        id: 'port_103',
+        title: 'Micro-Documentary: The Future of Neural Synthesis',
+        description: 'Complete 3-minute video essay featuring synthetic avatars and bespoke ambient soundscape.',
+        category: 'Documentary',
+        imageUrl: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=600&auto=format&fit=crop&q=80',
+        link: 'https://youtube.com',
+        metrics: '850K Views • 12K Likes',
+        date: 'Feb 2026'
+      }
+    ],
+    packages: [
+      {
+        name: 'Starter Reel',
+        price: 350,
+        deliveryDays: 3,
+        revisions: 2,
+        features: ['1 x 45s High-Energy Reel', 'Full AI Voiceover & Captions', '2 Concept Script Variations', 'Vertical Format (9:16)']
+      },
+      {
+        name: 'Growth Pack',
+        price: 950,
+        deliveryDays: 7,
+        revisions: 3,
+        features: ['3 x 60s Premium Videos', 'Custom Runway Gen-3 Visuals', 'Hook Rate Optimization Testing', 'Full Commercial Licensing']
+      },
+      {
+        name: 'Enterprise Campaign',
+        price: 2400,
+        deliveryDays: 14,
+        revisions: 5,
+        features: ['8 x Multi-Platform Deliverables', 'Dedicated Creative Director Review', 'A/B Hook Variations', 'Raw Project Assets & LUTs']
+      }
+    ],
+    reviews: [
+      {
+        id: 'rev_1',
+        clientName: 'Sarah Chen (TechFlow)',
+        clientAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+        rating: 5,
+        comment: 'Elena is unparalleled in understanding how AI visuals hook viewers. Our click-through rate jumped 4x within the first 48 hours of posting.',
+        date: 'Feb 2026',
+        projectTitle: 'TikTok & Reels Growth Campaign'
+      },
+      {
+        id: 'rev_2',
+        clientName: 'Julian Rossi (Aether Labs)',
+        clientAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80',
+        rating: 5,
+        comment: 'Fast communication, unbelievable turnaround, and the videos looked like a million-dollar production studio made them.',
+        date: 'Jan 2026',
+        projectTitle: 'Product Launch Teaser Reel'
+      }
+    ],
+    analytics: {
+      monthlyEarnings: [
+        { month: 'Oct', amount: 5200 },
+        { month: 'Nov', amount: 6800 },
+        { month: 'Dec', amount: 8400 },
+        { month: 'Jan', amount: 9600 },
+        { month: 'Feb', amount: 11200 },
+        { month: 'Mar', amount: 12850 }
+      ],
+      profileViews: 3840,
+      clientRetentionRate: 94,
+      responseTimeHours: 1.5
+    }
+  },
+
+  {
+    _id: 'prof_creator_2',
+    id: 'prof_creator_2',
+    userId: 'usr_creator_2',
+    name: 'Marcus Thorne',
+    title: 'Prompt Engineer & Senior Tech Copywriter',
+    bio: 'Ex-Stripe technical writer specializing in LLM prompt optimization, enterprise whitepapers, and viral tech breakdown newsletters. Helps founders articulate deep tech into irresistible value.',
+    avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=250&auto=format&fit=crop&q=80',
+    coverImage: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=1200&auto=format&fit=crop&q=80',
+    category: 'Copywriting & Content',
+    skills: ['Prompt Engineering', 'Technical Whitepapers', 'SEO Semantic Clustering', 'B2B SaaS Messaging', 'Substack Growth', 'API Documentation'],
+    languages: ['English', 'German'],
+    hourlyRate: 95,
+    startingPrice: 250,
+    rating: 4.98,
+    reviewsCount: 39,
+    availability: 'Available',
+    location: 'Austin, TX',
+    completedProjects: 41,
+    portfolio: [
+      {
+        id: 'port_201',
+        title: 'State of LLM Evaluation: 30-Page Technical Whitepaper',
+        description: 'Comprehensive research synthesis breaking down benchmarks, safety bounds, and production latency optimization.',
+        category: 'Whitepaper',
+        imageUrl: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&auto=format&fit=crop&q=80',
+        link: 'https://example.com',
+        metrics: '18K Downloads • 450+ MQLs',
+        date: 'Jan 2026'
+      },
+      {
+        id: 'port_202',
+        title: 'B2B Landing Page Overhaul for VectorDB Startup',
+        description: 'Rewrote value propositions, feature grids, and interactive developer playground microcopy.',
+        category: 'Website Copy',
+        imageUrl: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&auto=format&fit=crop&q=80',
+        link: 'https://example.com',
+        metrics: '+68% Demo Signups',
+        date: 'Feb 2026'
+      }
+    ],
+    packages: [
+      {
+        name: 'Flagship Article',
+        price: 450,
+        deliveryDays: 4,
+        revisions: 2,
+        features: ['1,800-Word In-Depth Tech Article', 'SEO Entity Clustering & Keywords', 'Custom Code Snippets & Diagrams', 'Social Promo Snippets (LinkedIn + X)']
+      },
+      {
+        name: 'Technical Whitepaper',
+        price: 1500,
+        deliveryDays: 10,
+        revisions: 3,
+        features: ['Comprehensive Industry Report', 'Original Architecture Schemas', 'Executive Summary & Citations', 'Full Distribution Strategy']
+      }
+    ],
+    reviews: [
+      {
+        id: 'rev_3',
+        clientName: 'Sarah Chen (TechFlow)',
+        clientAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+        rating: 5,
+        comment: 'Marcus wrote our AI whitepaper and it generated more enterprise pipeline in 2 weeks than our entire paid ads budget did last quarter.',
+        date: 'Feb 2026',
+        projectTitle: 'Technical Deep-Dive Series'
+      }
+    ],
+    analytics: {
+      monthlyEarnings: [
+        { month: 'Oct', amount: 4800 },
+        { month: 'Nov', amount: 5600 },
+        { month: 'Dec', amount: 7200 },
+        { month: 'Jan', amount: 8900 },
+        { month: 'Feb', amount: 10400 },
+        { month: 'Mar', amount: 11900 }
+      ],
+      profileViews: 2950,
+      clientRetentionRate: 91,
+      responseTimeHours: 1.0
+    }
+  },
+
+  {
+    _id: 'prof_creator_3',
+    id: 'prof_creator_3',
+    userId: 'usr_creator_3',
+    name: 'Maya Lin',
+    title: 'Generative 3D Artist & Creative Technologist',
+    bio: 'Crafting mesmerizing synthography, Midjourney character rigs, and brand hero imagery with consistent multi-angle generation. Featured in DesignBoom and ArtStation.',
+    avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=250&auto=format&fit=crop&q=80',
+    coverImage: 'https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?w=1200&auto=format&fit=crop&q=80',
+    category: 'Visual & 3D Art',
+    skills: ['Midjourney v6', 'Spline 3D', 'Consistent Character Rigs', 'Stable Diffusion ControlNet', 'Brand Imagery', 'Figma Design'],
+    languages: ['English', 'Mandarin'],
+    hourlyRate: 75,
+    startingPrice: 200,
+    rating: 4.92,
+    reviewsCount: 31,
+    availability: 'Busy',
+    location: 'Seattle, WA',
+    completedProjects: 35,
+    portfolio: [
+      {
+        id: 'port_301',
+        title: 'Hyper-Realistic AI Brand Character Roster',
+        description: 'Engineered a unified visual mascot system with consistent clothing and emotions across 40 custom renders.',
+        category: 'Character Design',
+        imageUrl: 'https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?w=600&auto=format&fit=crop&q=80',
+        link: 'https://artstation.com',
+        metrics: 'Featured on Behance Top 10',
+        date: 'Feb 2026'
+      }
+    ],
+    packages: [
+      {
+        name: 'Brand Imagery Pack',
+        price: 500,
+        deliveryDays: 5,
+        revisions: 3,
+        features: ['5 Ultra-Res Hero Graphics (4K)', 'ControlNet Custom Composition', 'Prompt Style Guide & Seeds', 'Commercial Rights Included']
+      }
+    ],
+    reviews: [
+      {
+        id: 'rev_4',
+        clientName: 'Victor Vance (Nebula Media)',
+        clientAvatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80',
+        rating: 5,
+        comment: 'Maya is a wizard with Stable Diffusion and Midjourney. Character consistency was flawless.',
+        date: 'Jan 2026',
+        projectTitle: 'Brand Identity 3D Assets'
+      }
+    ],
+    analytics: {
+      monthlyEarnings: [
+        { month: 'Oct', amount: 3900 },
+        { month: 'Nov', amount: 4800 },
+        { month: 'Dec', amount: 6100 },
+        { month: 'Jan', amount: 7400 },
+        { month: 'Feb', amount: 8800 },
+        { month: 'Mar', amount: 9950 }
+      ],
+      profileViews: 2410,
+      clientRetentionRate: 86,
+      responseTimeHours: 2.2
+    }
+  },
+
+  {
+    _id: 'prof_creator_4',
+    id: 'prof_creator_4',
+    userId: 'usr_creator_4',
+    name: 'David Okafor',
+    title: 'B2B Growth Content Strategist & Podcaster',
+    bio: 'Helps Series A-C tech startups build high-intent inbound organic pipeline through thought leadership scripts and LinkedIn playbooks.',
+    avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=250&auto=format&fit=crop&q=80',
+    coverImage: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=1200&auto=format&fit=crop&q=80',
+    category: 'Social Media',
+    skills: ['LinkedIn Ghostwriting', 'Podcast Scripting', 'Organic Distribution', 'Executive Branding', 'Twitter / X Threads', 'Case Studies'],
+    languages: ['English'],
+    hourlyRate: 70,
+    startingPrice: 180,
+    rating: 4.89,
+    reviewsCount: 27,
+    availability: 'Available',
+    location: 'London, UK',
+    completedProjects: 29,
+    portfolio: [
+      {
+        id: 'port_401',
+        title: 'CEO LinkedIn Thought Leadership Engine',
+        description: 'Grew a founder from 2,000 to 74,000 followers in 6 months, yielding $1.4M in inbound pipeline.',
+        category: 'Ghostwriting',
+        imageUrl: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=600&auto=format&fit=crop&q=80',
+        link: 'https://linkedin.com',
+        metrics: '+72K Followers • $1.4M Pipeline',
+        date: 'Jan 2026'
+      }
+    ],
+    packages: [
+      {
+        name: 'Weekly Social Sprint',
+        price: 600,
+        deliveryDays: 5,
+        revisions: 2,
+        features: ['5 Custom LinkedIn Posts', '2 High-Yield X Threads', 'Algorithm Optimized Hook Matrix', 'Weekly Analytics Debrief']
+      }
+    ],
+    reviews: [
+      {
+        id: 'rev_5',
+        clientName: 'Elena Rostova (Kite AI)',
+        clientAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+        rating: 5,
+        comment: 'David captured my tone immediately. The posts read authentically and drove actual enterprise inbound.',
+        date: 'Feb 2026',
+        projectTitle: 'Executive Content Engine'
+      }
+    ],
+    analytics: {
+      monthlyEarnings: [
+        { month: 'Oct', amount: 3200 },
+        { month: 'Nov', amount: 4100 },
+        { month: 'Dec', amount: 5300 },
+        { month: 'Jan', amount: 6600 },
+        { month: 'Feb', amount: 7800 },
+        { month: 'Mar', amount: 8900 }
+      ],
+      profileViews: 2180,
+      clientRetentionRate: 89,
+      responseTimeHours: 1.8
+    }
+  },
+
+  {
+    _id: 'prof_creator_5',
+    id: 'prof_creator_5',
+    userId: 'usr_creator_5',
+    name: 'Kaelen Voss',
+    title: 'Frontier AI Video Producer & Sora/Runway Specialist',
+    bio: 'Director specializing in photorealistic commercial teasers and cinematic generative storytelling. Collaborated with Nike, Red Bull, and Polestar on forward-looking motion spots.',
+    avatar: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=250&auto=format&fit=crop&q=80',
+    coverImage: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?w=1200&auto=format&fit=crop&q=80',
+    category: 'Video & Motion',
+    skills: ['Sora AI Video', 'Runway Gen-3 Alpha', 'After Effects 3D', 'Cinematic Color Grading', 'Motion Tracking', 'Commercial Direction'],
+    languages: ['English', 'German'],
+    hourlyRate: 110,
+    startingPrice: 500,
+    rating: 4.97,
+    reviewsCount: 34,
+    availability: 'Available',
+    location: 'Berlin, Germany',
+    completedProjects: 38,
+    portfolio: [
+      {
+        id: 'port_501',
+        title: 'Polestar Futuristic EV Concept Commercial',
+        description: 'Blended cinematic neural video outputs with high-speed car tracking and volumetric atmospheric lighting.',
+        category: 'Commercial Video',
+        imageUrl: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&auto=format&fit=crop&q=80',
+        link: 'https://vimeo.com',
+        metrics: '2.4M Views • Staff Pick',
+        date: 'Jan 2026'
+      }
+    ],
+    packages: [
+      {
+        name: 'Cinematic Concept Teaser',
+        price: 850,
+        deliveryDays: 5,
+        revisions: 2,
+        features: ['30s 4K Ultra-HD Motion Spot', 'Custom Cinematic Score & SFX', 'Advanced Seed & Velocity Control', 'Social Cutdowns (16:9 & 9:16)']
+      },
+      {
+        name: 'Brand Hero Film',
+        price: 2200,
+        deliveryDays: 12,
+        revisions: 4,
+        features: ['90s Complete Narrative Commercial', 'Multi-Angle Camera Matching', 'High-Res Master Prores 422', 'Commercial Global Broadcast Rights']
+      }
+    ],
+    reviews: [
+      {
+        id: 'rev_6',
+        clientName: 'Julian Rossi (Aether Labs)',
+        clientAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80',
+        rating: 5,
+        comment: 'Kaelen delivered visual fidelity that stunned our executive board. Unrivaled command over neural video tools.',
+        date: 'Feb 2026',
+        projectTitle: 'Robotics Brand Teaser'
+      }
+    ],
+    analytics: {
+      monthlyEarnings: [
+        { month: 'Oct', amount: 6200 },
+        { month: 'Nov', amount: 7900 },
+        { month: 'Dec', amount: 9400 },
+        { month: 'Jan', amount: 11500 },
+        { month: 'Feb', amount: 13200 },
+        { month: 'Mar', amount: 15400 }
+      ],
+      profileViews: 4120,
+      clientRetentionRate: 96,
+      responseTimeHours: 1.2
+    }
+  },
+
+  {
+    _id: 'prof_creator_6',
+    id: 'prof_creator_6',
+    userId: 'usr_creator_6',
+    name: 'Soraya Al-Mansoor',
+    title: 'Voice Cloning Director & Sound Synthesis Engineer',
+    bio: 'Sound designer combining ElevenLabs custom voice architectures, Suno spatial stems, and broadcast-ready audio mastering for global commercial campaigns and audiobooks.',
+    avatar: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=250&auto=format&fit=crop&q=80',
+    coverImage: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1200&auto=format&fit=crop&q=80',
+    category: 'Audio & Voice',
+    skills: ['ElevenLabs Voice Cloning', 'Spatial Audio Mixing', 'AI Sonic Branding', 'Podcast Mastering', 'Multilingual Localization', 'Logic Pro'],
+    languages: ['English', 'Arabic', 'French'],
+    hourlyRate: 80,
+    startingPrice: 220,
+    rating: 4.95,
+    reviewsCount: 26,
+    availability: 'Available',
+    location: 'Dubai, UAE',
+    completedProjects: 31,
+    portfolio: [
+      {
+        id: 'port_601',
+        title: 'Global Fintech Sonic Identity & Brand Soundmark',
+        description: 'Engineered a bespoke 3-second sonic signature and multilingual dynamic app notification soundscapes.',
+        category: 'Sonic Branding',
+        imageUrl: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600&auto=format&fit=crop&q=80',
+        link: 'https://soundcloud.com',
+        metrics: 'Deployed in 14 Countries',
+        date: 'Jan 2026'
+      }
+    ],
+    packages: [
+      {
+        name: 'Brand Voice Signature',
+        price: 450,
+        deliveryDays: 4,
+        revisions: 2,
+        features: ['Bespoke Voice Persona Calibration', 'Studio Acoustic Master', 'Up to 2,000 Spoken Words', 'WAV & Lossless Stems']
+      }
+    ],
+    reviews: [
+      {
+        id: 'rev_7',
+        clientName: 'Amara Sterling (NovaWear)',
+        clientAvatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&auto=format&fit=crop&q=80',
+        rating: 5,
+        comment: 'Soraya made our AI narrator sound warm, organic, and completely lifelike. No robotic artifacting whatsoever.',
+        date: 'Feb 2026',
+        projectTitle: 'Apparel Campaign Narration'
+      }
+    ],
+    analytics: {
+      monthlyEarnings: [
+        { month: 'Oct', amount: 3800 },
+        { month: 'Nov', amount: 4600 },
+        { month: 'Dec', amount: 5800 },
+        { month: 'Jan', amount: 7100 },
+        { month: 'Feb', amount: 8400 },
+        { month: 'Mar', amount: 9600 }
+      ],
+      profileViews: 1980,
+      clientRetentionRate: 92,
+      responseTimeHours: 1.6
+    }
+  },
+
+  {
+    _id: 'prof_creator_7',
+    id: 'prof_creator_7',
+    userId: 'usr_creator_7',
+    name: 'Lucas Brandau',
+    title: 'E-commerce AI Commercial Photographer & Model Rigger',
+    bio: 'Creating virtual product studios, digital fashion models, and high-conversion e-commerce ad imagery with zero physical photoshoot overhead. Scaled Shopify brands past $10M.',
+    avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=250&auto=format&fit=crop&q=80',
+    coverImage: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&auto=format&fit=crop&q=80',
+    category: 'Visual & 3D Art',
+    skills: ['AI Virtual Try-On', 'Commercial Product Renders', 'ControlNet Inpainting', 'Photoshop High-End Retouching', 'Shopify A/B Assets'],
+    languages: ['English', 'Portuguese'],
+    hourlyRate: 75,
+    startingPrice: 280,
+    rating: 4.91,
+    reviewsCount: 38,
+    availability: 'Available',
+    location: 'São Paulo, Brazil',
+    completedProjects: 44,
+    portfolio: [
+      {
+        id: 'port_701',
+        title: 'Virtual Summer Apparel Catalog (80 AI Looks)',
+        description: 'Replaced a $50k on-location photoshoot with synthetic hyper-realistic beach environments and diverse AI models.',
+        category: 'Fashion Lookbook',
+        imageUrl: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&auto=format&fit=crop&q=80',
+        link: 'https://behance.net',
+        metrics: '+44% Conversion • Saved $42K',
+        date: 'Jan 2026'
+      }
+    ],
+    packages: [
+      {
+        name: 'E-commerce Launch Pack',
+        price: 650,
+        deliveryDays: 5,
+        revisions: 3,
+        features: ['12 High-Res AI Hero Product Photos', 'White Background + Lifestyle Scenes', 'Consistent Lighting & Shadows', 'Amazon & Shopify Formats']
+      }
+    ],
+    reviews: [
+      {
+        id: 'rev_8',
+        clientName: 'Amara Sterling (NovaWear)',
+        clientAvatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&auto=format&fit=crop&q=80',
+        rating: 5,
+        comment: 'Lucas saved our seasonal launch. The virtual models looked 100% authentic and conversion outperformed our real photo studio assets.',
+        date: 'Feb 2026',
+        projectTitle: 'Summer Line Virtual Catalog'
+      }
+    ],
+    analytics: {
+      monthlyEarnings: [
+        { month: 'Oct', amount: 4100 },
+        { month: 'Nov', amount: 5300 },
+        { month: 'Dec', amount: 6900 },
+        { month: 'Jan', amount: 8200 },
+        { month: 'Feb', amount: 9800 },
+        { month: 'Mar', amount: 11400 }
+      ],
+      profileViews: 2650,
+      clientRetentionRate: 90,
+      responseTimeHours: 1.4
+    }
+  },
+
+  {
+    _id: 'prof_creator_8',
+    id: 'prof_creator_8',
+    userId: 'usr_creator_8',
+    name: 'Zoe Nakamura',
+    title: 'Design Systems & AI Interactive UI/UX Architect',
+    bio: 'Bridging generative visual synthesis into design tokens, accessible Figma components, and interactive WebGL Spline prototypes for high-growth tech platforms.',
+    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=250&auto=format&fit=crop&q=80',
+    coverImage: 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=1200&auto=format&fit=crop&q=80',
+    category: 'Design & UI/UX',
+    skills: ['Figma Design Systems', 'Spline 3D WebGL', 'AI Micro-Interactions', 'Design Tokens', 'Tailwind CSS Prototyping', 'User Testing'],
+    languages: ['English', 'Japanese'],
+    hourlyRate: 90,
+    startingPrice: 320,
+    rating: 4.99,
+    reviewsCount: 42,
+    availability: 'Available',
+    location: 'Tokyo, Japan',
+    completedProjects: 49,
+    portfolio: [
+      {
+        id: 'port_801',
+        title: 'Interactive 3D SaaS Landing Page Canvas',
+        description: 'Engineered an interactive 3D hero globe embedded seamlessly into a dark-mode SaaS developer portal.',
+        category: 'UI/UX Prototyping',
+        imageUrl: 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=600&auto=format&fit=crop&q=80',
+        link: 'https://figma.com',
+        metrics: '280K Live Manipulations • +52% Time on Page',
+        date: 'Feb 2026'
+      }
+    ],
+    packages: [
+      {
+        name: 'Design System Sprint',
+        price: 900,
+        deliveryDays: 6,
+        revisions: 2,
+        features: ['Full Component Library (Buttons, Forms, Badges)', 'Dark/Light Theme Variable Tokens', 'Interactive Spline 3D Hero Mockup', 'Developer Handoff Guide']
+      }
+    ],
+    reviews: [
+      {
+        id: 'rev_9',
+        clientName: 'Sarah Chen (TechFlow)',
+        clientAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+        rating: 5,
+        comment: 'Zoe is a true visionary. The UI components are clean, semantic, and elevated our brand instantly.',
+        date: 'Jan 2026',
+        projectTitle: 'Design System Overhaul'
+      }
+    ],
+    analytics: {
+      monthlyEarnings: [
+        { month: 'Oct', amount: 5100 },
+        { month: 'Nov', amount: 6400 },
+        { month: 'Dec', amount: 7900 },
+        { month: 'Jan', amount: 9600 },
+        { month: 'Feb', amount: 11800 },
+        { month: 'Mar', amount: 13500 }
+      ],
+      profileViews: 3420,
+      clientRetentionRate: 95,
+      responseTimeHours: 1.1
+    }
+  }
+];
+
+// REAL-WORLD PROJECTS & CLIENT BRIEFS
+const seedProjects = [
+  {
+    _id: 'proj_101',
+    id: 'proj_101',
+    title: 'AI-Powered SaaS Explainer Video Series',
+    description: 'Create a high-energy, 3-part short-form video series explaining TechFlow’s new AI workflow automation engine for LinkedIn & TikTok.',
+    clientId: 'usr_client_1',
+    clientName: 'Sarah Chen (TechFlow)',
+    creatorId: 'usr_creator_1',
+    creatorName: 'Elena Vance',
+    category: 'Video & Motion',
+    budget: 950,
+    deadline: '2026-10-24',
+    status: 'In Progress',
+    deliverables: [
+      { title: 'Scriptwriting & Hook Variations', completed: true },
+      { title: 'AI Voice Cloning & Audio Synthesis', completed: true },
+      { title: 'Runway Gen-3 Motion Sequences', completed: false },
+      { title: 'Final 4K Vertical Color Grade', completed: false }
+    ],
+    revisions: [],
+    files: [
+      { name: 'TechFlow_Brand_Kit.pdf', size: '4.2 MB', uploadedBy: 'Sarah Chen', url: '#', uploadedAt: new Date('2026-10-01') },
+      { name: 'Draft_Script_v1.docx', size: '120 KB', uploadedBy: 'Elena Vance', url: '#', uploadedAt: new Date('2026-10-04') }
+    ],
+    pendingAction: 'Elena is generating motion sequences (Due Oct 24)',
+    createdAt: new Date('2026-10-01'),
+    updatedAt: new Date('2026-10-05')
+  },
+  {
+    _id: 'proj_102',
+    id: 'proj_102',
+    title: 'Technical Deep-Dive Blog Posts on Generative AI',
+    description: 'Write two 2,000-word authoritative technical articles covering Agentic Workflow Orchestration and Local SLM Fine-Tuning.',
+    clientId: 'usr_client_1',
+    clientName: 'Sarah Chen (TechFlow)',
+    creatorId: 'usr_creator_2',
+    creatorName: 'Marcus Thorne',
+    category: 'Copywriting & Content',
+    budget: 900,
+    deadline: '2026-10-18',
+    status: 'Completed',
+    deliverables: [
+      { title: 'Article 1: Agentic Orchestration Patterns', completed: true },
+      { title: 'Article 2: Small Language Models in Production', completed: true },
+      { title: 'SEO Entity Clustering & Metadata', completed: true },
+      { title: 'Interactive Code Walkthrough Snippets', completed: true }
+    ],
+    revisions: [
+      { requestedBy: 'Sarah Chen', comment: 'Added specific benchmarks comparing vLLM with TensorRT-LLM in section 3.', resolved: true }
+    ],
+    files: [
+      { name: 'TechFlow_Article_Final.md', size: '45 KB', uploadedBy: 'Marcus Thorne', url: '#', uploadedAt: new Date('2026-09-28') }
+    ],
+    pendingAction: 'Project marked complete. Payment escrow disbursed.',
+    createdAt: new Date('2026-09-15'),
+    updatedAt: new Date('2026-09-30')
+  },
+  {
+    _id: 'proj_103',
+    id: 'proj_103',
+    title: 'Frontier Robotics 4K Product Hero Spot',
+    description: 'Generate photorealistic neural motion spot for Aether Labs humanoid robotics platform reveal, showcasing precision joint articulation and computer vision HUD.',
+    clientId: 'usr_client_2',
+    clientName: 'Julian Rossi (Aether Labs)',
+    creatorId: 'usr_creator_5',
+    creatorName: 'Kaelen Voss',
+    category: 'Video & Motion',
+    budget: 2200,
+    deadline: '2026-10-28',
+    status: 'In Progress',
+    deliverables: [
+      { title: 'Cinematic Concept Storyboard', completed: true },
+      { title: 'Neural Motion Sequences (Sora / Gen-3)', completed: true },
+      { title: 'Volumetric Lighting & HUD Compositing', completed: false },
+      { title: 'Master 4K Prores Export', completed: false }
+    ],
+    revisions: [],
+    files: [
+      { name: 'Aether_Robot_CAD_Specs.pdf', size: '12.8 MB', uploadedBy: 'Julian Rossi', url: '#', uploadedAt: new Date('2026-10-02') }
+    ],
+    pendingAction: 'Kaelen is compositing lighting sequences (Due Oct 28)',
+    createdAt: new Date('2026-10-02'),
+    updatedAt: new Date('2026-10-08')
+  },
+  {
+    _id: 'proj_104',
+    id: 'proj_104',
+    title: 'Summer 2026 Virtual Apparel Catalog & Lookbook',
+    description: 'Produce 40 photorealistic AI-generated model renders wearing the new NovaWear smart fabric athletic line across diverse urban and wilderness terrains.',
+    clientId: 'usr_client_3',
+    clientName: 'Amara Sterling (NovaWear)',
+    creatorId: 'usr_creator_7',
+    creatorName: 'Lucas Brandau',
+    category: 'Visual & 3D Art',
+    budget: 1850,
+    deadline: '2026-10-20',
+    status: 'Under Review',
+    deliverables: [
+      { title: 'AI Model Roster Consistency Calibration', completed: true },
+      { title: 'Fabric Texture Mapping & ControlNet Renders', completed: true },
+      { title: 'High-Res Color Grading & Retouching', completed: true },
+      { title: 'Shopify Asset Export (Square & 4:5)', completed: true }
+    ],
+    revisions: [
+      { requestedBy: 'Amara Sterling', comment: 'Please brighten sunlight highlights on photos 14 through 18.', resolved: false }
+    ],
+    files: [
+      { name: 'NovaWear_Fabric_Samples.zip', size: '34 MB', uploadedBy: 'Amara Sterling', url: '#', uploadedAt: new Date('2026-09-25') },
+      { name: 'Lookbook_Draft_v1.pdf', size: '22 MB', uploadedBy: 'Lucas Brandau', url: '#', uploadedAt: new Date('2026-10-08') }
+    ],
+    pendingAction: 'Lucas is adjusting sunlight highlight revisions',
+    createdAt: new Date('2026-09-25'),
+    updatedAt: new Date('2026-10-08')
+  },
+  {
+    _id: 'proj_105',
+    id: 'proj_105',
+    title: 'Fintech Series B Investor Pitch Deck & 3D Graphics',
+    description: 'Design a bespoke 16-slide interactive investor deck with custom generative 3D financial infrastructure metaphors and charts.',
+    clientId: 'usr_client_4',
+    clientName: 'Harrison Vance (Hyperion Capital)',
+    creatorId: 'usr_creator_8',
+    creatorName: 'Zoe Nakamura',
+    category: 'Design & UI/UX',
+    budget: 1600,
+    deadline: '2026-10-15',
+    status: 'Under Review',
+    deliverables: [
+      { title: 'Executive Narrative Architecture', completed: true },
+      { title: '3D Spline Asset Generation', completed: true },
+      { title: 'Figma Slide Deck Master', completed: true },
+      { title: 'Interactive PDF & Web Presenter Link', completed: true }
+    ],
+    revisions: [],
+    files: [
+      { name: 'Hyperion_Pitch_Deck_v2.fig', size: '18.4 MB', uploadedBy: 'Zoe Nakamura', url: '#', uploadedAt: new Date('2026-10-07') }
+    ],
+    pendingAction: 'Harrison Vance reviewing final deck draft',
+    createdAt: new Date('2026-09-29'),
+    updatedAt: new Date('2026-10-07')
+  },
+  {
+    _id: 'proj_106',
+    id: 'proj_106',
+    title: 'Multilingual Audio Branding & App Soundscape',
+    description: 'Design sonic logos and ElevenLabs synthetic narrator voices in English, German, and Japanese for an international wellness platform.',
+    clientId: 'usr_client_3',
+    clientName: 'Amara Sterling (NovaWear)',
+    creatorId: 'usr_creator_6',
+    creatorName: 'Soraya Al-Mansoor',
+    category: 'Audio & Voice',
+    budget: 850,
+    deadline: '2026-11-05',
+    status: 'Accepted',
+    deliverables: [
+      { title: 'Sonic Identity Benchmark & Moodboard', completed: false },
+      { title: 'Voice Persona Audio Engineering', completed: false },
+      { title: 'Localization in 3 Languages', completed: false }
+    ],
+    revisions: [],
+    files: [
+      { name: 'App_Wireframes_Audio_Triggers.pdf', size: '3.1 MB', uploadedBy: 'Amara Sterling', url: '#', uploadedAt: new Date('2026-10-09') }
+    ],
+    pendingAction: 'Soraya preparing sonic moodboard kicks off Monday',
+    createdAt: new Date('2026-10-09'),
+    updatedAt: new Date('2026-10-09')
+  },
+  {
+    _id: 'proj_107',
+    id: 'proj_107',
+    title: 'CEO Organic LinkedIn Thought Leadership Sprint',
+    description: 'Ghostwrite 10 high-signal LinkedIn breakdown posts analyzing the shift toward Autonomous Agentic workflows in Venture Capital.',
+    clientId: 'usr_client_4',
+    clientName: 'Harrison Vance (Hyperion Capital)',
+    creatorId: 'usr_creator_4',
+    creatorName: 'David Okafor',
+    category: 'Social Media',
+    budget: 750,
+    deadline: '2026-10-30',
+    status: 'In Progress',
+    deliverables: [
+      { title: 'Founder Tone & Voice Calibration Interview', completed: true },
+      { title: 'Batch 1: 5 LinkedIn Breakdown Posts', completed: true },
+      { title: 'Batch 2: 5 In-Depth Case Studies', completed: false },
+      { title: 'Analytics Optimization Review', completed: false }
+    ],
+    revisions: [],
+    files: [
+      { name: 'Batch_1_LinkedIn_Posts.docx', size: '85 KB', uploadedBy: 'David Okafor', url: '#', uploadedAt: new Date('2026-10-06') }
+    ],
+    pendingAction: 'David writing Batch 2 (Due Oct 30)',
+    createdAt: new Date('2026-10-02'),
+    updatedAt: new Date('2026-10-06')
+  }
+];
+
+// REAL-WORLD MESSAGES & DIALOGUES
+const seedMessages = [
+  {
+    _id: 'msg_101',
+    id: 'msg_101',
+    conversationId: 'usr_client_1_conv_usr_creator_1',
+    senderId: 'usr_client_1',
+    senderName: 'Sarah Chen',
+    receiverId: 'usr_creator_1',
+    projectId: 'proj_101',
+    text: 'Hi Elena! Excited to collaborate. Our team reviewed the concept script and we love the kinetic subtitle pacing in Scene 2.',
+    read: true,
+    createdAt: new Date('2026-10-04T10:15:00Z')
+  },
+  {
+    _id: 'msg_102',
+    id: 'msg_102',
+    conversationId: 'usr_client_1_conv_usr_creator_1',
+    senderId: 'usr_creator_1',
+    senderName: 'Elena Vance',
+    receiverId: 'usr_client_1',
+    projectId: 'proj_101',
+    text: 'Thanks Sarah! I am currently running the motion sequences through Runway Gen-3 with seed locking to guarantee visual consistency. Will have a draft reel for you by Thursday!',
+    read: true,
+    createdAt: new Date('2026-10-04T10:45:00Z')
+  },
+  {
+    _id: 'msg_103',
+    id: 'msg_103',
+    conversationId: 'usr_client_1_conv_usr_creator_1',
+    senderId: 'usr_client_1',
+    senderName: 'Sarah Chen',
+    receiverId: 'usr_creator_1',
+    projectId: 'proj_101',
+    text: 'Perfect. If possible, could we also test a 9-second cutdown for YouTube Shorts as an additional asset?',
+    read: false,
+    createdAt: new Date('2026-10-05T09:20:00Z')
+  },
+  {
+    _id: 'msg_104',
+    id: 'msg_104',
+    conversationId: 'usr_client_2_conv_usr_creator_5',
+    senderId: 'usr_client_2',
+    senderName: 'Julian Rossi',
+    receiverId: 'usr_creator_5',
+    projectId: 'proj_103',
+    text: 'Kaelen, the lighting tests on the robot arm look incredible. Make sure the HUD telemetry graphics match our corporate hex (#8b5cf6).',
+    read: true,
+    createdAt: new Date('2026-10-06T14:10:00Z')
+  },
+  {
+    _id: 'msg_105',
+    id: 'msg_105',
+    conversationId: 'usr_client_2_conv_usr_creator_5',
+    senderId: 'usr_creator_5',
+    senderName: 'Kaelen Voss',
+    receiverId: 'usr_client_2',
+    projectId: 'proj_103',
+    text: 'Understood Julian. Integrated the exact brand hex into the volumetric lens flares. Exporting the 4K Prores preview now.',
+    read: true,
+    createdAt: new Date('2026-10-06T15:30:00Z')
+  },
+  {
+    _id: 'msg_106',
+    id: 'msg_106',
+    conversationId: 'usr_client_3_conv_usr_creator_7',
+    senderId: 'usr_client_3',
+    senderName: 'Amara Sterling',
+    receiverId: 'usr_creator_7',
+    projectId: 'proj_104',
+    text: 'Lucas, reviewed Lookbook draft v1. Overall sensational! Just need a slight exposure boost on outdoor photos 14-18.',
+    read: true,
+    createdAt: new Date('2026-10-08T11:00:00Z')
+  },
+  {
+    _id: 'msg_107',
+    id: 'msg_107',
+    conversationId: 'usr_client_3_conv_usr_creator_7',
+    senderId: 'usr_creator_7',
+    senderName: 'Lucas Brandau',
+    receiverId: 'usr_client_3',
+    projectId: 'proj_104',
+    text: 'On it Amara! Re-calibrating the sunlight luminance map now. Will upload the revision bundle in a few hours.',
+    read: false,
+    createdAt: new Date('2026-10-08T11:45:00Z')
+  }
+];
+
+// REAL-WORLD AI GENERATIONS IN HISTORY
+const seedAIGenerations = [
+  {
+    _id: 'gen_101',
+    id: 'gen_101',
+    userId: 'usr_client_1',
+    title: 'Viral Tech Launch Reel: AI Developer Platform',
+    contentType: 'Video Script',
+    tone: 'Bold & Provocative',
+    targetAudience: 'Software Engineers & CTOs',
+    language: 'English',
+    keywords: ['developer automation', 'latency', 'agentic pipelines'],
+    prompt: 'Create a 45-second high-energy video script announcing our new autonomous coding agent.',
+    generatedContent: `[0:00 - 0:03 | VISUAL HOOK]\n(Extreme close-up on developer eyes reflected in terminal screen. Kinetic text slams: "YOUR SPRINT IS OBSOLETE")\nSPEAKER: You are spending 14 hours a week writing boilerplate tests. Why?\n\n[0:04 - 0:18 | THE BOTTLENECK]\n(Fast jump cuts of pull request backlogs and red CI test failures)\nSPEAKER: In 2026, teams building with monolithic workflows are getting lapped by 2-person startups deploying autonomous agents.\n\n[0:19 - 0:35 | THE BREAKTHROUGH]\n(Sleek 3D visual of code trees refactoring in real time)\nSPEAKER: Meet TechFlow Agentic v3. One terminal command writes, tests, and deploys your microservice in 90 seconds flat.\n\n[0:36 - 0:45 | CALL TO ACTION]\n(Subtle purple glow UI, arrow points to bio)\nSPEAKER: Stop reviewing boilerplate manually. Tap the link in bio to deploy your first agent free today!`,
+    wordCount: 135,
+    createdAt: new Date('2026-10-03')
+  },
+  {
+    _id: 'gen_102',
+    id: 'gen_102',
+    userId: 'usr_creator_2',
+    title: 'The Architecture of Autonomous Agentic Systems in 2026',
+    contentType: 'Blog Post',
+    tone: 'Professional',
+    targetAudience: 'Enterprise Technology Leaders',
+    language: 'English',
+    keywords: ['autonomous agents', 'RAG orchestration', 'production latency'],
+    prompt: 'Write an in-depth strategic analysis on how enterprises are deploying multi-agent swarms.',
+    generatedContent: `# The Architecture of Autonomous Agentic Systems in 2026\n\n**Author:** Marcus Thorne | **Category:** Frontier AI Architecture\n\n---\n\n## 1. Beyond the Single-Model Chatbot\nWhile 2024 was defined by conversational LLM interfaces, 2026 represents the institutional shift toward asynchronous multi-agent coordination. Enterprise applications no longer rely on single prompt-response loops; instead, they operate as decentralized networks of specialized micro-models.\n\n### Key Architectural Pillars:\n1. **Deterministic Orchestrators:** Balancing non-deterministic LLM reasoning with strict JSON validation schemas.\n2. **Stateful Memory Escrow:** Isolating long-term context memory in vector embeddings with sub-millisecond retrieval.\n3. **Fail-Safe Sandboxing:** Ensuring external tool executions (API calls, SQL queries) pass programmatic policy gates.\n\n## 2. Production Latency Considerations\nDeploying agentic swarms requires addressing compounding token latency. By utilizing speculative decoding and Small Language Models (SLMs) for preliminary filtering, forward-thinking engineering teams have reduced end-to-end task turnaround by up to 64%.\n\n## 3. Conclusion\nThe competitive moat is no longer raw model parameters—it is the precision of your orchestration infrastructure.`,
+    wordCount: 198,
+    createdAt: new Date('2026-10-05')
+  },
+  {
+    _id: 'gen_103',
+    id: 'gen_103',
+    userId: 'usr_client_3',
+    title: 'Smart Wearable Athleisure Product Launch Copy',
+    contentType: 'Product Description',
+    tone: 'Inspiring',
+    targetAudience: 'Performance Athletes & Biohackers',
+    language: 'English',
+    keywords: ['smart fabric', 'biometric tracking', 'ergonomic design'],
+    prompt: 'Draft high-conversion e-commerce product copy for NovaWear Biometric Pulse Hoodie.',
+    generatedContent: `### NovaWear Apex Pulse Hoodie | Intelligent Performance Wear\n\n**The First Garment That Adapts To Your Physiological State.**\n\nEngineered with conductive micro-yarn sensors and woven temperature nodes, the Apex Pulse Hoodie measures heart rate variability, skin temperature, and recovery state in real time—without bulky external sensors.\n\n#### Why It Redefines Athletic Gear:\n- **Zero-Sensor Seamless Integration:** Conductive threading feels identical to premium Peruvian Pima cotton.\n- **Adaptive Thermal Regulation:** Breathable micro-vents dynamically open based on body heat output.\n- **Haptic Biofeedback:** Gentle micro-vibrations signal optimal breathwork and recovery intervals.\n\n*Machine washable. Lifetime sensor calibration guarantee.*`,
+    wordCount: 112,
+    createdAt: new Date('2026-10-07')
+  }
+];
+
+// REAL-WORLD REPORTED CONTENT & GOVERNANCE CASES
+const seedReportedContent = [
+  {
+    _id: 'rep_101',
+    id: 'rep_101',
+    contentType: 'portfolio',
+    contentId: 'port_sample_09',
+    contentTitle: 'Synthetic Stock Video Clip',
+    reportedBy: 'usr_client_2',
+    reporterName: 'Julian Rossi',
+    reason: 'Attribution Dispute',
+    details: 'The submitter claimed this video was an original Sora generation, but it appears to match an existing Creative Commons dataset without credit.',
+    status: 'under_review',
+    severity: 'medium',
+    createdAt: new Date('2026-10-06')
+  },
+  {
+    _id: 'rep_102',
+    id: 'rep_102',
+    contentType: 'message',
+    contentId: 'msg_flag_44',
+    contentTitle: 'External Payment Off-Platform Request',
+    reportedBy: 'usr_creator_3',
+    reporterName: 'Maya Lin',
+    reason: 'Policy Violation',
+    details: 'Prospective client asked to bypass platform escrow and wire funds via third-party crypto address.',
+    status: 'resolved',
+    severity: 'high',
+    createdAt: new Date('2026-10-02'),
+    resolvedAt: new Date('2026-10-03'),
+    resolutionNotes: 'Client warned and escrow requirements reiterated. Account placed on verified watch.'
+  },
+  {
+    _id: 'rep_103',
+    id: 'rep_103',
+    contentType: 'ai_generation',
+    contentId: 'gen_flag_12',
+    contentTitle: 'Trademark Brand Parody',
+    reportedBy: 'usr_admin_1',
+    reporterName: 'Alex Rivera (Admin)',
+    reason: 'Commercial Trademark Notice',
+    details: 'User generated packaging copy containing protected luxury brand trademarks without disclaimers.',
+    status: 'investigating',
+    severity: 'low',
+    createdAt: new Date('2026-10-08')
+  }
+];
+
+module.exports = {
+  seedUsers,
+  seedCreators,
+  seedProjects,
+  seedAIGenerations,
+  seedMessages,
+  seedReportedContent
+};

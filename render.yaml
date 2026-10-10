@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: nexusai-creator-marketplace
+    env: node
+    plan: free
+    buildCommand: npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        value: nexusai_production_jwt_supersecret_key_2026
