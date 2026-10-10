@@ -6,8 +6,8 @@
   body {
     @apply bg-navy-950 text-slate-100 font-sans antialiased;
     background-image: 
-      radial-gradient(circle at 10% 15%, rgba(121, 40, 202, 0.08) 0%, transparent 40%),
-      radial-gradient(circle at 90% 80%, rgba(67, 24, 255, 0.07) 0%, transparent 45%);
+      radial-gradient(circle at 10% 15%, rgba(249, 115, 22, 0.12) 0%, transparent 40%),
+      radial-gradient(circle at 90% 80%, rgba(245, 158, 11, 0.09) 0%, transparent 45%);
     background-attachment: fixed;
   }
 }
@@ -19,45 +19,47 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(11, 12, 34, 0.8);
+  background: rgba(18, 15, 12, 0.9);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(139, 92, 246, 0.3);
+  background: rgba(249, 115, 22, 0.35);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(139, 92, 246, 0.6);
+  background: rgba(249, 115, 22, 0.7);
 }
 
 /* Glassmorphism helpers */
 .glass-panel {
-  background: rgba(16, 18, 49, 0.7);
+  background: rgba(22, 18, 15, 0.75);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(139, 92, 246, 0.15);
+  border: 1px solid rgba(249, 115, 22, 0.18);
 }
 
 .glass-card {
-  background: rgba(22, 25, 66, 0.6);
+  background: rgba(28, 22, 18, 0.65);
   backdrop-filter: blur(8px);
-  border: 1px solid rgba(139, 92, 246, 0.12);
+  border: 1px solid rgba(249, 115, 22, 0.15);
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .glass-card:hover {
-  border-color: rgba(168, 85, 247, 0.35);
-  box-shadow: 0 10px 30px -10px rgba(121, 40, 202, 0.25);
+  border-color: rgba(251, 146, 60, 0.45);
+  box-shadow: 0 10px 30px -10px rgba(249, 115, 22, 0.3);
 }
 
-.purple-glow-btn {
-  background: linear-gradient(135deg, #7928ca 0%, #4318ff 100%);
-  box-shadow: 0 0 20px -3px rgba(121, 40, 202, 0.4);
+.purple-glow-btn,
+.orange-glow-btn {
+  background: linear-gradient(135deg, #ea580c 0%, #f97316 50%, #f59e0b 100%);
+  box-shadow: 0 0 20px -3px rgba(249, 115, 22, 0.45);
   transition: all 0.2s ease;
 }
 
-.purple-glow-btn:hover {
-  box-shadow: 0 0 28px -2px rgba(121, 40, 202, 0.6);
+.purple-glow-btn:hover,
+.orange-glow-btn:hover {
+  box-shadow: 0 0 28px -2px rgba(249, 115, 22, 0.7);
   transform: translateY(-1px);
 }

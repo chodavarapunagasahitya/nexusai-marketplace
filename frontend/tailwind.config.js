@@ -1,3 +1,5 @@
+import colors from 'tailwindcss/colors';
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -7,27 +9,32 @@ export default {
   theme: {
     extend: {
       colors: {
+        // Redefine purple and violet to orange & amber so all components adopt the orange theme
+        purple: colors.orange,
+        violet: colors.amber,
+        indigo: colors.orange,
         navy: {
-          950: '#060714',
-          900: '#0b0c22',
-          850: '#101231',
-          800: '#161942',
-          700: '#21255e',
+          950: '#0c0a09', // Stone-950 warm obsidian
+          900: '#1c1917', // Stone-900 warm charcoal
+          850: '#292524', // Deep bronze charcoal
+          800: '#342f2b', // Dark ember stone
+          700: '#44403c',
         },
-        violet: {
-          glow: '#9d4edd',
-          accent: '#7928ca',
-          electric: '#b5179e',
+        orange: {
+          ...colors.orange,
+          glow: '#fb923c',
+          accent: '#ea580c',
+          electric: '#f97316',
         }
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'dark-mesh': 'radial-gradient(circle at 15% 20%, rgba(121, 40, 202, 0.15) 0%, transparent 40%), radial-gradient(circle at 85% 75%, rgba(67, 24, 255, 0.12) 0%, transparent 45%)',
+        'dark-mesh': 'radial-gradient(circle at 15% 20%, rgba(249, 115, 22, 0.16) 0%, transparent 40%), radial-gradient(circle at 85% 75%, rgba(245, 158, 11, 0.14) 0%, transparent 45%)',
       },
       boxShadow: {
-        'glow-sm': '0 0 15px -3px rgba(139, 92, 246, 0.3)',
-        'glow': '0 0 25px -5px rgba(139, 92, 246, 0.4)',
-        'glow-lg': '0 0 40px -8px rgba(139, 92, 246, 0.5)',
+        'glow-sm': '0 0 15px -3px rgba(249, 115, 22, 0.35)',
+        'glow': '0 0 25px -5px rgba(249, 115, 22, 0.45)',
+        'glow-lg': '0 0 40px -8px rgba(249, 115, 22, 0.55)',
       }
     },
   },
