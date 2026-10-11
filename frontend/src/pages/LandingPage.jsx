@@ -20,9 +20,11 @@ import {
   Layout
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useCurrency } from '../context/CurrencyContext';
 
 export default function LandingPage() {
   const { demoLogin } = useAuth();
+  const { formatPrice } = useCurrency();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('video');
   const [featuredCreators, setFeaturedCreators] = useState([]);
@@ -280,7 +282,7 @@ export default function LandingPage() {
               <div className="pt-4 border-t border-purple-900/30 flex items-center justify-between">
                 <div>
                   <span className="text-[10px] text-slate-400 uppercase tracking-wider block">Starts at</span>
-                  <span className="text-base font-extrabold text-white">${creator.startingPrice || 250}</span>
+                  <span className="text-base font-extrabold text-white">{formatPrice(creator.startingPrice || 250)}</span>
                 </div>
                 <Link
                   to={`/creator/${creator._id || creator.id}`}

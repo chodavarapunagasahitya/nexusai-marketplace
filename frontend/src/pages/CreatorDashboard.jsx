@@ -16,9 +16,11 @@ import {
   Plus
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useCurrency } from '../context/CurrencyContext';
 
 export default function CreatorDashboard() {
   const { user, token } = useAuth();
+  const { formatPrice } = useCurrency();
   const [analytics, setAnalytics] = useState(null);
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -119,7 +121,7 @@ export default function CreatorDashboard() {
             <DollarSign className="w-4 h-4 text-emerald-400" />
           </div>
           <div className="text-2xl font-black text-white">
-            ${analytics ? analytics.totalEarnings.toLocaleString() : '12,850'}
+            {formatPrice(analytics?.totalEarnings || 12850)}
           </div>
           <span className="text-[11px] text-emerald-400 mt-1 block">+18.4% vs last month</span>
         </div>
@@ -181,7 +183,7 @@ export default function CreatorDashboard() {
 
                 <div className="flex flex-wrap items-center gap-4 text-[11px] text-slate-400 pt-1">
                   <span>Client: <strong className="text-purple-300">{proj.clientName}</strong></span>
-                  <span>Budget: <strong className="text-emerald-400">${proj.budget}</strong></span>
+                  <span>Budget: <strong className="text-emerald-400">{formatPrice(proj.budget)}</strong></span>
                   <span>Deadline: <strong className="text-white">{proj.deadline}</strong></span>
                   <span>Deliverables: <strong>{proj.deliverables?.filter(d => d.completed).length || 0}/{proj.deliverables?.length || 0} completed</strong></span>
                 </div>
@@ -195,7 +197,7 @@ export default function CreatorDashboard() {
                       onClick={() => handleUpdateStatus(proj.id, 'Accepted')}
                       className="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-all"
                     >
-                      Accept Proposal (${proj.budget})
+                      Accept Proposal ({formatPrice(proj.budget)})
                     </button>
                     <button
                       onClick={() => handleUpdateStatus(proj.id, 'Declined')}

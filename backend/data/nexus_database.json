@@ -194,6 +194,19 @@
       "favorites": [],
       "status": "active",
       "createdAt": "2024-12-01T00:00:00.000Z"
+    },
+    {
+      "_id": "usr_ea5dfe3a",
+      "id": "usr_ea5dfe3a",
+      "name": "sahitya",
+      "email": "chsahitya123@gmail.com",
+      "password": "$2a$10$WFwHgbGyLb7thJTvnUmBReHbZ4/AI2iGnp9Fr/OSJKE6PIAgGhgbO",
+      "role": "client",
+      "avatar": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80",
+      "title": "Digital Creator / Client",
+      "bio": "Looking for high quality creators to build innovative campaigns.",
+      "createdAt": "2026-10-11T05:16:02.218Z",
+      "favorites": []
     }
   ],
   "creators": [

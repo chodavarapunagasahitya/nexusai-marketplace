@@ -17,10 +17,12 @@ import {
   Award
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useCurrency } from '../context/CurrencyContext';
 
 export default function CreatorProfilePage() {
   const { id } = useParams();
   const { user, token, toggleFavorite } = useAuth();
+  const { formatPrice, currency } = useCurrency();
   const navigate = useNavigate();
 
   const [creator, setCreator] = useState(null);
@@ -193,11 +195,11 @@ export default function CreatorProfilePage() {
           <div className="mt-8 pt-6 border-t border-purple-900/30 grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
             <div className="p-3 rounded-xl bg-navy-900/50 border border-purple-900/20">
               <span className="text-[10px] uppercase font-bold text-slate-400 block">Starting Project Rate</span>
-              <strong className="text-lg font-black text-white">${creator.startingPrice}</strong>
+              <strong className="text-lg font-black text-white">{formatPrice(creator.startingPrice)}</strong>
             </div>
             <div className="p-3 rounded-xl bg-navy-900/50 border border-purple-900/20">
               <span className="text-[10px] uppercase font-bold text-slate-400 block">Hourly Rate</span>
-              <strong className="text-lg font-black text-white">${creator.hourlyRate}/hr</strong>
+              <strong className="text-lg font-black text-white">{formatPrice(creator.hourlyRate)}/hr</strong>
             </div>
             <div className="p-3 rounded-xl bg-navy-900/50 border border-purple-900/20">
               <span className="text-[10px] uppercase font-bold text-slate-400 block">Delivered Projects</span>
@@ -316,7 +318,7 @@ export default function CreatorProfilePage() {
               <div>
                 <h3 className="text-base font-extrabold text-white mb-1">{pkg.name}</h3>
                 <div className="text-3xl font-black text-white mt-3 mb-4">
-                  ${pkg.price} <span className="text-xs text-slate-400 font-normal">per deliverable</span>
+                  {formatPrice(pkg.price)} <span className="text-xs text-slate-400 font-normal">per deliverable</span>
                 </div>
 
                 <div className="flex items-center gap-4 text-xs text-slate-400 pb-4 mb-4 border-b border-purple-900/30">

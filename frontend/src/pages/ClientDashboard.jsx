@@ -16,9 +16,11 @@ import {
   Search
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useCurrency } from '../context/CurrencyContext';
 
 export default function ClientDashboard() {
   const { user, token } = useAuth();
+  const { formatPrice } = useCurrency();
   const [projects, setProjects] = useState([]);
   const [creators, setCreators] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -137,7 +139,7 @@ export default function ClientDashboard() {
             <span className="text-xs font-medium">Total Invested</span>
             <DollarSign className="w-4 h-4 text-emerald-400" />
           </div>
-          <div className="text-2xl font-black text-white">${totalSpent.toLocaleString()}</div>
+          <div className="text-2xl font-black text-white">{formatPrice(totalSpent)}</div>
           <span className="text-[11px] text-emerald-400 mt-1 block">Across {projects.length} milestones</span>
         </div>
 
@@ -213,7 +215,7 @@ export default function ClientDashboard() {
                     ))}
                   </ul>
                   <div className="mt-3 flex items-center justify-between">
-                    <span className="text-xs font-bold text-white">${creator.startingPrice} starting</span>
+                    <span className="text-xs font-bold text-white">{formatPrice(creator.startingPrice)} starting</span>
                     <Link
                       to={`/creator/${creator.id}`}
                       className="text-xs font-bold text-purple-300 hover:text-white flex items-center gap-1"
@@ -260,7 +262,7 @@ export default function ClientDashboard() {
                   
                   <div className="flex flex-wrap items-center gap-4 text-[11px] text-slate-400 pt-1">
                     <span>Creator: <strong className="text-purple-300">{proj.creatorName}</strong></span>
-                    <span>Budget: <strong className="text-white">${proj.budget}</strong></span>
+                    <span>Budget: <strong className="text-white">{formatPrice(proj.budget)}</strong></span>
                     <span className="flex items-center gap-1">
                       <Clock className="w-3 h-3 text-purple-400" /> Deadline: {proj.deadline}
                     </span>
@@ -314,7 +316,7 @@ export default function ClientDashboard() {
               </div>
 
               <div className="pt-3 border-t border-purple-900/30 flex items-center justify-between">
-                <span className="text-xs font-bold text-white">${c.startingPrice} <span className="text-slate-400 font-normal">starts</span></span>
+                <span className="text-xs font-bold text-white">{formatPrice(c.startingPrice)} <span className="text-slate-400 font-normal">starts</span></span>
                 <Link
                   to={`/creator/${c.id}`}
                   className="px-3 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold"

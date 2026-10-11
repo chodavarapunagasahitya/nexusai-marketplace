@@ -13,10 +13,12 @@ import {
   Filter
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useCurrency } from '../context/CurrencyContext';
 import DatabaseDatasetHub from '../components/DatabaseDatasetHub';
 
 export default function AdminDashboard() {
   const { user, token, demoLogin } = useAuth();
+  const { formatPrice } = useCurrency();
   
   const [stats, setStats] = useState(null);
   const [usersList, setUsersList] = useState([]);
@@ -153,7 +155,7 @@ export default function AdminDashboard() {
             <DollarSign className="w-4 h-4 text-emerald-400" />
           </div>
           <div className="text-2xl font-black text-white">
-            ${stats?.platformGrossVolume?.toLocaleString() || '133,000'}
+            {formatPrice(stats?.platformGrossVolume || 133000)}
           </div>
           <span className="text-[11px] text-emerald-400 mt-1 block">Escrow and completed contracts</span>
         </div>

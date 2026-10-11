@@ -18,10 +18,12 @@ import {
   Check
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useCurrency } from '../context/CurrencyContext';
 
 export default function ProjectDetailPage() {
   const { id } = useParams();
   const { user, token } = useAuth();
+  const { formatPrice } = useCurrency();
 
   const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -241,7 +243,7 @@ export default function ProjectDetailPage() {
               <span>Creator: <strong className="text-violet-300">{project.creatorName}</strong></span>
               <span>•</span>
               <span className="flex items-center gap-1 text-emerald-400 font-bold">
-                <DollarSign className="w-3.5 h-3.5" /> ${project.budget} Escrow Funded
+                <DollarSign className="w-3.5 h-3.5" /> {formatPrice(project.budget)} Escrow Funded
               </span>
               <span>•</span>
               <span className="flex items-center gap-1">
