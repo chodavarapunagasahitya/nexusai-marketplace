@@ -1,5 +1,7 @@
 # NexusAI: AI Content Creator Marketplace 🚀
 
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/chodavarapunagasahitya/nexusai-marketplace)
+
 An intelligent, full-stack marketplace connecting businesses, brands, founders, and students with high-caliber AI content creators (short-form video directors, prompt architects, generative 3D artists, and executive ghostwriters). NexusAI integrates automated project escrow workflows, real-time multi-modal AI generation, semantic creator matching, and two groundbreaking unique features.
 
 ---
@@ -30,7 +32,8 @@ An advanced career-scaling engine for creators:
 | **Frontend** | React 18, Vite 5, Tailwind CSS, Lucide Icons, React Router DOM v6 |
 | **Backend** | Node.js, Express 4, JWT (`jsonwebtoken`), `bcryptjs`, REST API |
 | **Database** | MongoDB via Mongoose + Resilient persistent local fallback store (works out of the box with zero setup) |
-| **Styling** | Dark Navy (`#060714`, `#0b0c22`) & Deep Purple Gradient theme with Vibrant Violet accents |
+| **Styling** | Luxury Warm Obsidian (`#0c0a09`, `#1c1917`) & Electric Orange (`#f97316`) / Amber (`#f59e0b`) accents |
+| **Live External APIs** | Real-time Forex Exchange Rates (open.er-api.com), Dev.to Live AI Trends Feed, Google Gemini 1.5 Flash LLM Studio |
 
 ---
 
