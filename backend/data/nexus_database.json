@@ -5,7 +5,7 @@
       "id": "usr_client_1",
       "name": "Sarah Chen",
       "email": "client@techflow.com",
-      "password": "$2a$10$dgcS57hKeYd1iLURz.n0TONu3h1NuV2fRcTMW4ogMM21FzdopDhYe",
+      "password": "$2a$10$Nu7QBweQ7xIXHsdYrFvyi.JWduHqbtKsGBQ/V/L.O4BsS2Ajk3fma",
       "role": "client",
       "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
       "title": "VP of Growth & Brand at TechFlow",
@@ -23,7 +23,7 @@
       "id": "usr_client_2",
       "name": "Julian Rossi",
       "email": "julian@aetherlabs.ai",
-      "password": "$2a$10$dgcS57hKeYd1iLURz.n0TONu3h1NuV2fRcTMW4ogMM21FzdopDhYe",
+      "password": "$2a$10$Nu7QBweQ7xIXHsdYrFvyi.JWduHqbtKsGBQ/V/L.O4BsS2Ajk3fma",
       "role": "client",
       "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
       "title": "Founding Creative Director at Aether Labs",
@@ -40,7 +40,7 @@
       "id": "usr_client_3",
       "name": "Amara Sterling",
       "email": "amara@novawear.com",
-      "password": "$2a$10$dgcS57hKeYd1iLURz.n0TONu3h1NuV2fRcTMW4ogMM21FzdopDhYe",
+      "password": "$2a$10$Nu7QBweQ7xIXHsdYrFvyi.JWduHqbtKsGBQ/V/L.O4BsS2Ajk3fma",
       "role": "client",
       "avatar": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80",
       "title": "Chief Marketing Officer at NovaWear",
@@ -57,7 +57,7 @@
       "id": "usr_client_4",
       "name": "Harrison Vance",
       "email": "harrison@hyperioncap.com",
-      "password": "$2a$10$dgcS57hKeYd1iLURz.n0TONu3h1NuV2fRcTMW4ogMM21FzdopDhYe",
+      "password": "$2a$10$Nu7QBweQ7xIXHsdYrFvyi.JWduHqbtKsGBQ/V/L.O4BsS2Ajk3fma",
       "role": "client",
       "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80",
       "title": "Partner at Hyperion Capital",
@@ -74,7 +74,7 @@
       "id": "usr_creator_1",
       "name": "Elena Vance",
       "email": "elena@creator.io",
-      "password": "$2a$10$dgcS57hKeYd1iLURz.n0TONu3h1NuV2fRcTMW4ogMM21FzdopDhYe",
+      "password": "$2a$10$Nu7QBweQ7xIXHsdYrFvyi.JWduHqbtKsGBQ/V/L.O4BsS2Ajk3fma",
       "role": "creator",
       "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80",
       "title": "AI Storyteller & Short-Form Video Director",
@@ -88,7 +88,7 @@
       "id": "usr_creator_2",
       "name": "Marcus Thorne",
       "email": "marcus@creator.io",
-      "password": "$2a$10$dgcS57hKeYd1iLURz.n0TONu3h1NuV2fRcTMW4ogMM21FzdopDhYe",
+      "password": "$2a$10$Nu7QBweQ7xIXHsdYrFvyi.JWduHqbtKsGBQ/V/L.O4BsS2Ajk3fma",
       "role": "creator",
       "avatar": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=150&auto=format&fit=crop&q=80",
       "title": "Prompt Engineer & Senior Tech Copywriter",
@@ -102,7 +102,7 @@
       "id": "usr_creator_3",
       "name": "Maya Lin",
       "email": "maya@creator.io",
-      "password": "$2a$10$dgcS57hKeYd1iLURz.n0TONu3h1NuV2fRcTMW4ogMM21FzdopDhYe",
+      "password": "$2a$10$Nu7QBweQ7xIXHsdYrFvyi.JWduHqbtKsGBQ/V/L.O4BsS2Ajk3fma",
       "role": "creator",
       "avatar": "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop&q=80",
       "title": "Generative 3D Artist & Creative Technologist",
@@ -116,7 +116,7 @@
       "id": "usr_creator_4",
       "name": "David Okafor",
       "email": "david@creator.io",
-      "password": "$2a$10$dgcS57hKeYd1iLURz.n0TONu3h1NuV2fRcTMW4ogMM21FzdopDhYe",
+      "password": "$2a$10$Nu7QBweQ7xIXHsdYrFvyi.JWduHqbtKsGBQ/V/L.O4BsS2Ajk3fma",
       "role": "creator",
       "avatar": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&auto=format&fit=crop&q=80",
       "title": "B2B Growth Content Strategist & Podcaster",
@@ -130,7 +130,7 @@
       "id": "usr_creator_5",
       "name": "Kaelen Voss",
       "email": "kaelen@creator.io",
-      "password": "$2a$10$dgcS57hKeYd1iLURz.n0TONu3h1NuV2fRcTMW4ogMM21FzdopDhYe",
+      "password": "$2a$10$Nu7QBweQ7xIXHsdYrFvyi.JWduHqbtKsGBQ/V/L.O4BsS2Ajk3fma",
       "role": "creator",
       "avatar": "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=150&auto=format&fit=crop&q=80",
       "title": "Frontier AI Video Producer & Sora/Runway Specialist",
@@ -144,7 +144,7 @@
       "id": "usr_creator_6",
       "name": "Soraya Al-Mansoor",
       "email": "soraya@creator.io",
-      "password": "$2a$10$dgcS57hKeYd1iLURz.n0TONu3h1NuV2fRcTMW4ogMM21FzdopDhYe",
+      "password": "$2a$10$Nu7QBweQ7xIXHsdYrFvyi.JWduHqbtKsGBQ/V/L.O4BsS2Ajk3fma",
       "role": "creator",
       "avatar": "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=150&auto=format&fit=crop&q=80",
       "title": "Voice Cloning Director & Sound Synthesis Engineer",
@@ -158,7 +158,7 @@
       "id": "usr_creator_7",
       "name": "Lucas Brandau",
       "email": "lucas@creator.io",
-      "password": "$2a$10$dgcS57hKeYd1iLURz.n0TONu3h1NuV2fRcTMW4ogMM21FzdopDhYe",
+      "password": "$2a$10$Nu7QBweQ7xIXHsdYrFvyi.JWduHqbtKsGBQ/V/L.O4BsS2Ajk3fma",
       "role": "creator",
       "avatar": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&auto=format&fit=crop&q=80",
       "title": "E-commerce AI Commercial Photographer & Model Rigger",
@@ -172,7 +172,7 @@
       "id": "usr_creator_8",
       "name": "Zoe Nakamura",
       "email": "zoe@creator.io",
-      "password": "$2a$10$dgcS57hKeYd1iLURz.n0TONu3h1NuV2fRcTMW4ogMM21FzdopDhYe",
+      "password": "$2a$10$Nu7QBweQ7xIXHsdYrFvyi.JWduHqbtKsGBQ/V/L.O4BsS2Ajk3fma",
       "role": "creator",
       "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
       "title": "Design Systems & AI Interactive UI/UX Architect",
@@ -186,7 +186,7 @@
       "id": "usr_admin_1",
       "name": "Alex Rivera (Admin)",
       "email": "admin@nexusai.io",
-      "password": "$2a$10$dgcS57hKeYd1iLURz.n0TONu3h1NuV2fRcTMW4ogMM21FzdopDhYe",
+      "password": "$2a$10$Nu7QBweQ7xIXHsdYrFvyi.JWduHqbtKsGBQ/V/L.O4BsS2Ajk3fma",
       "role": "admin",
       "avatar": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80",
       "title": "Marketplace Operations & AI Safety Lead",
@@ -194,32 +194,6 @@
       "favorites": [],
       "status": "active",
       "createdAt": "2024-12-01T00:00:00.000Z"
-    },
-    {
-      "_id": "usr_08db4aa6",
-      "id": "usr_08db4aa6",
-      "name": "blessy",
-      "email": "chsahitya123@gmail.com",
-      "password": "$2a$10$D58Jqi5CjXS1I4ABlUbh8uLQW4zW4EhC5acBAg51GS5xMpLJWbKES",
-      "role": "client",
-      "avatar": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80",
-      "title": "Digital Creator / Client",
-      "bio": "Looking for high quality creators to build innovative campaigns.",
-      "createdAt": "2026-10-10T09:42:16.995Z",
-      "favorites": []
-    },
-    {
-      "_id": "usr_b7de6911",
-      "id": "usr_b7de6911",
-      "name": "sahitya",
-      "email": "chsahitya123@gmail.com123456789",
-      "password": "$2a$10$Abwc6hg3Nv0eJONsBYkun.IV9UEXnUzw9ulnploPTPmqWhYxlHK2W",
-      "role": "creator",
-      "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
-      "title": "AI Content Specialist",
-      "bio": "Passionate about leveraging AI to create next-generation digital media.",
-      "createdAt": "2026-10-10T10:21:38.449Z",
-      "favorites": []
     }
   ],
   "creators": [
@@ -1093,45 +1067,6 @@
         "clientRetentionRate": 95,
         "responseTimeHours": 1.1
       }
-    },
-    {
-      "_id": "prof_379b4f51",
-      "id": "prof_ff734d91",
-      "userId": "usr_b7de6911",
-      "name": "sahitya",
-      "title": "AI Content Specialist",
-      "bio": "Passionate about leveraging AI to create next-generation digital media.",
-      "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
-      "category": "General Content",
-      "skills": [
-        "AI Content Generation",
-        "Digital Storytelling",
-        "Prompting"
-      ],
-      "languages": [
-        "English"
-      ],
-      "hourlyRate": 50,
-      "startingPrice": 150,
-      "availability": "Available",
-      "portfolio": [],
-      "packages": [
-        {
-          "name": "Basic Starter",
-          "price": 150,
-          "deliveryDays": 3,
-          "revisions": 2,
-          "features": [
-            "1 x Core Content Deliverable",
-            "AI Optimization Pass",
-            "Standard Commercial Use"
-          ]
-        }
-      ],
-      "rating": 5,
-      "reviewsCount": 0,
-      "completedProjects": 0,
-      "reviews": []
     }
   ],
   "projects": [
@@ -1538,84 +1473,84 @@
       "id": "msg_101",
       "conversationId": "usr_client_1_conv_usr_creator_1",
       "senderId": "usr_client_1",
+      "senderName": "Sarah Chen",
       "receiverId": "usr_creator_1",
       "projectId": "proj_101",
       "text": "Hi Elena! Excited to collaborate. Our team reviewed the concept script and we love the kinetic subtitle pacing in Scene 2.",
       "read": true,
-      "createdAt": "2026-10-04T10:15:00.000Z",
-      "senderName": "Sarah Chen"
+      "createdAt": "2026-10-04T10:15:00.000Z"
     },
     {
       "_id": "msg_102",
       "id": "msg_102",
       "conversationId": "usr_client_1_conv_usr_creator_1",
       "senderId": "usr_creator_1",
+      "senderName": "Elena Vance",
       "receiverId": "usr_client_1",
       "projectId": "proj_101",
       "text": "Thanks Sarah! I am currently running the motion sequences through Runway Gen-3 with seed locking to guarantee visual consistency. Will have a draft reel for you by Thursday!",
       "read": true,
-      "createdAt": "2026-10-04T10:45:00.000Z",
-      "senderName": "Elena Vance"
+      "createdAt": "2026-10-04T10:45:00.000Z"
     },
     {
       "_id": "msg_103",
       "id": "msg_103",
       "conversationId": "usr_client_1_conv_usr_creator_1",
       "senderId": "usr_client_1",
+      "senderName": "Sarah Chen",
       "receiverId": "usr_creator_1",
       "projectId": "proj_101",
       "text": "Perfect. If possible, could we also test a 9-second cutdown for YouTube Shorts as an additional asset?",
       "read": false,
-      "createdAt": "2026-10-05T09:20:00.000Z",
-      "senderName": "Sarah Chen"
+      "createdAt": "2026-10-05T09:20:00.000Z"
     },
     {
       "_id": "msg_104",
       "id": "msg_104",
       "conversationId": "usr_client_2_conv_usr_creator_5",
       "senderId": "usr_client_2",
+      "senderName": "Julian Rossi",
       "receiverId": "usr_creator_5",
       "projectId": "proj_103",
       "text": "Kaelen, the lighting tests on the robot arm look incredible. Make sure the HUD telemetry graphics match our corporate hex (#8b5cf6).",
       "read": true,
-      "createdAt": "2026-10-06T14:10:00.000Z",
-      "senderName": "Julian Rossi"
+      "createdAt": "2026-10-06T14:10:00.000Z"
     },
     {
       "_id": "msg_105",
       "id": "msg_105",
       "conversationId": "usr_client_2_conv_usr_creator_5",
       "senderId": "usr_creator_5",
+      "senderName": "Kaelen Voss",
       "receiverId": "usr_client_2",
       "projectId": "proj_103",
       "text": "Understood Julian. Integrated the exact brand hex into the volumetric lens flares. Exporting the 4K Prores preview now.",
       "read": true,
-      "createdAt": "2026-10-06T15:30:00.000Z",
-      "senderName": "Kaelen Voss"
+      "createdAt": "2026-10-06T15:30:00.000Z"
     },
     {
       "_id": "msg_106",
       "id": "msg_106",
       "conversationId": "usr_client_3_conv_usr_creator_7",
       "senderId": "usr_client_3",
+      "senderName": "Amara Sterling",
       "receiverId": "usr_creator_7",
       "projectId": "proj_104",
       "text": "Lucas, reviewed Lookbook draft v1. Overall sensational! Just need a slight exposure boost on outdoor photos 14-18.",
       "read": true,
-      "createdAt": "2026-10-08T11:00:00.000Z",
-      "senderName": "Amara Sterling"
+      "createdAt": "2026-10-08T11:00:00.000Z"
     },
     {
       "_id": "msg_107",
       "id": "msg_107",
       "conversationId": "usr_client_3_conv_usr_creator_7",
       "senderId": "usr_creator_7",
+      "senderName": "Lucas Brandau",
       "receiverId": "usr_client_3",
       "projectId": "proj_104",
       "text": "On it Amara! Re-calibrating the sunlight luminance map now. Will upload the revision bundle in a few hours.",
       "read": false,
-      "createdAt": "2026-10-08T11:45:00.000Z",
-      "senderName": "Lucas Brandau"
+      "createdAt": "2026-10-08T11:45:00.000Z"
     }
   ],
   "reportedContent": [

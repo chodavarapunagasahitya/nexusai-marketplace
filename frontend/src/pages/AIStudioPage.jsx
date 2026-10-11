@@ -64,10 +64,46 @@ export default function AIStudioPage() {
 
   const languageOptions = ['English', 'Spanish', 'French', 'German', 'Japanese', 'Mandarin'];
 
-  // Load history on mount
+  // Load history and AI status on mount
   useEffect(() => {
     fetchHistory();
+    checkAIStatus();
   }, [token]);
+
+  const checkAIStatus = async () => {
+    try {
+      const res = await fetch('/api/live-data/ai-status');
+      const data = await res.json();
+      if (data.success) {
+        setIsLiveAI(data.hasLiveKey);
+        setEngineUsed(data.engine);
+      }
+    } catch (e) {}
+  };
+
+  const handleSaveKey = async () => {
+    localStorage.setItem('nexus_ai_key', apiKey);
+    if (apiKey.trim()) {
+      try {
+        const res = await fetch('/api/live-data/set-ai-key', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            apiKey: apiKey.trim(),
+            provider: apiKey.startsWith('AIzaSy') ? 'Gemini' : 'OpenAI'
+          })
+        });
+        const data = await res.json();
+        if (data.success) {
+          setIsLiveAI(true);
+          setEngineUsed(data.engine);
+        }
+      } catch (e) {
+        console.warn('Set API key error:', e);
+      }
+    }
+    setShowKeyModal(false);
+  };
 
   const fetchHistory = async () => {
     if (!token) return;
@@ -264,10 +300,7 @@ export default function AIStudioPage() {
             />
             <div className="flex gap-2">
               <button
-                onClick={() => {
-                  localStorage.setItem('nexus_ai_key', apiKey);
-                  setShowKeyModal(false);
-                }}
+                onClick={handleSaveKey}
                 className="px-4 py-2 bg-purple-600 hover:bg-purple-500 rounded-xl text-xs font-bold text-white shadow-sm"
               >
                 Save Key

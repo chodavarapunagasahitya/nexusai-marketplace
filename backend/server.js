@@ -18,6 +18,7 @@ const messageRoutes = require('./routes/messageRoutes');
 const analyticsRoutes = require('./routes/analyticsRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const databaseRoutes = require('./routes/databaseRoutes');
+const liveDataRoutes = require('./routes/liveDataRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -52,6 +53,7 @@ app.use('/api/messages', messageRoutes);
 app.use('/api/analytics', analyticsRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/database', databaseRoutes);
+app.use('/api/live-data', liveDataRoutes);
 
 // Serve frontend static production bundle
 const frontendDistPath = path.join(__dirname, '../frontend/dist');

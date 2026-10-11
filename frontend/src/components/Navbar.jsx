@@ -13,13 +13,16 @@ import {
   Radar, 
   CheckCircle,
   Menu,
-  X
+  X,
+  Globe
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useCurrency } from '../context/CurrencyContext';
 import BackendStatusBadge from './BackendStatusBadge';
 
 export default function Navbar({ onToggleSidebar }) {
   const { user, logout, demoLogin, notifications, unreadCount, markAllNotificationsRead } = useAuth();
+  const { currency, setCurrency, rates, isLive } = useCurrency();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -87,6 +90,27 @@ export default function Navbar({ onToggleSidebar }) {
           
           {/* Live Backend Connection Indicator */}
           <BackendStatusBadge />
+
+          {/* Live Real-World Currency Selector */}
+          <div 
+            className="hidden md:flex items-center gap-1.5 bg-navy-900/90 border border-purple-900/40 rounded-full px-2.5 py-1 text-xs" 
+            title={isLive ? `Live Forex API Active: 1 USD = ${rates[currency] || 1} ${currency}` : `Currency: ${currency}`}
+          >
+            <Globe className="w-3.5 h-3.5 text-purple-400" />
+            <select
+              value={currency}
+              onChange={(e) => setCurrency(e.target.value)}
+              className="bg-transparent text-slate-200 font-semibold focus:outline-none cursor-pointer text-xs"
+            >
+              <option value="USD" className="bg-navy-950 text-white">USD ($)</option>
+              <option value="EUR" className="bg-navy-950 text-white">EUR (€)</option>
+              <option value="GBP" className="bg-navy-950 text-white">GBP (£)</option>
+              <option value="INR" className="bg-navy-950 text-white">INR (₹)</option>
+              <option value="CAD" className="bg-navy-950 text-white">CAD ($)</option>
+              <option value="JPY" className="bg-navy-950 text-white">JPY (¥)</option>
+            </select>
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" title="Live Forex Feed" />
+          </div>
 
           {/* Quick Demo Role Switcher Pill */}
           <div className="hidden sm:flex items-center bg-navy-900/90 border border-purple-900/50 rounded-full p-0.5 text-xs">

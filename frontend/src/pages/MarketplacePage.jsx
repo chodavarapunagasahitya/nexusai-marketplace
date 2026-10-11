@@ -12,12 +12,17 @@ import {
   CheckCircle2,
   SlidersHorizontal,
   Bookmark,
-  Briefcase
+  Briefcase,
+  TrendingUp,
+  ExternalLink,
+  Globe
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useCurrency } from '../context/CurrencyContext';
 
 export default function MarketplacePage() {
   const { user, toggleFavorite } = useAuth();
+  const { formatPrice, currency, isLive: isCurrencyLive } = useCurrency();
   const [searchParams] = useSearchParams();
 
   // Filters State
@@ -34,6 +39,8 @@ export default function MarketplacePage() {
   // Creators Data
   const [creators, setCreators] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [liveTrends, setLiveTrends] = useState([]);
+  const [showTrends, setShowTrends] = useState(true);
 
   // Smart Match Engine State
   const [matchBrief, setMatchBrief] = useState('');
@@ -55,6 +62,22 @@ export default function MarketplacePage() {
   useEffect(() => {
     fetchCreators();
   }, [category, maxBudget, minRating, availability, language]);
+
+  useEffect(() => {
+    fetchLiveTrends();
+  }, []);
+
+  const fetchLiveTrends = async () => {
+    try {
+      const res = await fetch('/api/live-data/trends');
+      const data = await res.json();
+      if (data.success && data.articles) {
+        setLiveTrends(data.articles);
+      }
+    } catch (e) {
+      console.warn('Could not fetch live trends:', e);
+    }
+  };
 
   const fetchCreators = async () => {
     setLoading(true);
@@ -159,6 +182,57 @@ export default function MarketplacePage() {
           </button>
         </div>
       </div>
+
+      {/* Real-World Live Data Banner: Live AI Industry Trends */}
+      {liveTrends.length > 0 && showTrends && (
+        <div className="p-4 rounded-2xl bg-gradient-to-r from-orange-950/40 via-navy-900/90 to-amber-950/30 border border-orange-500/30 space-y-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+              <TrendingUp className="w-4 h-4 text-orange-400" />
+              <span className="text-xs font-bold text-white uppercase tracking-wider">
+                Live Real-World AI Industry Trends & Research (Live External Feed)
+              </span>
+            </div>
+            <button
+              onClick={() => setShowTrends(false)}
+              className="text-[11px] text-slate-400 hover:text-white"
+            >
+              Dismiss
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            {liveTrends.slice(0, 3).map((article) => (
+              <a
+                key={article.id}
+                href={article.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3 rounded-xl bg-navy-950/70 border border-orange-900/30 hover:border-orange-500/50 hover:bg-navy-900/80 transition-all group flex flex-col justify-between"
+              >
+                <div>
+                  <div className="flex items-center justify-between text-[10px] text-slate-400 mb-1">
+                    <span className="text-orange-300 font-semibold">{article.readablePublishDate || 'Latest'}</span>
+                    <span className="flex items-center gap-1 group-hover:text-orange-400">
+                      Read <ExternalLink className="w-2.5 h-2.5" />
+                    </span>
+                  </div>
+                  <h4 className="text-xs font-bold text-slate-200 group-hover:text-white line-clamp-2 leading-snug">
+                    {article.title}
+                  </h4>
+                </div>
+                <div className="flex items-center gap-1.5 mt-2.5 pt-2 border-t border-purple-900/20 text-[10px] text-slate-400">
+                  {article.author?.avatar && (
+                    <img src={article.author.avatar} alt="" className="w-3.5 h-3.5 rounded-full" />
+                  )}
+                  <span className="truncate">{article.author?.name || 'AI Researcher'}</span>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Mode A: Standard Discovery & Filter Grid */}
       {activeTab !== 'smart-match' ? (
@@ -363,7 +437,7 @@ export default function MarketplacePage() {
                         <div>
                           <span className="text-[10px] text-slate-400 uppercase tracking-wider block">Starting Package</span>
                           <div className="text-base font-black text-white">
-                            ${creator.startingPrice} <span className="text-xs font-normal text-slate-400">/ project</span>
+                            {formatPrice(creator.startingPrice)} <span className="text-xs font-normal text-slate-400">/ project</span>
                           </div>
                         </div>
 
@@ -503,7 +577,7 @@ export default function MarketplacePage() {
                     <div className="flex md:flex-col items-center md:items-end justify-between md:justify-center gap-3 shrink-0 pt-4 md:pt-0 border-t md:border-t-0 border-purple-900/30">
                       <div>
                         <span className="text-[10px] text-slate-400 uppercase tracking-wider block text-right">Starts at</span>
-                        <div className="text-lg font-black text-white text-right">${creator.startingPrice}</div>
+                        <div className="text-lg font-black text-white text-right">{formatPrice(creator.startingPrice)}</div>
                       </div>
                       <Link
                         to={`/creator/${creator.id}`}

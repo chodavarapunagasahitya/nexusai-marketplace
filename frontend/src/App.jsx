@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
+import { CurrencyProvider } from './context/CurrencyContext';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
 import Footer from './components/Footer';
@@ -54,27 +55,29 @@ function AppLayout({ children }) {
 export default function App() {
   return (
     <AuthProvider>
-      <Router>
-        <AppLayout>
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/auth" element={<AuthPage />} />
-            <Route path="/dashboard/client" element={<ClientDashboard />} />
-            <Route path="/dashboard/creator" element={<CreatorDashboard />} />
-            <Route path="/studio" element={<AIStudioPage />} />
-            <Route path="/marketplace" element={<MarketplacePage />} />
-            <Route path="/creator/:id" element={<CreatorProfilePage />} />
-            <Route path="/projects" element={<ClientDashboard />} />
-            <Route path="/projects/:id" element={<ProjectDetailPage />} />
-            <Route path="/messages" element={<MessagesPage />} />
-            <Route path="/analytics" element={<AnalyticsPage />} />
-            <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/settings" element={<SettingsPage />} />
-            <Route path="/authenticity" element={<AuthenticityAssistantPage />} />
-            <Route path="/skill-radar" element={<SkillRadarPage />} />
-          </Routes>
-        </AppLayout>
-      </Router>
+      <CurrencyProvider>
+        <Router>
+          <AppLayout>
+            <Routes>
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/auth" element={<AuthPage />} />
+              <Route path="/dashboard/client" element={<ClientDashboard />} />
+              <Route path="/dashboard/creator" element={<CreatorDashboard />} />
+              <Route path="/studio" element={<AIStudioPage />} />
+              <Route path="/marketplace" element={<MarketplacePage />} />
+              <Route path="/creator/:id" element={<CreatorProfilePage />} />
+              <Route path="/projects" element={<ClientDashboard />} />
+              <Route path="/projects/:id" element={<ProjectDetailPage />} />
+              <Route path="/messages" element={<MessagesPage />} />
+              <Route path="/analytics" element={<AnalyticsPage />} />
+              <Route path="/admin" element={<AdminDashboard />} />
+              <Route path="/settings" element={<SettingsPage />} />
+              <Route path="/authenticity" element={<AuthenticityAssistantPage />} />
+              <Route path="/skill-radar" element={<SkillRadarPage />} />
+            </Routes>
+          </AppLayout>
+        </Router>
+      </CurrencyProvider>
     </AuthProvider>
   );
 }
