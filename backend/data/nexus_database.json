@@ -206,7 +206,8 @@
       "title": "Digital Creator / Client",
       "bio": "Looking for high quality creators to build innovative campaigns.",
       "createdAt": "2026-10-11T05:16:02.218Z",
-      "favorites": []
+      "favorites": [],
+      "status": "active"
     }
   ],
   "creators": [
@@ -1568,6 +1569,20 @@
   ],
   "reportedContent": [
     {
+      "_id": "rep_103",
+      "id": "rep_103",
+      "contentType": "ai_generation",
+      "contentId": "gen_flag_12",
+      "contentTitle": "Trademark Brand Parody",
+      "reportedBy": "usr_admin_1",
+      "reporterName": "Alex Rivera (Admin)",
+      "reason": "Commercial Trademark Notice",
+      "details": "User generated packaging copy containing protected luxury brand trademarks without disclaimers.",
+      "status": "investigating",
+      "severity": "low",
+      "createdAt": "2026-10-08T00:00:00.000Z"
+    },
+    {
       "_id": "rep_101",
       "id": "rep_101",
       "contentType": "portfolio",
@@ -1596,20 +1611,6 @@
       "createdAt": "2026-10-02T00:00:00.000Z",
       "resolvedAt": "2026-10-03T00:00:00.000Z",
       "resolutionNotes": "Client warned and escrow requirements reiterated. Account placed on verified watch."
-    },
-    {
-      "_id": "rep_103",
-      "id": "rep_103",
-      "contentType": "ai_generation",
-      "contentId": "gen_flag_12",
-      "contentTitle": "Trademark Brand Parody",
-      "reportedBy": "usr_admin_1",
-      "reporterName": "Alex Rivera (Admin)",
-      "reason": "Commercial Trademark Notice",
-      "details": "User generated packaging copy containing protected luxury brand trademarks without disclaimers.",
-      "status": "investigating",
-      "severity": "low",
-      "createdAt": "2026-10-08T00:00:00.000Z"
     }
   ]
 }
