@@ -5,7 +5,7 @@
       "id": "usr_client_1",
       "name": "Sarah Chen",
       "email": "client@techflow.com",
-      "password": "$2a$10$Nu7QBweQ7xIXHsdYrFvyi.JWduHqbtKsGBQ/V/L.O4BsS2Ajk3fma",
+      "password": "$2a$10$57gi/Ks4craih1M6OjQiT.JcoVWyNMHVzG1pEE48qaZFIxxShy/Na",
       "role": "client",
       "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
       "title": "VP of Growth & Brand at TechFlow",
@@ -23,7 +23,7 @@
       "id": "usr_client_2",
       "name": "Julian Rossi",
       "email": "julian@aetherlabs.ai",
-      "password": "$2a$10$Nu7QBweQ7xIXHsdYrFvyi.JWduHqbtKsGBQ/V/L.O4BsS2Ajk3fma",
+      "password": "$2a$10$57gi/Ks4craih1M6OjQiT.JcoVWyNMHVzG1pEE48qaZFIxxShy/Na",
       "role": "client",
       "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
       "title": "Founding Creative Director at Aether Labs",
@@ -40,7 +40,7 @@
       "id": "usr_client_3",
       "name": "Amara Sterling",
       "email": "amara@novawear.com",
-      "password": "$2a$10$Nu7QBweQ7xIXHsdYrFvyi.JWduHqbtKsGBQ/V/L.O4BsS2Ajk3fma",
+      "password": "$2a$10$57gi/Ks4craih1M6OjQiT.JcoVWyNMHVzG1pEE48qaZFIxxShy/Na",
       "role": "client",
       "avatar": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80",
       "title": "Chief Marketing Officer at NovaWear",
@@ -57,7 +57,7 @@
       "id": "usr_client_4",
       "name": "Harrison Vance",
       "email": "harrison@hyperioncap.com",
-      "password": "$2a$10$Nu7QBweQ7xIXHsdYrFvyi.JWduHqbtKsGBQ/V/L.O4BsS2Ajk3fma",
+      "password": "$2a$10$57gi/Ks4craih1M6OjQiT.JcoVWyNMHVzG1pEE48qaZFIxxShy/Na",
       "role": "client",
       "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80",
       "title": "Partner at Hyperion Capital",
@@ -74,7 +74,7 @@
       "id": "usr_creator_1",
       "name": "Elena Vance",
       "email": "elena@creator.io",
-      "password": "$2a$10$Nu7QBweQ7xIXHsdYrFvyi.JWduHqbtKsGBQ/V/L.O4BsS2Ajk3fma",
+      "password": "$2a$10$57gi/Ks4craih1M6OjQiT.JcoVWyNMHVzG1pEE48qaZFIxxShy/Na",
       "role": "creator",
       "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80",
       "title": "AI Storyteller & Short-Form Video Director",
@@ -88,7 +88,7 @@
       "id": "usr_creator_2",
       "name": "Marcus Thorne",
       "email": "marcus@creator.io",
-      "password": "$2a$10$Nu7QBweQ7xIXHsdYrFvyi.JWduHqbtKsGBQ/V/L.O4BsS2Ajk3fma",
+      "password": "$2a$10$57gi/Ks4craih1M6OjQiT.JcoVWyNMHVzG1pEE48qaZFIxxShy/Na",
       "role": "creator",
       "avatar": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=150&auto=format&fit=crop&q=80",
       "title": "Prompt Engineer & Senior Tech Copywriter",
@@ -102,7 +102,7 @@
       "id": "usr_creator_3",
       "name": "Maya Lin",
       "email": "maya@creator.io",
-      "password": "$2a$10$Nu7QBweQ7xIXHsdYrFvyi.JWduHqbtKsGBQ/V/L.O4BsS2Ajk3fma",
+      "password": "$2a$10$57gi/Ks4craih1M6OjQiT.JcoVWyNMHVzG1pEE48qaZFIxxShy/Na",
       "role": "creator",
       "avatar": "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop&q=80",
       "title": "Generative 3D Artist & Creative Technologist",
@@ -116,7 +116,7 @@
       "id": "usr_creator_4",
       "name": "David Okafor",
       "email": "david@creator.io",
-      "password": "$2a$10$Nu7QBweQ7xIXHsdYrFvyi.JWduHqbtKsGBQ/V/L.O4BsS2Ajk3fma",
+      "password": "$2a$10$57gi/Ks4craih1M6OjQiT.JcoVWyNMHVzG1pEE48qaZFIxxShy/Na",
       "role": "creator",
       "avatar": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&auto=format&fit=crop&q=80",
       "title": "B2B Growth Content Strategist & Podcaster",
@@ -130,7 +130,7 @@
       "id": "usr_creator_5",
       "name": "Kaelen Voss",
       "email": "kaelen@creator.io",
-      "password": "$2a$10$Nu7QBweQ7xIXHsdYrFvyi.JWduHqbtKsGBQ/V/L.O4BsS2Ajk3fma",
+      "password": "$2a$10$57gi/Ks4craih1M6OjQiT.JcoVWyNMHVzG1pEE48qaZFIxxShy/Na",
       "role": "creator",
       "avatar": "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=150&auto=format&fit=crop&q=80",
       "title": "Frontier AI Video Producer & Sora/Runway Specialist",
@@ -144,7 +144,7 @@
       "id": "usr_creator_6",
       "name": "Soraya Al-Mansoor",
       "email": "soraya@creator.io",
-      "password": "$2a$10$Nu7QBweQ7xIXHsdYrFvyi.JWduHqbtKsGBQ/V/L.O4BsS2Ajk3fma",
+      "password": "$2a$10$57gi/Ks4craih1M6OjQiT.JcoVWyNMHVzG1pEE48qaZFIxxShy/Na",
       "role": "creator",
       "avatar": "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=150&auto=format&fit=crop&q=80",
       "title": "Voice Cloning Director & Sound Synthesis Engineer",
@@ -158,7 +158,7 @@
       "id": "usr_creator_7",
       "name": "Lucas Brandau",
       "email": "lucas@creator.io",
-      "password": "$2a$10$Nu7QBweQ7xIXHsdYrFvyi.JWduHqbtKsGBQ/V/L.O4BsS2Ajk3fma",
+      "password": "$2a$10$57gi/Ks4craih1M6OjQiT.JcoVWyNMHVzG1pEE48qaZFIxxShy/Na",
       "role": "creator",
       "avatar": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&auto=format&fit=crop&q=80",
       "title": "E-commerce AI Commercial Photographer & Model Rigger",
@@ -172,7 +172,7 @@
       "id": "usr_creator_8",
       "name": "Zoe Nakamura",
       "email": "zoe@creator.io",
-      "password": "$2a$10$Nu7QBweQ7xIXHsdYrFvyi.JWduHqbtKsGBQ/V/L.O4BsS2Ajk3fma",
+      "password": "$2a$10$57gi/Ks4craih1M6OjQiT.JcoVWyNMHVzG1pEE48qaZFIxxShy/Na",
       "role": "creator",
       "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
       "title": "Design Systems & AI Interactive UI/UX Architect",
@@ -186,7 +186,7 @@
       "id": "usr_admin_1",
       "name": "Alex Rivera (Admin)",
       "email": "admin@nexusai.io",
-      "password": "$2a$10$Nu7QBweQ7xIXHsdYrFvyi.JWduHqbtKsGBQ/V/L.O4BsS2Ajk3fma",
+      "password": "$2a$10$57gi/Ks4craih1M6OjQiT.JcoVWyNMHVzG1pEE48qaZFIxxShy/Na",
       "role": "admin",
       "avatar": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80",
       "title": "Marketplace Operations & AI Safety Lead",
@@ -194,20 +194,6 @@
       "favorites": [],
       "status": "active",
       "createdAt": "2024-12-01T00:00:00.000Z"
-    },
-    {
-      "_id": "usr_ea5dfe3a",
-      "id": "usr_ea5dfe3a",
-      "name": "sahitya",
-      "email": "chsahitya123@gmail.com",
-      "password": "$2a$10$WFwHgbGyLb7thJTvnUmBReHbZ4/AI2iGnp9Fr/OSJKE6PIAgGhgbO",
-      "role": "client",
-      "avatar": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80",
-      "title": "Digital Creator / Client",
-      "bio": "Looking for high quality creators to build innovative campaigns.",
-      "createdAt": "2026-10-11T05:16:02.218Z",
-      "favorites": [],
-      "status": "active"
     }
   ],
   "creators": [
@@ -1085,6 +1071,39 @@
   ],
   "projects": [
     {
+      "_id": "proj_4da8bf21",
+      "id": "proj_4da8bf21",
+      "title": "Weekly Social Sprint Package Sprint",
+      "description": "..",
+      "clientId": "usr_admin_1",
+      "clientName": "Alex Rivera (Admin)",
+      "creatorId": "usr_creator_4",
+      "creatorName": "David Okafor",
+      "category": "Social Media",
+      "budget": 600,
+      "deadline": "2026-11-15",
+      "deliverables": [
+        {
+          "title": "Phase 1: Creative Concept & Script",
+          "completed": false
+        },
+        {
+          "title": "Phase 2: Production & Voice Synthesis",
+          "completed": false
+        },
+        {
+          "title": "Phase 3: Color Grading & Final Assets",
+          "completed": false
+        }
+      ],
+      "status": "Completed",
+      "pendingAction": "Project completed and funds disbursed",
+      "revisions": [],
+      "files": [],
+      "createdAt": "2026-10-12T09:57:33.421Z",
+      "updatedAt": "2026-10-12T09:57:52.317Z"
+    },
+    {
       "_id": "proj_101",
       "id": "proj_101",
       "title": "AI-Powered SaaS Explainer Video Series",
@@ -1569,20 +1588,6 @@
   ],
   "reportedContent": [
     {
-      "_id": "rep_103",
-      "id": "rep_103",
-      "contentType": "ai_generation",
-      "contentId": "gen_flag_12",
-      "contentTitle": "Trademark Brand Parody",
-      "reportedBy": "usr_admin_1",
-      "reporterName": "Alex Rivera (Admin)",
-      "reason": "Commercial Trademark Notice",
-      "details": "User generated packaging copy containing protected luxury brand trademarks without disclaimers.",
-      "status": "investigating",
-      "severity": "low",
-      "createdAt": "2026-10-08T00:00:00.000Z"
-    },
-    {
       "_id": "rep_101",
       "id": "rep_101",
       "contentType": "portfolio",
@@ -1611,6 +1616,20 @@
       "createdAt": "2026-10-02T00:00:00.000Z",
       "resolvedAt": "2026-10-03T00:00:00.000Z",
       "resolutionNotes": "Client warned and escrow requirements reiterated. Account placed on verified watch."
+    },
+    {
+      "_id": "rep_103",
+      "id": "rep_103",
+      "contentType": "ai_generation",
+      "contentId": "gen_flag_12",
+      "contentTitle": "Trademark Brand Parody",
+      "reportedBy": "usr_admin_1",
+      "reporterName": "Alex Rivera (Admin)",
+      "reason": "Commercial Trademark Notice",
+      "details": "User generated packaging copy containing protected luxury brand trademarks without disclaimers.",
+      "status": "investigating",
+      "severity": "low",
+      "createdAt": "2026-10-08T00:00:00.000Z"
     }
   ]
 }

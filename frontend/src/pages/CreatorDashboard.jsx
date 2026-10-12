@@ -71,11 +71,14 @@ export default function CreatorDashboard() {
 
   const getStatusBadge = (status) => {
     const map = {
+      'Payment Pending': 'bg-rose-500/20 text-rose-300 border-rose-500/30',
+      'Awaiting Creator': 'bg-blue-500/20 text-blue-300 border-blue-500/30',
       'Requested': 'bg-blue-500/20 text-blue-300 border-blue-500/30',
       'Accepted': 'bg-indigo-500/20 text-indigo-300 border-indigo-500/30',
       'In Progress': 'bg-purple-500/20 text-purple-300 border-purple-500/30',
       'Under Review': 'bg-amber-500/20 text-amber-300 border-amber-500/30',
-      'Completed': 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30'
+      'Completed': 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
+      'Declined': 'bg-slate-500/20 text-slate-400 border-slate-500/30'
     };
     return map[status] || 'bg-slate-700 text-slate-300';
   };
@@ -169,7 +172,7 @@ export default function CreatorDashboard() {
         </div>
 
         <div className="divide-y divide-purple-900/20">
-          {projects.map(proj => (
+          {projects.filter(proj => proj.status !== 'Payment Pending').map(proj => (
             <div key={proj.id} className="p-5 hover:bg-purple-950/20 transition-colors flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div className="space-y-1.5 flex-1 min-w-0">
                 <div className="flex flex-wrap items-center gap-2">
@@ -191,7 +194,7 @@ export default function CreatorDashboard() {
 
               {/* Action Buttons for Creator */}
               <div className="flex flex-wrap items-center gap-2 shrink-0">
-                {proj.status === 'Requested' && (
+                {proj.status === 'Awaiting Creator' && (
                   <>
                     <button
                       onClick={() => handleUpdateStatus(proj.id, 'Accepted')}
@@ -236,6 +239,7 @@ export default function CreatorDashboard() {
             </div>
           ))}
         </div>
+
       </div>
 
       {/* Mini Skill Radar Forecast Teaser (Unique Feature 2) */}

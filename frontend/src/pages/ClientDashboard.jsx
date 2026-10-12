@@ -81,14 +81,38 @@ export default function ClientDashboard() {
 
   const getStatusBadge = (status) => {
     const map = {
+      'Payment Pending': 'bg-rose-500/20 text-rose-300 border-rose-500/30',
+      'Awaiting Creator': 'bg-blue-500/20 text-blue-300 border-blue-500/30',
       'Requested': 'bg-blue-500/20 text-blue-300 border-blue-500/30',
       'Accepted': 'bg-indigo-500/20 text-indigo-300 border-indigo-500/30',
       'In Progress': 'bg-purple-500/20 text-purple-300 border-purple-500/30',
       'Under Review': 'bg-amber-500/20 text-amber-300 border-amber-500/30',
-      'Completed': 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30'
+      'Completed': 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
+      'Declined': 'bg-slate-500/20 text-slate-400 border-slate-500/30',
     };
     return map[status] || 'bg-slate-700 text-slate-300';
   };
+
+  const handlePayEscrow = async (projectId, budget, creatorName) => {
+    if (!window.confirm(`Fund escrow with ${formatPrice(budget)} to send your proposal to ${creatorName}?`)) return;
+    try {
+      const res = await fetch(`/api/projects/${projectId}/pay`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }
+      });
+      const data = await res.json();
+      if (data.success) {
+        setProjects(prev => prev.map(p => p.id === projectId ? data.project : p));
+        alert(data.message);
+      } else {
+        alert(data.message || 'Payment failed.');
+      }
+    } catch (err) {
+      console.error('Pay escrow error:', err);
+      alert('Something went wrong. Please try again.');
+    }
+  };
+
 
   return (
     <div className="space-y-8 pb-12">
@@ -270,16 +294,32 @@ export default function ClientDashboard() {
                 </div>
 
                 <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-center gap-2 shrink-0">
-                  <span className="text-[11px] text-purple-300/80 italic max-w-xs text-right hidden sm:block truncate">
-                    {proj.pendingAction}
-                  </span>
-                  <Link
-                    to={`/projects/${proj.id}`}
-                    className="px-3.5 py-1.5 rounded-xl bg-purple-600/30 hover:bg-purple-600 border border-purple-500/40 text-purple-200 hover:text-white text-xs font-bold transition-all flex items-center gap-1"
-                  >
-                    Manage & Collaborate <ArrowRight className="w-3 h-3" />
-                  </Link>
+                  {proj.status === 'Payment Pending' ? (
+                    <div className="flex flex-col items-end gap-2">
+                      <span className="text-[11px] text-rose-300/80 italic text-right">⚠️ Escrow not funded — creator hasn't seen this yet</span>
+                      <button
+                        onClick={() => handlePayEscrow(proj.id, proj.budget, proj.creatorName)}
+                        className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center gap-1.5 transition-all shadow-lg shadow-emerald-900/40"
+                      >
+                        <DollarSign className="w-3.5 h-3.5" />
+                        Fund Escrow — {formatPrice(proj.budget)}
+                      </button>
+                    </div>
+                  ) : (
+                    <>
+                      <span className="text-[11px] text-purple-300/80 italic max-w-xs text-right hidden sm:block truncate">
+                        {proj.pendingAction}
+                      </span>
+                      <Link
+                        to={`/projects/${proj.id}`}
+                        className="px-3.5 py-1.5 rounded-xl bg-purple-600/30 hover:bg-purple-600 border border-purple-500/40 text-purple-200 hover:text-white text-xs font-bold transition-all flex items-center gap-1"
+                      >
+                        Manage & Collaborate <ArrowRight className="w-3 h-3" />
+                      </Link>
+                    </>
+                  )}
                 </div>
+
               </div>
             ))
           )}

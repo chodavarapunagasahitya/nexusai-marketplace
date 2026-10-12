@@ -43,7 +43,7 @@ export default function ProjectDetailPage() {
   const [reviewRating, setReviewRating] = useState(5);
   const [reviewComment, setReviewComment] = useState('');
 
-  const statusSteps = ['Requested', 'Accepted', 'In Progress', 'Under Review', 'Completed'];
+  const statusSteps = ['Payment Pending', 'Awaiting Creator', 'Accepted', 'In Progress', 'Under Review', 'Completed'];
 
   useEffect(() => {
     fetchProject();
@@ -92,6 +92,30 @@ export default function ProjectDetailPage() {
       console.error('Error updating status:', err);
     }
   };
+
+  const handlePayEscrow = async () => {
+    if (!window.confirm(`Fund escrow with ${formatPrice(project.budget)} to send your proposal to ${project.creatorName}?`)) return;
+    try {
+      const res = await fetch(`/api/projects/${id}/pay`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        }
+      });
+      const data = await res.json();
+      if (data.success) {
+        setProject(data.project);
+        alert(data.message);
+      } else {
+        alert(data.message || 'Payment failed.');
+      }
+    } catch (err) {
+      console.error('Error funding escrow:', err);
+      alert('Payment error. Please try again.');
+    }
+  };
+
 
   const handleToggleDeliverable = async (deliverableIndex) => {
     try {
@@ -241,9 +265,8 @@ export default function ProjectDetailPage() {
               <span>Client: <strong className="text-purple-300">{project.clientName}</strong></span>
               <span>•</span>
               <span>Creator: <strong className="text-violet-300">{project.creatorName}</strong></span>
-              <span>•</span>
-              <span className="flex items-center gap-1 text-emerald-400 font-bold">
-                <DollarSign className="w-3.5 h-3.5" /> {formatPrice(project.budget)} Escrow Funded
+              <span className={`flex items-center gap-1 font-bold ${project.status === 'Payment Pending' ? 'text-rose-400' : 'text-emerald-400'}`}>
+                <DollarSign className="w-3.5 h-3.5" /> {formatPrice(project.budget)} {project.status === 'Payment Pending' ? 'Escrow Unfunded' : 'Escrow Funded'}
               </span>
               <span>•</span>
               <span className="flex items-center gap-1">
@@ -254,7 +277,16 @@ export default function ProjectDetailPage() {
 
           {/* Action Trigger Controls based on role & status */}
           <div className="flex flex-wrap items-center gap-2">
-            {project.status === 'Requested' && (
+            {project.status === 'Payment Pending' && (
+              <button
+                onClick={handlePayEscrow}
+                className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-glow-sm flex items-center gap-1.5"
+              >
+                <DollarSign className="w-3.5 h-3.5" /> Fund Escrow ({formatPrice(project.budget)})
+              </button>
+            )}
+
+            {(project.status === 'Awaiting Creator' || project.status === 'Requested') && (
               <button
                 onClick={() => handleStatusChange('Accepted')}
                 className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-glow-sm"
@@ -262,6 +294,7 @@ export default function ProjectDetailPage() {
                 Accept Proposal
               </button>
             )}
+
 
             {project.status === 'Accepted' && (
               <button

@@ -70,8 +70,8 @@ router.post('/', authenticate, async (req, res) => {
       budget: Number(budget),
       deadline,
       deliverables,
-      status: 'Requested',
-      pendingAction: `Waiting for ${creatorName || 'creator'} to accept project proposal`
+      status: 'Payment Pending',
+      pendingAction: `Fund escrow to send proposal to ${creatorName || 'creator'}`
     });
 
     return res.status(201).json({
@@ -85,11 +85,11 @@ router.post('/', authenticate, async (req, res) => {
   }
 });
 
-// PUT /api/projects/:id/status (Transition status: Requested -> Accepted -> In Progress -> Under Review -> Completed)
+// PUT /api/projects/:id/status (Transition status)
 router.put('/:id/status', authenticate, async (req, res) => {
   try {
     const { status } = req.body;
-    const validStatuses = ['Requested', 'Accepted', 'In Progress', 'Under Review', 'Completed'];
+    const validStatuses = ['Payment Pending', 'Awaiting Creator', 'Requested', 'Accepted', 'Declined', 'In Progress', 'Under Review', 'Completed'];
     if (!validStatuses.includes(status)) {
       return res.status(400).json({ success: false, message: `Invalid status. Must be one of: ${validStatuses.join(', ')}` });
     }
@@ -100,10 +100,12 @@ router.put('/:id/status', authenticate, async (req, res) => {
     }
 
     let pendingAction = project.pendingAction;
+    if (status === 'Awaiting Creator') pendingAction = `Waiting for ${project.creatorName} to accept project proposal`;
     if (status === 'Accepted') pendingAction = 'Creator preparing production plan (In Progress soon)';
     if (status === 'In Progress') pendingAction = `Production underway (Deadline: ${project.deadline})`;
     if (status === 'Under Review') pendingAction = 'Client review in progress (Pending client approval)';
     if (status === 'Completed') pendingAction = 'Project completed and funds disbursed';
+    if (status === 'Declined') pendingAction = 'Proposal declined by creator';
 
     const updated = await storage.updateProject(req.params.id, {
       status,
@@ -119,6 +121,38 @@ router.put('/:id/status', authenticate, async (req, res) => {
     return res.status(500).json({ success: false, message: 'Failed to update project status.' });
   }
 });
+
+// POST /api/projects/:id/pay (Client pays escrow — moves Payment Pending → Awaiting Creator)
+router.post('/:id/pay', authenticate, async (req, res) => {
+  try {
+    const project = await storage.getProjectById(req.params.id);
+    if (!project) {
+      return res.status(404).json({ success: false, message: 'Project not found.' });
+    }
+    if (project.status !== 'Payment Pending') {
+      return res.status(400).json({ success: false, message: 'Project is not awaiting payment.' });
+    }
+    if (project.clientId !== req.user.id) {
+      return res.status(403).json({ success: false, message: 'Only the project client can fund escrow.' });
+    }
+
+    const updated = await storage.updateProject(req.params.id, {
+      status: 'Awaiting Creator',
+      paidAt: new Date(),
+      escrowFunded: true,
+      pendingAction: `Waiting for ${project.creatorName} to review and accept proposal`
+    });
+
+    return res.json({
+      success: true,
+      message: `Escrow funded! ${project.creatorName} has been notified of your proposal.`,
+      project: updated
+    });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: 'Failed to process payment.' });
+  }
+});
+
 
 // POST /api/projects/:id/revision (Request revision with feedback)
 router.post('/:id/revision', authenticate, async (req, res) => {
