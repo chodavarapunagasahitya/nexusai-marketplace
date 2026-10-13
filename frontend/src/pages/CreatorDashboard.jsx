@@ -28,12 +28,12 @@ export default function CreatorDashboard() {
   useEffect(() => {
     const fetchCreatorData = async () => {
       try {
-        const creatorTarget = (user && user.role === 'creator' && (user.id || user._id)) ? (user.id || user._id) : 'prof_creator_1';
+        const creatorTarget = user ? (user.id || user._id) : '';
         const [projRes, anaRes] = await Promise.all([
           fetch('/api/projects', {
             headers: token ? { Authorization: `Bearer ${token}` } : {}
           }),
-          fetch(`/api/analytics/creator/${creatorTarget}`)
+          fetch(`/api/analytics/creator/${creatorTarget || 'prof_creator_1'}`)
         ]);
         const projData = await projRes.json();
         const anaData = await anaRes.json();
@@ -47,8 +47,8 @@ export default function CreatorDashboard() {
       }
     };
 
-    fetchCreatorData();
-  }, [token]);
+    if (token) fetchCreatorData();
+  }, [token, user]);
 
   const handleUpdateStatus = async (projectId, newStatus) => {
     try {

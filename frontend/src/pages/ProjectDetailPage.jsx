@@ -287,7 +287,8 @@ export default function ProjectDetailPage() {
 
           {/* Action Trigger Controls based on role & status */}
           <div className="flex flex-wrap items-center gap-2">
-            {project.status === 'Payment Pending' && (
+            {/* Role-isolated action controls */}
+            {user?.role === 'client' && project.status === 'Payment Pending' && (
               <Link
                 to={`/checkout/${project.id || id}`}
                 className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 text-white text-xs font-bold shadow-glow-sm flex items-center gap-1.5"
@@ -296,17 +297,24 @@ export default function ProjectDetailPage() {
               </Link>
             )}
 
-            {(project.status === 'Awaiting Creator' || project.status === 'Requested') && (
-              <button
-                onClick={() => handleStatusChange('Accepted')}
-                className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-glow-sm"
-              >
-                Accept Proposal
-              </button>
+            {(user?.role === 'creator' || user?.role === 'admin') && (project.status === 'Awaiting Creator' || project.status === 'Requested') && (
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => handleStatusChange('Accepted')}
+                  className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-glow-sm"
+                >
+                  Accept Proposal
+                </button>
+                <button
+                  onClick={() => handleStatusChange('Declined')}
+                  className="px-3.5 py-2.5 rounded-xl bg-navy-900 border border-slate-700 text-slate-400 hover:text-white text-xs font-medium"
+                >
+                  Decline
+                </button>
+              </div>
             )}
 
-
-            {project.status === 'Accepted' && (
+            {(user?.role === 'creator' || user?.role === 'admin') && project.status === 'Accepted' && (
               <button
                 onClick={() => handleStatusChange('In Progress')}
                 className="px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold"
@@ -315,7 +323,7 @@ export default function ProjectDetailPage() {
               </button>
             )}
 
-            {project.status === 'In Progress' && (
+            {(user?.role === 'creator' || user?.role === 'admin') && project.status === 'In Progress' && (
               <>
                 <button
                   onClick={() => setShowUploadModal(true)}
@@ -332,7 +340,7 @@ export default function ProjectDetailPage() {
               </>
             )}
 
-            {project.status === 'Under Review' && (
+            {(user?.role === 'client' || user?.role === 'admin') && project.status === 'Under Review' && (
               <>
                 <button
                   onClick={() => setShowRevisionModal(true)}
@@ -349,7 +357,7 @@ export default function ProjectDetailPage() {
               </>
             )}
 
-            {project.status === 'Completed' && !project.feedback && (
+            {(user?.role === 'client' || user?.role === 'admin') && project.status === 'Completed' && !project.feedback && (
               <button
                 onClick={() => setShowFeedbackModal(true)}
                 className="px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold flex items-center gap-1.5"

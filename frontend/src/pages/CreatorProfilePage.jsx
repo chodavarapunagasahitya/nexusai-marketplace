@@ -182,12 +182,14 @@ export default function CreatorProfilePage() {
                 <Heart className={`w-5 h-5 ${isFav ? 'fill-rose-500 text-rose-500' : 'text-slate-400'}`} />
               </button>
 
-              <button
-                onClick={() => setShowHireModal(true)}
-                className="px-6 py-3 rounded-2xl purple-glow-btn text-white font-bold text-xs flex items-center gap-2"
-              >
-                <Send className="w-4 h-4" /> Propose Collaboration
-              </button>
+              {user?.role === 'client' && (
+                <button
+                  onClick={() => setShowHireModal(true)}
+                  className="px-6 py-3 rounded-2xl purple-glow-btn text-white font-bold text-xs flex items-center gap-2"
+                >
+                  <Send className="w-4 h-4" /> Propose Collaboration
+                </button>
+              )}
             </div>
           </div>
 

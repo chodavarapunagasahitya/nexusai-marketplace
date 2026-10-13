@@ -370,7 +370,15 @@ const storage = {
       list = list.filter(p => p.clientId === filter.clientId);
     }
     if (filter.creatorId) {
-      list = list.filter(p => p.creatorId === filter.creatorId);
+      // Find creator profile id if creatorId is a user id, or vice versa
+      const creatorProf = localStore.creators.find(c => c.userId === filter.creatorId || c.id === filter.creatorId || c._id === filter.creatorId);
+      const possibleIds = [filter.creatorId];
+      if (creatorProf) {
+        if (creatorProf.id) possibleIds.push(creatorProf.id);
+        if (creatorProf._id) possibleIds.push(creatorProf._id);
+        if (creatorProf.userId) possibleIds.push(creatorProf.userId);
+      }
+      list = list.filter(p => possibleIds.includes(p.creatorId));
     }
     if (filter.status && filter.status !== 'All') {
       list = list.filter(p => p.status === filter.status);

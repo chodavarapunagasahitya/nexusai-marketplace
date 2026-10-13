@@ -25,22 +25,37 @@ router.get('/', authenticate, async (req, res) => {
   }
 });
 
-// GET /api/projects/:id
-router.get('/:id', async (req, res) => {
+// GET /api/projects/:id (get single project with ownership verification)
+router.get('/:id', authenticate, async (req, res) => {
   try {
     const project = await storage.getProjectById(req.params.id);
     if (!project) {
       return res.status(404).json({ success: false, message: 'Project not found.' });
     }
+
+    // Role-based access control: user must be the client, the creator, or an admin
+    if (req.user.role !== 'admin') {
+      const isClientOwner = project.clientId === req.user.id;
+      const creatorProf = await storage.getCreatorById(req.user.id);
+      const isCreatorOwner = project.creatorId === req.user.id || (creatorProf && (creatorProf.id === project.creatorId || creatorProf._id === project.creatorId));
+      if (!isClientOwner && !isCreatorOwner) {
+        return res.status(403).json({ success: false, message: 'Unauthorized. You do not have access to this project.' });
+      }
+    }
+
     return res.json({ success: true, project });
   } catch (err) {
     return res.status(500).json({ success: false, message: 'Failed to retrieve project details.' });
   }
 });
 
-// POST /api/projects (Create project proposal)
+// POST /api/projects (Create project proposal - Clients only)
 router.post('/', authenticate, async (req, res) => {
   try {
+    if (req.user.role !== 'client' && req.user.role !== 'admin') {
+      return res.status(403).json({ success: false, message: 'Only Client accounts can hire creators and book projects.' });
+    }
+
     const {
       title,
       description,
@@ -59,19 +74,24 @@ router.post('/', authenticate, async (req, res) => {
       });
     }
 
+    // Lookup creator to guarantee linking to actual creator user
+    const targetCreator = await storage.getCreatorById(creatorId);
+    const resolvedCreatorId = targetCreator?.userId || targetCreator?.id || targetCreator?._id || creatorId;
+    const resolvedCreatorName = targetCreator?.name || creatorName || 'Creator';
+
     const newProject = await storage.createProject({
       title,
       description,
       clientId: req.user.id,
       clientName: req.user.name,
-      creatorId,
-      creatorName: creatorName || 'Creator',
+      creatorId: resolvedCreatorId,
+      creatorName: resolvedCreatorName,
       category,
       budget: Number(budget),
       deadline,
       deliverables,
       status: 'Payment Pending',
-      pendingAction: `Fund escrow to send proposal to ${creatorName || 'creator'}`
+      pendingAction: `Fund escrow to send proposal to ${resolvedCreatorName}`
     });
 
     return res.status(201).json({
@@ -85,7 +105,7 @@ router.post('/', authenticate, async (req, res) => {
   }
 });
 
-// PUT /api/projects/:id/status (Transition status)
+// PUT /api/projects/:id/status (Transition status with role permissions)
 router.put('/:id/status', authenticate, async (req, res) => {
   try {
     const { status } = req.body;
@@ -97,6 +117,31 @@ router.put('/:id/status', authenticate, async (req, res) => {
     const project = await storage.getProjectById(req.params.id);
     if (!project) {
       return res.status(404).json({ success: false, message: 'Project not found.' });
+    }
+
+    // Role-based action authorization
+    const isClient = req.user.role === 'client' && project.clientId === req.user.id;
+    const creatorProf = await storage.getCreatorById(req.user.id);
+    const isCreator = req.user.role === 'creator' && (project.creatorId === req.user.id || (creatorProf && (creatorProf.id === project.creatorId || creatorProf._id === project.creatorId)));
+    const isAdmin = req.user.role === 'admin';
+
+    if (!isClient && !isCreator && !isAdmin) {
+      return res.status(403).json({ success: false, message: 'Access denied. You are not a participant in this project.' });
+    }
+
+    // Creators accept or decline proposals, or submit deliverables for review
+    if (['Accepted', 'Declined'].includes(status) && !isCreator && !isAdmin) {
+      return res.status(403).json({ success: false, message: 'Only the assigned creator can accept or decline this proposal.' });
+    }
+
+    // Creators move to Under Review when submitting deliverables
+    if (status === 'Under Review' && !isCreator && !isAdmin) {
+      return res.status(403).json({ success: false, message: 'Only the assigned creator can submit deliverables for review.' });
+    }
+
+    // Clients approve & complete delivery
+    if (status === 'Completed' && !isClient && !isAdmin) {
+      return res.status(403).json({ success: false, message: 'Only the client can approve deliverables and complete the project.' });
     }
 
     let pendingAction = project.pendingAction;
@@ -229,7 +274,7 @@ router.post('/:id/pay', async (req, res) => {
 
 
 
-// POST /api/projects/:id/revision (Request revision with feedback)
+// POST /api/projects/:id/revision (Request revision with feedback - Client only)
 router.post('/:id/revision', authenticate, async (req, res) => {
   try {
     const { feedback } = req.body;
@@ -240,6 +285,14 @@ router.post('/:id/revision', authenticate, async (req, res) => {
     const project = await storage.getProjectById(req.params.id);
     if (!project) {
       return res.status(404).json({ success: false, message: 'Project not found.' });
+    }
+
+    // Only client or admin can request revisions
+    if (req.user.role !== 'client' && req.user.role !== 'admin') {
+      return res.status(403).json({ success: false, message: 'Only clients can request revisions on project deliverables.' });
+    }
+    if (project.clientId !== req.user.id && req.user.role !== 'admin') {
+      return res.status(403).json({ success: false, message: 'Unauthorized project.' });
     }
 
     const revisions = project.revisions || [];
@@ -288,7 +341,7 @@ router.post('/:id/deliverable-toggle', authenticate, async (req, res) => {
   }
 });
 
-// POST /api/projects/:id/files (Add deliverable file / attachment)
+// POST /api/projects/:id/files (Add deliverable file / attachment - Creator or Client)
 router.post('/:id/files', authenticate, async (req, res) => {
   try {
     const { name, size = '2.4 MB', url = '#' } = req.body;
@@ -317,9 +370,13 @@ router.post('/:id/files', authenticate, async (req, res) => {
   }
 });
 
-// POST /api/projects/:id/feedback (Submit review)
+// POST /api/projects/:id/feedback (Submit review - Client only)
 router.post('/:id/feedback', authenticate, async (req, res) => {
   try {
+    if (req.user.role !== 'client' && req.user.role !== 'admin') {
+      return res.status(403).json({ success: false, message: 'Only clients can leave ratings and reviews.' });
+    }
+
     const { rating = 5, comment = '' } = req.body;
     const project = await storage.getProjectById(req.params.id);
     if (!project) {

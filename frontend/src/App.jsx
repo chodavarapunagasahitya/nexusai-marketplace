@@ -61,6 +61,14 @@ function RootRedirect() {
   return <Navigate to="/dashboard/client" replace />;
 }
 
+function ProjectsRoute() {
+  const { user } = useAuth();
+  if (user?.role === 'creator') {
+    return <CreatorDashboard />;
+  }
+  return <ClientDashboard />;
+}
+
 function AppLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
@@ -120,7 +128,10 @@ export default function App() {
                 <ProtectedRoute><CreatorProfilePage /></ProtectedRoute>
               } />
               <Route path="/projects" element={
-                <ProtectedRoute><ClientDashboard /></ProtectedRoute>
+                <ProtectedRoute>
+                  {/* Redirect or render based on role */}
+                  <ProjectsRoute />
+                </ProtectedRoute>
               } />
               <Route path="/projects/:id" element={
                 <ProtectedRoute><ProjectDetailPage /></ProtectedRoute>

@@ -208,6 +208,76 @@
       "bio": "Looking for high quality creators to build innovative campaigns.",
       "createdAt": "2026-10-13T15:53:01.728Z",
       "favorites": []
+    },
+    {
+      "_id": "usr_323e2c5f",
+      "id": "usr_323e2c5f",
+      "name": "sahitya",
+      "email": "chsahitya123@gmail.com",
+      "password": "$2a$10$Iu.D8Kb9OMF.s5NVb9gbc.X4aWJ9wzyNyowImZjeBzinkZO8AHyVe",
+      "role": "client",
+      "avatar": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80",
+      "isVerified": true,
+      "title": "Digital Creator / Client",
+      "bio": "Looking for high quality creators to build innovative campaigns.",
+      "createdAt": "2026-10-13T15:55:20.805Z",
+      "favorites": []
+    },
+    {
+      "_id": "usr_d8fabbea",
+      "id": "usr_d8fabbea",
+      "name": "Real User",
+      "email": "user_1791907122205@nexusai.test",
+      "password": "$2a$10$FRbTeudfQInPPCZBlh/x4eOb/JQZuFyGcF7TteZHC/AwJaMsYd1i2",
+      "role": "creator",
+      "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+      "isVerified": true,
+      "title": "AI Content Specialist",
+      "bio": "Passionate about leveraging AI to create next-generation digital media.",
+      "createdAt": "2026-10-13T15:58:42.429Z",
+      "favorites": []
+    },
+    {
+      "_id": "usr_1f99c0a6",
+      "id": "usr_1f99c0a6",
+      "name": "Acme Brand Manager",
+      "email": "client_1791907723252@testcorp.com",
+      "password": "$2a$10$ccJtexPkrUWmFHl4VVKlzOBrgWjdhQV3cK0VktWOnWkeHYfQy9BVq",
+      "role": "client",
+      "avatar": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80",
+      "isVerified": true,
+      "title": "Digital Creator / Client",
+      "bio": "Looking for high quality creators to build innovative campaigns.",
+      "createdAt": "2026-10-13T16:08:43.535Z",
+      "favorites": []
+    },
+    {
+      "_id": "usr_89a72076",
+      "id": "usr_89a72076",
+      "name": "Sora Motion Designer",
+      "email": "creator_1791907723555@studio.com",
+      "password": "$2a$10$JxFdZcLUSsdHMujKoKfdle4OAjY94prGWq4qrrE1G6HLzcgrXrkV2",
+      "role": "creator",
+      "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+      "isVerified": true,
+      "title": "AI Content Specialist",
+      "bio": "Passionate about leveraging AI to create next-generation digital media.",
+      "createdAt": "2026-10-13T16:08:43.754Z",
+      "favorites": []
+    },
+    {
+      "_id": "usr_6d6db0fc",
+      "id": "usr_6d6db0fc",
+      "name": "Stranger User",
+      "email": "stranger_1791907723853@outside.com",
+      "password": "$2a$10$n3aiujgjMfMG8F4n/scw6eE7RLlpdHhDP/V8zdAFhxSxXOOTbA.wu",
+      "role": "client",
+      "avatar": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80",
+      "isVerified": true,
+      "title": "Digital Creator / Client",
+      "bio": "Looking for high quality creators to build innovative campaigns.",
+      "createdAt": "2026-10-13T16:08:44.069Z",
+      "favorites": []
     }
   ],
   "creators": [
@@ -1081,9 +1151,150 @@
         "clientRetentionRate": 95,
         "responseTimeHours": 1.1
       }
+    },
+    {
+      "_id": "prof_b51a2194",
+      "id": "prof_9f0380e6",
+      "userId": "usr_d8fabbea",
+      "name": "Real User",
+      "title": "AI Content Specialist",
+      "bio": "Passionate about leveraging AI to create next-generation digital media.",
+      "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+      "category": "General Content",
+      "skills": [
+        "AI Content Generation",
+        "Digital Storytelling",
+        "Prompting"
+      ],
+      "languages": [
+        "English"
+      ],
+      "hourlyRate": 50,
+      "startingPrice": 150,
+      "availability": "Available",
+      "portfolio": [],
+      "packages": [
+        {
+          "name": "Basic Starter",
+          "price": 150,
+          "deliveryDays": 3,
+          "revisions": 2,
+          "features": [
+            "1 x Core Content Deliverable",
+            "AI Optimization Pass",
+            "Standard Commercial Use"
+          ]
+        }
+      ],
+      "rating": 5,
+      "reviewsCount": 0,
+      "completedProjects": 0,
+      "reviews": []
+    },
+    {
+      "_id": "prof_c11aad94",
+      "id": "prof_157517b2",
+      "userId": "usr_89a72076",
+      "name": "Sora Motion Designer",
+      "title": "AI Content Specialist",
+      "bio": "Passionate about leveraging AI to create next-generation digital media.",
+      "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+      "category": "General Content",
+      "skills": [
+        "AI Content Generation",
+        "Digital Storytelling",
+        "Prompting"
+      ],
+      "languages": [
+        "English"
+      ],
+      "hourlyRate": 50,
+      "startingPrice": 150,
+      "availability": "Available",
+      "portfolio": [],
+      "packages": [
+        {
+          "name": "Basic Starter",
+          "price": 150,
+          "deliveryDays": 3,
+          "revisions": 2,
+          "features": [
+            "1 x Core Content Deliverable",
+            "AI Optimization Pass",
+            "Standard Commercial Use"
+          ]
+        }
+      ],
+      "rating": 5,
+      "reviewsCount": 0,
+      "completedProjects": 0,
+      "reviews": []
     }
   ],
   "projects": [
+    {
+      "_id": "proj_861288e4",
+      "id": "proj_861288e4",
+      "title": "3D Hyper-real Product Teaser",
+      "description": "15s high-converting 3D video commercial",
+      "clientId": "usr_1f99c0a6",
+      "clientName": "Acme Brand Manager",
+      "creatorId": "usr_89a72076",
+      "creatorName": "Sora Motion Designer",
+      "category": "General Content",
+      "budget": 850,
+      "deadline": "2026-11-15",
+      "deliverables": [],
+      "status": "Completed",
+      "pendingAction": "Project completed and funds disbursed",
+      "revisions": [],
+      "files": [],
+      "createdAt": "2026-10-13T16:08:43.788Z",
+      "updatedAt": "2026-10-13T16:08:43.844Z",
+      "paidAt": "2026-10-13T16:08:43.817Z",
+      "escrowFunded": true,
+      "transactionId": "TXN_ESCROW_440976",
+      "paymentMethod": "Credit Card (Escrow)",
+      "cardLast4": "4242"
+    },
+    {
+      "_id": "proj_4b8af659",
+      "id": "proj_4b8af659",
+      "title": "gh",
+      "description": "h",
+      "clientId": "usr_323e2c5f",
+      "clientName": "sahitya",
+      "creatorId": "usr_creator_1",
+      "creatorName": "Elena Vance",
+      "category": "Video & Motion",
+      "budget": 650,
+      "deadline": "2026-11-15",
+      "deliverables": [
+        {
+          "title": "Phase 1: Creative Concept & Script",
+          "completed": false
+        },
+        {
+          "title": "Phase 2: Production & Voice Synthesis",
+          "completed": false
+        },
+        {
+          "title": "Phase 3: Color Grading & Final Assets",
+          "completed": false
+        }
+      ],
+      "status": "In Progress",
+      "pendingAction": "Elena Vance has received payment confirmation and started production sprints (Deadline: 2026-11-15)",
+      "revisions": [],
+      "files": [],
+      "createdAt": "2026-10-13T15:59:59.617Z",
+      "updatedAt": "2026-10-13T16:00:06.573Z",
+      "paidAt": "2026-10-13T16:00:06.573Z",
+      "escrowFunded": true,
+      "transactionId": "TXN_ESCROW_101257",
+      "paymentMethod": "Visa / Card ending in 4242",
+      "cardLast4": "4242"
+    },
     {
       "_id": "proj_99e2e092",
       "id": "proj_99e2e092",
