@@ -1071,6 +1071,113 @@
   ],
   "projects": [
     {
+      "_id": "proj_hire_demo",
+      "id": "proj_hire_demo",
+      "title": "Frontier AI Cinematic Commercial Campaign (4K Runway Gen-3)",
+      "description": "Production of a 60-second high-conversion cinematic video for product launch, including custom character generation, AI voice synthesis, and dynamic VFX.",
+      "clientId": "usr_client_1",
+      "clientName": "Sarah Chen (TechFlow)",
+      "creatorId": "usr_creator_1",
+      "creatorName": "Elena Vance",
+      "category": "Video & Motion",
+      "budget": 850,
+      "deadline": "2026-11-20",
+      "deliverables": [
+        {
+          "title": "Phase 1: Concept Script & Visual Storyboard",
+          "completed": false
+        },
+        {
+          "title": "Phase 2: Runway Gen-3 & Midjourney Video Renders",
+          "completed": false
+        },
+        {
+          "title": "Phase 3: Sound Design, ElevenLabs Voiceover & 4K Master",
+          "completed": false
+        }
+      ],
+      "status": "Payment Pending",
+      "pendingAction": "Client payment required ($850) — Funds locked in escrow before Elena Vance starts production",
+      "revisions": [],
+      "files": [],
+      "createdAt": "2026-10-13T14:30:00.000Z",
+      "updatedAt": "2026-10-13T14:30:00.000Z",
+      "escrowFunded": false
+    },
+    {
+      "_id": "proj_hire_pay",
+      "id": "proj_hire_pay",
+      "title": "Frontier AI Cinematic Commercial Campaign (4K Runway Gen-3)",
+      "description": "Production of a 60-second high-conversion cinematic video for product launch, including custom character generation, AI voice synthesis, and dynamic VFX.",
+      "clientId": "usr_client_1",
+      "clientName": "Sarah Chen (TechFlow)",
+      "creatorId": "usr_creator_1",
+      "creatorName": "Elena Vance",
+      "category": "Video & Motion",
+      "budget": 850,
+      "deadline": "2026-11-20",
+      "deliverables": [
+        {
+          "title": "Phase 1: Concept Script & Visual Storyboard",
+          "completed": false
+        },
+        {
+          "title": "Phase 2: Runway Gen-3 & Midjourney Video Renders",
+          "completed": false
+        },
+        {
+          "title": "Phase 3: Sound Design, ElevenLabs Voiceover & 4K Master",
+          "completed": false
+        }
+      ],
+      "status": "In Progress",
+      "pendingAction": "Elena Vance has received payment confirmation and started production sprints (Deadline: 2026-11-20)",
+      "revisions": [],
+      "files": [],
+      "createdAt": "2026-10-13T14:00:00.000Z",
+      "updatedAt": "2026-10-13T14:30:02.335Z",
+      "escrowFunded": true,
+      "paidAt": "2026-10-13T14:30:02.334Z",
+      "transactionId": "TXN_ESCROW_862323",
+      "paymentMethod": "Visa",
+      "cardLast4": "4242"
+    },
+    {
+      "_id": "proj_4c8356b6",
+      "id": "proj_4c8356b6",
+      "title": "h",
+      "description": "hu",
+      "clientId": "usr_client_1",
+      "clientName": "Sarah Chen",
+      "creatorId": "usr_creator_1",
+      "creatorName": "Elena Vance",
+      "category": "Video & Motion",
+      "budget": 650,
+      "deadline": "2026-11-15",
+      "deliverables": [
+        {
+          "title": "Phase 1: Creative Concept & Script",
+          "completed": false
+        },
+        {
+          "title": "Phase 2: Production & Voice Synthesis",
+          "completed": false
+        },
+        {
+          "title": "Phase 3: Color Grading & Final Assets",
+          "completed": false
+        }
+      ],
+      "status": "Completed",
+      "pendingAction": "Project completed and funds disbursed",
+      "revisions": [],
+      "files": [],
+      "createdAt": "2026-10-12T10:25:30.894Z",
+      "updatedAt": "2026-10-12T10:25:56.912Z",
+      "paidAt": "2026-10-12T10:25:38.348Z",
+      "escrowFunded": true
+    },
+    {
       "_id": "proj_4da8bf21",
       "id": "proj_4da8bf21",
       "title": "Weekly Social Sprint Package Sprint",

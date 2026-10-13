@@ -21,6 +21,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import SettingsPage from './pages/SettingsPage';
 import AuthenticityAssistantPage from './pages/AuthenticityAssistantPage';
 import SkillRadarPage from './pages/SkillRadarPage';
+import CheckoutPage from './pages/CheckoutPage';
 
 function AppLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -68,6 +69,7 @@ export default function App() {
               <Route path="/creator/:id" element={<CreatorProfilePage />} />
               <Route path="/projects" element={<ClientDashboard />} />
               <Route path="/projects/:id" element={<ProjectDetailPage />} />
+              <Route path="/checkout/:id" element={<CheckoutPage />} />
               <Route path="/messages" element={<MessagesPage />} />
               <Route path="/analytics" element={<AnalyticsPage />} />
               <Route path="/admin" element={<AdminDashboard />} />

@@ -179,6 +179,11 @@ export default function CreatorDashboard() {
                   <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${getStatusBadge(proj.status)}`}>
                     {proj.status}
                   </span>
+                  {proj.escrowFunded && proj.status === 'In Progress' && (
+                    <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold">
+                      💰 Paid & Locked in Escrow — Production Sprints Underway
+                    </span>
+                  )}
                   <h3 className="text-sm font-bold text-white truncate">{proj.title}</h3>
                 </div>
 

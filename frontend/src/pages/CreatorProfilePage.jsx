@@ -94,7 +94,7 @@ export default function CreatorProfilePage() {
         setProposalSuccess(true);
         setTimeout(() => {
           setShowHireModal(false);
-          navigate(`/projects/${data.project.id || data.project._id}`);
+          navigate(`/checkout/${data.project.id || data.project._id}`);
         }, 1200);
       }
     } catch (err) {

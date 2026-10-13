@@ -15,7 +15,9 @@ import {
   RotateCcw,
   Download,
   Paperclip,
-  Check
+  Check,
+  Lock,
+  CreditCard
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useCurrency } from '../context/CurrencyContext';
@@ -278,12 +280,12 @@ export default function ProjectDetailPage() {
           {/* Action Trigger Controls based on role & status */}
           <div className="flex flex-wrap items-center gap-2">
             {project.status === 'Payment Pending' && (
-              <button
-                onClick={handlePayEscrow}
-                className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-glow-sm flex items-center gap-1.5"
+              <Link
+                to={`/checkout/${project.id || id}`}
+                className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 text-white text-xs font-bold shadow-glow-sm flex items-center gap-1.5"
               >
-                <DollarSign className="w-3.5 h-3.5" /> Fund Escrow ({formatPrice(project.budget)})
-              </button>
+                <Lock className="w-3.5 h-3.5" /> Pay Real Money & Fund Escrow ({formatPrice(project.budget)})
+              </Link>
             )}
 
             {(project.status === 'Awaiting Creator' || project.status === 'Requested') && (

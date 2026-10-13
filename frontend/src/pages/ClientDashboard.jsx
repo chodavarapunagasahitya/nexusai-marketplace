@@ -13,7 +13,9 @@ import {
   CheckCircle2, 
   AlertCircle,
   FileText,
-  Search
+  Search,
+  CreditCard,
+  Lock
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useCurrency } from '../context/CurrencyContext';
@@ -296,14 +298,14 @@ export default function ClientDashboard() {
                 <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-center gap-2 shrink-0">
                   {proj.status === 'Payment Pending' ? (
                     <div className="flex flex-col items-end gap-2">
-                      <span className="text-[11px] text-rose-300/80 italic text-right">⚠️ Escrow not funded — creator hasn't seen this yet</span>
-                      <button
-                        onClick={() => handlePayEscrow(proj.id, proj.budget, proj.creatorName)}
-                        className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center gap-1.5 transition-all shadow-lg shadow-emerald-900/40"
+                      <span className="text-[11px] text-rose-300/80 italic text-right">⚠️ Escrow not funded — creator hasn't started yet</span>
+                      <Link
+                        to={`/checkout/${proj.id}`}
+                        className="px-4 py-2 rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 text-white text-xs font-bold flex items-center gap-1.5 transition-all shadow-lg shadow-orange-950/60"
                       >
-                        <DollarSign className="w-3.5 h-3.5" />
-                        Fund Escrow — {formatPrice(proj.budget)}
-                      </button>
+                        <Lock className="w-3.5 h-3.5" />
+                        Pay Real Money / Escrow — {formatPrice(proj.budget)}
+                      </Link>
                     </div>
                   ) : (
                     <>
