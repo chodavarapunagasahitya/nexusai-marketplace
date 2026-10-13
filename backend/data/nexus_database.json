@@ -1071,6 +1071,44 @@
   ],
   "projects": [
     {
+      "_id": "proj_0fb4a1e7",
+      "id": "proj_0fb4a1e7",
+      "title": "ghh",
+      "description": "hhj",
+      "clientId": "usr_client_1",
+      "clientName": "Sarah Chen",
+      "creatorId": "usr_creator_1",
+      "creatorName": "Elena Vance",
+      "category": "Video & Motion",
+      "budget": 650,
+      "deadline": "2026-11-15",
+      "deliverables": [
+        {
+          "title": "Phase 1: Creative Concept & Script",
+          "completed": false
+        },
+        {
+          "title": "Phase 2: Production & Voice Synthesis",
+          "completed": false
+        },
+        {
+          "title": "Phase 3: Color Grading & Final Assets",
+          "completed": false
+        }
+      ],
+      "status": "In Progress",
+      "pendingAction": "Elena Vance has received payment confirmation and started production sprints (Deadline: 2026-11-15)",
+      "revisions": [],
+      "files": [],
+      "createdAt": "2026-10-13T14:32:25.955Z",
+      "updatedAt": "2026-10-13T14:33:28.024Z",
+      "paidAt": "2026-10-13T14:33:28.024Z",
+      "escrowFunded": true,
+      "transactionId": "TXN_ESCROW_633215",
+      "paymentMethod": "PayPal Checkout",
+      "cardLast4": "4242"
+    },
+    {
       "_id": "proj_hire_demo",
       "id": "proj_hire_demo",
       "title": "Frontier AI Cinematic Commercial Campaign (4K Runway Gen-3)",

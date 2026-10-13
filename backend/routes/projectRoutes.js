@@ -122,6 +122,68 @@ router.put('/:id/status', authenticate, async (req, res) => {
   }
 });
 
+let stripe = null;
+if (process.env.STRIPE_SECRET_KEY) {
+  try {
+    stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+  } catch (err) {
+    console.warn('Could not initialize Stripe:', err.message);
+  }
+}
+
+// POST /api/projects/:id/create-stripe-session (Real Stripe Checkout Integration)
+router.post('/:id/create-stripe-session', async (req, res) => {
+  try {
+    const project = await storage.getProjectById(req.params.id);
+    if (!project) {
+      return res.status(404).json({ success: false, message: 'Project not found.' });
+    }
+
+    if (!stripe && !process.env.STRIPE_SECRET_KEY) {
+      return res.json({
+        success: false,
+        requiresSimulator: true,
+        message: 'No STRIPE_SECRET_KEY set in backend/.env. Use the built-in 256-Bit Escrow Vault Simulator or provide your Stripe secret key.'
+      });
+    }
+
+    const host = req.get('origin') || req.get('host') || 'http://localhost:5000';
+    const baseUrl = host.startsWith('http') ? host : `http://${host}`;
+
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: [
+        {
+          price_data: {
+            currency: 'usd',
+            product_data: {
+              name: `NexusAI Escrow: ${project.title}`,
+              description: `Hire ${project.creatorName} — 100% Escrow Protected Sprint`
+            },
+            unit_amount: Math.round(Number(project.budget) * 100)
+          },
+          quantity: 1
+        }
+      ],
+      mode: 'payment',
+      success_url: `${baseUrl}/checkout/${project.id}?stripe_success=true&session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${baseUrl}/checkout/${project.id}?stripe_cancel=true`,
+      metadata: {
+        projectId: project.id,
+        creatorName: project.creatorName
+      }
+    });
+
+    return res.json({
+      success: true,
+      url: session.url
+    });
+  } catch (err) {
+    console.error('Stripe session creation error:', err);
+    return res.status(500).json({ success: false, message: err.message || 'Failed to create Stripe session.' });
+  }
+});
+
 // POST /api/projects/:id/pay (Client pays real money/escrow — moves Payment Pending → In Progress)
 router.post('/:id/pay', async (req, res) => {
   try {

@@ -39,6 +39,8 @@ export default function ProjectDetailPage() {
   // Upload File State
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [fileName, setFileName] = useState('');
+  const [fileUrl, setFileUrl] = useState('');
+  const [fileSize, setFileSize] = useState('');
 
   // Feedback Review State
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
@@ -171,13 +173,19 @@ export default function ProjectDetailPage() {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify({ name: fileName, size: '4.8 MB', url: '#' })
+        body: JSON.stringify({
+          name: fileName,
+          size: fileSize || '4.8 MB',
+          url: fileUrl || 'https://assets.nexusai.market/preview/' + encodeURIComponent(fileName)
+        })
       });
       const data = await res.json();
       if (data.success) {
         setProject(data.project);
         setShowUploadModal(false);
         setFileName('');
+        setFileUrl('');
+        setFileSize('');
       }
     } catch (err) {
       console.error('Error attaching file:', err);
@@ -646,6 +654,20 @@ export default function ProjectDetailPage() {
             </h3>
             <form onSubmit={handleUploadFile} className="space-y-4">
               <div>
+                <label className="block text-xs font-semibold text-slate-300 mb-1">Select File from Device</label>
+                <input
+                  type="file"
+                  onChange={(e) => {
+                    const f = e.target.files[0];
+                    if (f) {
+                      setFileName(f.name);
+                      setFileSize((f.size / (1024 * 1024)).toFixed(1) + ' MB');
+                    }
+                  }}
+                  className="w-full text-xs text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-purple-600 file:text-white hover:file:bg-purple-500 cursor-pointer"
+                />
+              </div>
+              <div>
                 <label className="block text-xs font-semibold text-slate-300 mb-1">File Name / Label</label>
                 <input
                   type="text"
@@ -653,6 +675,16 @@ export default function ProjectDetailPage() {
                   placeholder="e.g. Final_Render_4K_v2.mp4"
                   value={fileName}
                   onChange={(e) => setFileName(e.target.value)}
+                  className="w-full bg-navy-950 border border-purple-900/40 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-purple-500"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 mb-1">External Asset Link (Drive / Figma / Dropbox)</label>
+                <input
+                  type="url"
+                  placeholder="e.g. https://drive.google.com/... or https://frame.io/..."
+                  value={fileUrl}
+                  onChange={(e) => setFileUrl(e.target.value)}
                   className="w-full bg-navy-950 border border-purple-900/40 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-purple-500"
                 />
               </div>

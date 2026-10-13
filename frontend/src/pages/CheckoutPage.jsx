@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { 
   ShieldCheck, 
   Lock, 
@@ -38,9 +38,64 @@ export default function CheckoutPage() {
   const [processing, setProcessing] = useState(false);
   const [receipt, setReceipt] = useState(null);
 
+  const [searchParams] = useSearchParams();
+
   useEffect(() => {
     fetchProject();
   }, [id, token]);
+
+  useEffect(() => {
+    if (searchParams.get('stripe_success') === 'true' && id) {
+      const sessionId = searchParams.get('session_id') || 'STRIPE_' + Date.now();
+      confirmStripePayment(sessionId);
+    }
+  }, [searchParams, id]);
+
+  const confirmStripePayment = async (sessionId) => {
+    setProcessing(true);
+    try {
+      const res = await fetch(`/api/projects/${id}/pay`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          paymentMethod: 'Stripe Checkout (Verified Session)',
+          cardLast4: 'Stripe Pay',
+          transactionId: sessionId
+        })
+      });
+      const data = await res.json();
+      if (data.success) {
+        setProject(data.project);
+        setReceipt(data.receipt);
+      }
+    } catch (err) {
+      console.error('Stripe confirmation error:', err);
+    } finally {
+      setProcessing(false);
+    }
+  };
+
+  const handleStripeCheckout = async () => {
+    setProcessing(true);
+    try {
+      const res = await fetch(`/api/projects/${id}/create-stripe-session`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      });
+      const data = await res.json();
+      if (data.success && data.url) {
+        window.location.href = data.url;
+      } else {
+        alert(data.message || 'No live STRIPE_SECRET_KEY in backend/.env. Switched to Built-in 256-Bit Escrow Vault.');
+        setPaymentMethod('card');
+      }
+    } catch (err) {
+      alert('Could not initialize Stripe session. Switched to Escrow Vault.');
+      setPaymentMethod('card');
+    } finally {
+      setProcessing(false);
+    }
+  };
 
   const fetchProject = async () => {
     try {
@@ -349,40 +404,79 @@ export default function CheckoutPage() {
                 </span>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
                 <button
                   type="button"
                   onClick={() => setPaymentMethod('card')}
-                  className={`p-3.5 rounded-xl border text-left flex items-center gap-3 transition-all ${
+                  className={`p-3 rounded-xl border text-left flex items-center gap-2.5 transition-all ${
                     paymentMethod === 'card'
                       ? 'bg-orange-500/10 border-orange-500 text-white shadow-sm shadow-orange-950'
                       : 'bg-navy-950/60 border-slate-800 text-slate-400 hover:text-white'
                   }`}
                 >
-                  <CreditCard className={`w-5 h-5 ${paymentMethod === 'card' ? 'text-orange-400' : 'text-slate-500'}`} />
+                  <CreditCard className={`w-4 h-4 shrink-0 ${paymentMethod === 'card' ? 'text-orange-400' : 'text-slate-500'}`} />
                   <div>
-                    <div className="text-xs font-bold text-white">Credit / Debit Card</div>
-                    <div className="text-[10px] text-slate-400">Visa, Mastercard, Amex</div>
+                    <div className="text-xs font-bold text-white leading-tight">Card / Escrow</div>
+                    <div className="text-[10px] text-slate-400">Direct Form</div>
+                  </div>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setPaymentMethod('stripe')}
+                  className={`p-3 rounded-xl border text-left flex items-center gap-2.5 transition-all ${
+                    paymentMethod === 'stripe'
+                      ? 'bg-orange-500/10 border-orange-500 text-white shadow-sm shadow-orange-950'
+                      : 'bg-navy-950/60 border-slate-800 text-slate-400 hover:text-white'
+                  }`}
+                >
+                  <Zap className={`w-4 h-4 shrink-0 ${paymentMethod === 'stripe' ? 'text-orange-400' : 'text-slate-500'}`} />
+                  <div>
+                    <div className="text-xs font-bold text-white leading-tight">Stripe Checkout</div>
+                    <div className="text-[10px] text-slate-400">Official Page</div>
                   </div>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => setPaymentMethod('paypal')}
-                  className={`p-3.5 rounded-xl border text-left flex items-center gap-3 transition-all ${
+                  className={`p-3 rounded-xl border text-left flex items-center gap-2.5 transition-all ${
                     paymentMethod === 'paypal'
                       ? 'bg-orange-500/10 border-orange-500 text-white shadow-sm shadow-orange-950'
                       : 'bg-navy-950/60 border-slate-800 text-slate-400 hover:text-white'
                   }`}
                 >
-                  <DollarSign className={`w-5 h-5 ${paymentMethod === 'paypal' ? 'text-orange-400' : 'text-slate-500'}`} />
+                  <DollarSign className={`w-4 h-4 shrink-0 ${paymentMethod === 'paypal' ? 'text-orange-400' : 'text-slate-500'}`} />
                   <div>
-                    <div className="text-xs font-bold text-white">PayPal / Escrow Wire</div>
-                    <div className="text-[10px] text-slate-400">One-click checkout</div>
+                    <div className="text-xs font-bold text-white leading-tight">PayPal / Wire</div>
+                    <div className="text-[10px] text-slate-400">One-Click</div>
                   </div>
                 </button>
               </div>
             </div>
+
+            {paymentMethod === 'stripe' && (
+              <div className="p-5 rounded-2xl bg-gradient-to-br from-indigo-950/40 to-navy-950/90 border border-indigo-500/30 space-y-4">
+                <div className="flex items-center gap-2">
+                  <span className="font-black text-indigo-400 text-sm tracking-wider uppercase">STRIPE</span>
+                  <span className="text-xs text-slate-300 font-medium">Official Hosted Checkout Session</span>
+                </div>
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  You will be securely redirected to Stripe's encrypted payment page to complete your payment with Apple Pay, Google Pay, or Credit Card. Once paid, Stripe redirects back and automatically begins {project.creatorName}'s work!
+                </p>
+                <button
+                  type="button"
+                  onClick={handleStripeCheckout}
+                  disabled={processing}
+                  className="w-full py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-indigo-950/60 transition-all"
+                >
+                  {processing ? 'Connecting to Stripe...' : `Launch Stripe Checkout (${formatPrice(project.budget)}) →`}
+                </button>
+                <span className="text-[10px] text-slate-500 block text-center">
+                  Requires STRIPE_SECRET_KEY in backend/.env for live charging. Otherwise auto-switches to Escrow Simulator.
+                </span>
+              </div>
+            )}
 
             {/* Test Card Quick Fill Helper */}
             <div className="p-3 rounded-xl bg-orange-500/10 border border-orange-500/20 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">

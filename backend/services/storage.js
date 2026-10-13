@@ -20,15 +20,48 @@ const {
 } = require('../data/seedData');
 
 const DB_FILE_PATH = path.join(__dirname, '../data/nexus_database.json');
+const DB_TEMP_PATH = path.join(__dirname, '../data/nexus_database.json.tmp');
 
-// Helper to save to disk file
+let isWriting = false;
+const writeQueue = [];
+
+// Helper to save to disk atomically and safely
 const saveToDisk = (store) => {
+  return new Promise((resolve) => {
+    writeQueue.push({ store, resolve });
+    processWriteQueue();
+  });
+};
+
+const processWriteQueue = () => {
+  if (isWriting || writeQueue.length === 0) return;
+  isWriting = true;
+
+  const item = writeQueue.shift();
   try {
-    fs.writeFileSync(DB_FILE_PATH, JSON.stringify(store, null, 2), 'utf8');
+    const data = JSON.stringify(item.store, null, 2);
+    // Write to temp file first, then atomically rename
+    fs.writeFileSync(DB_TEMP_PATH, data, 'utf8');
+    fs.renameSync(DB_TEMP_PATH, DB_FILE_PATH);
+    item.resolve(true);
   } catch (err) {
-    console.error('Failed to persist database to disk:', err.message);
+    console.error('Failed to persist database to disk atomically:', err.message);
+    try {
+      // Fallback write if rename fails
+      fs.writeFileSync(DB_FILE_PATH, JSON.stringify(item.store, null, 2), 'utf8');
+      item.resolve(true);
+    } catch (e) {
+      console.error('Critical fallback disk write failed:', e.message);
+      item.resolve(false);
+    }
+  } finally {
+    isWriting = false;
+    if (writeQueue.length > 0) {
+      setImmediate(processWriteQueue);
+    }
   }
 };
+
 
 // Helper to load from disk file
 const loadFromDisk = () => {
