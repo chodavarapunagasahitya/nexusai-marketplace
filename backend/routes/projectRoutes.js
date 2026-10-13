@@ -184,7 +184,7 @@ router.post('/:id/create-stripe-session', async (req, res) => {
   }
 });
 
-// POST /api/projects/:id/pay (Client pays real money/escrow — moves Payment Pending → In Progress)
+// POST /api/projects/:id/pay (Client pays money/escrow — moves Payment Pending → In Progress)
 router.post('/:id/pay', async (req, res) => {
   try {
     const { paymentMethod = 'Credit Card (Escrow)', cardLast4 = '4242' } = req.body;

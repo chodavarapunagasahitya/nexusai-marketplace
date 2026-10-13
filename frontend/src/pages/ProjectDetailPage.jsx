@@ -292,7 +292,7 @@ export default function ProjectDetailPage() {
                 to={`/checkout/${project.id || id}`}
                 className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 text-white text-xs font-bold shadow-glow-sm flex items-center gap-1.5"
               >
-                <Lock className="w-3.5 h-3.5" /> Pay Real Money & Fund Escrow ({formatPrice(project.budget)})
+                <Lock className="w-3.5 h-3.5" /> Pay Money & Fund Escrow ({formatPrice(project.budget)})
               </Link>
             )}
 

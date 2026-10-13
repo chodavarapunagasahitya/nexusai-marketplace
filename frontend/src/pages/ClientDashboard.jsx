@@ -304,7 +304,7 @@ export default function ClientDashboard() {
                         className="px-4 py-2 rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 text-white text-xs font-bold flex items-center gap-1.5 transition-all shadow-lg shadow-orange-950/60"
                       >
                         <Lock className="w-3.5 h-3.5" />
-                        Pay Real Money / Escrow — {formatPrice(proj.budget)}
+                        Pay Money / Escrow — {formatPrice(proj.budget)}
                       </Link>
                     </div>
                   ) : (

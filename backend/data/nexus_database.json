@@ -1071,9 +1071,9 @@
   ],
   "projects": [
     {
-      "_id": "proj_0fb4a1e7",
-      "id": "proj_0fb4a1e7",
-      "title": "ghh",
+      "_id": "proj_00178d96",
+      "id": "proj_00178d96",
+      "title": "hh",
       "description": "hhj",
       "clientId": "usr_client_1",
       "clientName": "Sarah Chen",
@@ -1100,13 +1100,56 @@
       "pendingAction": "Elena Vance has received payment confirmation and started production sprints (Deadline: 2026-11-15)",
       "revisions": [],
       "files": [],
+      "createdAt": "2026-10-13T14:50:13.418Z",
+      "updatedAt": "2026-10-13T14:50:46.807Z",
+      "paidAt": "2026-10-13T14:50:46.806Z",
+      "escrowFunded": true,
+      "transactionId": "TXN_ESCROW_187096",
+      "paymentMethod": "Visa / Card ending in 4242",
+      "cardLast4": "4242"
+    },
+    {
+      "_id": "proj_0fb4a1e7",
+      "id": "proj_0fb4a1e7",
+      "title": "ghh",
+      "description": "hhj",
+      "clientId": "usr_client_1",
+      "clientName": "Sarah Chen",
+      "creatorId": "usr_creator_1",
+      "creatorName": "Elena Vance",
+      "category": "Video & Motion",
+      "budget": 650,
+      "deadline": "2026-11-15",
+      "deliverables": [
+        {
+          "title": "Phase 1: Creative Concept & Script",
+          "completed": false
+        },
+        {
+          "title": "Phase 2: Production & Voice Synthesis",
+          "completed": false
+        },
+        {
+          "title": "Phase 3: Color Grading & Final Assets",
+          "completed": false
+        }
+      ],
+      "status": "Completed",
+      "pendingAction": "Completed & Reviewed",
+      "revisions": [],
+      "files": [],
       "createdAt": "2026-10-13T14:32:25.955Z",
-      "updatedAt": "2026-10-13T14:33:28.024Z",
+      "updatedAt": "2026-10-13T14:52:31.845Z",
       "paidAt": "2026-10-13T14:33:28.024Z",
       "escrowFunded": true,
       "transactionId": "TXN_ESCROW_633215",
       "paymentMethod": "PayPal Checkout",
-      "cardLast4": "4242"
+      "cardLast4": "4242",
+      "feedback": {
+        "rating": 5,
+        "comment": "good\n",
+        "submittedAt": "2026-10-13T14:52:31.845Z"
+      }
     },
     {
       "_id": "proj_hire_demo",
@@ -1729,6 +1772,32 @@
       "text": "On it Amara! Re-calibrating the sunlight luminance map now. Will upload the revision bundle in a few hours.",
       "read": false,
       "createdAt": "2026-10-08T11:45:00.000Z"
+    },
+    {
+      "_id": "msg_a74bed05",
+      "id": "msg_a74bed05",
+      "conversationId": "usr_client_1_conv_usr_creator_1",
+      "projectId": "proj_00178d96",
+      "senderId": "usr_client_1",
+      "senderName": "Sarah Chen",
+      "receiverId": "usr_creator_1",
+      "text": "hey",
+      "attachment": null,
+      "read": false,
+      "createdAt": "2026-10-13T14:51:09.075Z"
+    },
+    {
+      "_id": "msg_d7a7582a",
+      "id": "msg_d7a7582a",
+      "conversationId": "usr_client_1_conv_usr_creator_1",
+      "projectId": "proj_0fb4a1e7",
+      "senderId": "usr_creator_1",
+      "senderName": "Elena Vance",
+      "receiverId": "usr_client_1",
+      "text": "hlo",
+      "attachment": null,
+      "read": false,
+      "createdAt": "2026-10-13T14:52:40.438Z"
     }
   ],
   "reportedContent": [
