@@ -1,24 +1,35 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Sparkles, Lock, Mail, User, Shield, Briefcase, ArrowRight, Zap, CheckCircle2 } from 'lucide-react';
+import { Sparkles, Lock, Mail, User, Shield, Briefcase, ArrowRight, KeyRound, CheckCircle2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 export default function AuthPage() {
-  const [isLogin, setIsLogin] = useState(false); // Default to Create Account for new users
+  const [isLogin, setIsLogin] = useState(true); // Default to Sign In
   const [role, setRole] = useState('client');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [successMsg, setSuccessMsg] = useState('');
   const [loading, setLoading] = useState(false);
-  const [showDemoHelpers, setShowDemoHelpers] = useState(false);
 
-  const { login, register, demoLogin } = useAuth();
+  // Forgot password modal state
+  const [showForgotModal, setShowForgotModal] = useState(false);
+  const [resetEmail, setResetEmail] = useState('');
+  const [resetCode, setResetCode] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [resetStep, setResetStep] = useState(1); // 1: request code, 2: enter code & new pass
+  const [resetLoading, setResetLoading] = useState(false);
+  const [resetError, setResetError] = useState('');
+  const [resetSuccess, setResetSuccess] = useState('');
+
+  const { login, register, forgotPassword, resetPassword } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setSuccessMsg('');
     setLoading(true);
 
     try {
@@ -26,6 +37,9 @@ export default function AuthPage() {
         const u = await login(email, password);
         redirectUser(u.role);
       } else {
+        if (password.length < 6) {
+          throw new Error('Password must be at least 6 characters long.');
+        }
         const u = await register({ name, email, password, role });
         redirectUser(u.role);
       }
@@ -36,16 +50,42 @@ export default function AuthPage() {
     }
   };
 
-  const handleDemoSignIn = async (targetRole) => {
-    setError('');
-    setLoading(true);
+  const handleRequestResetCode = async (e) => {
+    e.preventDefault();
+    setResetError('');
+    setResetLoading(true);
     try {
-      const u = await demoLogin(targetRole);
-      redirectUser(u.role);
+      const res = await forgotPassword(resetEmail);
+      setResetStep(2);
+      if (res.debugCode) {
+        setResetSuccess(`Verification code sent! (Your code: ${res.debugCode})`);
+        setResetCode(res.debugCode);
+      } else {
+        setResetSuccess('Verification code sent to your email.');
+      }
     } catch (err) {
-      setError(err.message || 'Login failed');
+      setResetError(err.message || 'Failed to send verification code.');
     } finally {
-      setLoading(false);
+      setResetLoading(false);
+    }
+  };
+
+  const handleConfirmReset = async (e) => {
+    e.preventDefault();
+    setResetError('');
+    setResetLoading(true);
+    try {
+      await resetPassword(resetEmail, resetCode, newPassword);
+      setSuccessMsg('Password updated successfully! You can now log in.');
+      setShowForgotModal(false);
+      setIsLogin(true);
+      setEmail(resetEmail);
+      setPassword('');
+      setResetStep(1);
+    } catch (err) {
+      setResetError(err.message || 'Failed to reset password.');
+    } finally {
+      setResetLoading(false);
     }
   };
 
@@ -65,10 +105,10 @@ export default function AuthPage() {
             <Sparkles className="w-6 h-6 text-white" />
           </div>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
-            {isLogin ? 'Sign In to Your Account' : 'Create Your Real Account'}
+            {isLogin ? 'Sign In to Your Account' : 'Create Your Account'}
           </h2>
           <p className="text-xs sm:text-sm text-slate-400">
-            {isLogin ? 'Enter your registered email and password' : 'Register as a Content Creator or Client to get started'}
+            {isLogin ? 'Enter your registered email and password' : 'Join as a Content Creator or Client to get started'}
           </p>
         </div>
 
@@ -79,7 +119,7 @@ export default function AuthPage() {
           <div className="flex rounded-xl bg-navy-900 p-1 mb-6 border border-purple-900/40">
             <button
               type="button"
-              onClick={() => { setIsLogin(true); setError(''); }}
+              onClick={() => { setIsLogin(true); setError(''); setSuccessMsg(''); }}
               className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-all ${
                 isLogin ? 'bg-purple-600 text-white shadow-sm' : 'text-slate-400 hover:text-white'
               }`}
@@ -88,7 +128,7 @@ export default function AuthPage() {
             </button>
             <button
               type="button"
-              onClick={() => { setIsLogin(false); setError(''); }}
+              onClick={() => { setIsLogin(false); setError(''); setSuccessMsg(''); }}
               className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-all ${
                 !isLogin ? 'bg-purple-600 text-white shadow-sm' : 'text-slate-400 hover:text-white'
               }`}
@@ -104,12 +144,19 @@ export default function AuthPage() {
             </div>
           )}
 
+          {successMsg && (
+            <div className="mb-4 p-3 rounded-xl bg-emerald-950/50 border border-emerald-500/40 text-emerald-200 text-xs flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+              <span>{successMsg}</span>
+            </div>
+          )}
+
           <form onSubmit={handleSubmit} className="space-y-4">
             
             {/* Role Selector (Sign Up only) */}
             {!isLogin && (
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-300">Select Your Platform Role</label>
+                <label className="text-xs font-semibold text-slate-300">Select Account Type</label>
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     type="button"
@@ -145,7 +192,7 @@ export default function AuthPage() {
                   <input
                     type="text"
                     required
-                    placeholder="Alex Chen"
+                    placeholder="Your Full Name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     className="w-full bg-navy-900/90 border border-purple-900/40 rounded-xl pl-9 pr-3 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-500"
@@ -161,7 +208,7 @@ export default function AuthPage() {
                 <input
                   type="email"
                   required
-                  placeholder="name@company.com"
+                  placeholder="name@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full bg-navy-900/90 border border-purple-900/40 rounded-xl pl-9 pr-3 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-500"
@@ -170,13 +217,29 @@ export default function AuthPage() {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">Password</label>
+              <div className="flex items-center justify-between mb-1">
+                <label className="text-xs font-semibold text-slate-300">Password</label>
+                {isLogin && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setResetEmail(email);
+                      setShowForgotModal(true);
+                      setResetError('');
+                      setResetSuccess('');
+                    }}
+                    className="text-[11px] text-purple-400 hover:text-purple-300 transition-colors"
+                  >
+                    Forgot Password?
+                  </button>
+                )}
+              </div>
               <div className="relative">
                 <Lock className="w-4 h-4 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" />
                 <input
                   type="password"
                   required
-                  placeholder="••••••••"
+                  placeholder="At least 6 characters"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full bg-navy-900/90 border border-purple-900/40 rounded-xl pl-9 pr-3 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-500"
@@ -187,7 +250,7 @@ export default function AuthPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 rounded-xl purple-glow-btn text-white font-bold text-xs shadow-glow-sm flex items-center justify-center gap-2 disabled:opacity-50"
+              className="w-full py-3 rounded-xl purple-glow-btn text-white font-bold text-xs shadow-glow-sm flex items-center justify-center gap-2 disabled:opacity-50 mt-2"
             >
               {loading ? (
                 <span className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full" />
@@ -202,58 +265,101 @@ export default function AuthPage() {
 
         </div>
 
-        {/* Optional Fast-Fill Helper for Quick Evaluation */}
-        <div className="pt-2 text-center">
-          {!showDemoHelpers ? (
-            <button
-              type="button"
-              onClick={() => setShowDemoHelpers(true)}
-              className="text-[11px] text-slate-400 hover:text-purple-300 transition-colors inline-flex items-center gap-1.5"
-            >
-              <Zap className="w-3 h-3 text-amber-400" /> Need quick test credentials? Click to reveal pre-seeded roles
-            </button>
-          ) : (
-            <div className="p-3.5 rounded-2xl bg-navy-900/60 border border-purple-900/40 space-y-2">
-              <div className="flex items-center justify-between text-[11px] text-slate-300">
-                <span className="font-semibold text-purple-300 flex items-center gap-1">
-                  <Zap className="w-3 h-3 text-amber-400" /> Pre-Seeded Evaluation Roles:
-                </span>
-                <button
-                  type="button"
-                  onClick={() => setShowDemoHelpers(false)}
-                  className="text-slate-400 hover:text-white text-[10px]"
-                >
-                  ✕ Hide
-                </button>
-              </div>
-              <div className="grid grid-cols-3 gap-2">
-                <button
-                  type="button"
-                  onClick={() => handleDemoSignIn('client')}
-                  className="py-1.5 px-2 rounded-lg bg-navy-950 hover:bg-purple-900/40 border border-purple-500/20 text-[11px] font-medium text-slate-300 hover:text-white"
-                >
-                  Client (Sarah)
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleDemoSignIn('creator')}
-                  className="py-1.5 px-2 rounded-lg bg-navy-950 hover:bg-purple-900/40 border border-purple-500/20 text-[11px] font-medium text-slate-300 hover:text-white"
-                >
-                  Creator (Elena)
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleDemoSignIn('admin')}
-                  className="py-1.5 px-2 rounded-lg bg-navy-950 hover:bg-purple-900/40 border border-purple-500/20 text-[11px] font-medium text-slate-300 hover:text-white"
-                >
-                  Admin (Alex)
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
-
       </div>
+
+      {/* Forgot / Reset Password Modal */}
+      {showForgotModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+          <div className="w-full max-w-sm glass-panel p-6 rounded-2xl border border-purple-800/50 shadow-2xl space-y-4">
+            <div className="flex items-center justify-between pb-2 border-b border-purple-900/40">
+              <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                <KeyRound className="w-4 h-4 text-purple-400" />
+                Reset Password
+              </h3>
+              <button
+                onClick={() => setShowForgotModal(false)}
+                className="text-slate-400 hover:text-white text-xs"
+              >
+                ✕
+              </button>
+            </div>
+
+            {resetError && (
+              <div className="p-2.5 rounded-xl bg-rose-950/50 border border-rose-500/40 text-rose-200 text-xs">
+                {resetError}
+              </div>
+            )}
+
+            {resetSuccess && (
+              <div className="p-2.5 rounded-xl bg-emerald-950/50 border border-emerald-500/40 text-emerald-200 text-xs">
+                {resetSuccess}
+              </div>
+            )}
+
+            {resetStep === 1 ? (
+              <form onSubmit={handleRequestResetCode} className="space-y-3">
+                <p className="text-xs text-slate-300">
+                  Enter your registered email address to receive a secure 6-digit password verification code.
+                </p>
+                <div>
+                  <label className="block text-[11px] font-semibold text-slate-300 mb-1">Email</label>
+                  <input
+                    type="email"
+                    required
+                    value={resetEmail}
+                    onChange={(e) => setResetEmail(e.target.value)}
+                    placeholder="name@example.com"
+                    className="w-full bg-navy-900 border border-purple-900/50 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-purple-500"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  disabled={resetLoading}
+                  className="w-full py-2.5 rounded-xl purple-glow-btn text-white font-bold text-xs disabled:opacity-50"
+                >
+                  {resetLoading ? 'Sending...' : 'Send Verification Code'}
+                </button>
+              </form>
+            ) : (
+              <form onSubmit={handleConfirmReset} className="space-y-3">
+                <p className="text-xs text-slate-300">
+                  Enter the 6-digit verification code and your new password.
+                </p>
+                <div>
+                  <label className="block text-[11px] font-semibold text-slate-300 mb-1">6-Digit Code</label>
+                  <input
+                    type="text"
+                    required
+                    value={resetCode}
+                    onChange={(e) => setResetCode(e.target.value)}
+                    placeholder="123456"
+                    className="w-full bg-navy-900 border border-purple-900/50 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-purple-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-semibold text-slate-300 mb-1">New Password</label>
+                  <input
+                    type="password"
+                    required
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    placeholder="At least 6 characters"
+                    className="w-full bg-navy-900 border border-purple-900/50 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-purple-500"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  disabled={resetLoading}
+                  className="w-full py-2.5 rounded-xl purple-glow-btn text-white font-bold text-xs disabled:opacity-50"
+                >
+                  {resetLoading ? 'Saving...' : 'Set New Password'}
+                </button>
+              </form>
+            )}
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }

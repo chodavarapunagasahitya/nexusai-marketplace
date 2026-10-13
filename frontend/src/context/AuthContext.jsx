@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }) => {
     }
   ]);
 
-  // Fetch current user if token exists, or auto-login demo user for immediate instant access
+  // Fetch current user if valid token exists in storage
   useEffect(() => {
     const initAuth = async () => {
       const storedToken = localStorage.getItem('nexus_token');
@@ -46,32 +46,23 @@ export const AuthProvider = ({ children }) => {
           if (data.success && data.user) {
             setUser(data.user);
             setToken(storedToken);
-            setLoading(false);
-            return;
+          } else {
+            // Invalid/expired token: clear storage
+            localStorage.removeItem('nexus_token');
+            setUser(null);
+            setToken(null);
           }
         } catch (err) {
-          console.warn('Token validation failed, logging in as default demo client');
+          console.warn('Token validation failed:', err);
+          localStorage.removeItem('nexus_token');
+          setUser(null);
+          setToken(null);
         }
+      } else {
+        setUser(null);
+        setToken(null);
       }
-
-      // Auto-login as demo client so app is immediately interactive!
-      try {
-        const res = await fetch('/api/auth/demo-login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ role: 'client' })
-        });
-        const data = await res.json();
-        if (data.success) {
-          setUser(data.user);
-          setToken(data.token);
-          localStorage.setItem('nexus_token', data.token);
-        }
-      } catch (e) {
-        console.error('Failed to init demo user', e);
-      } finally {
-        setLoading(false);
-      }
+      setLoading(false);
     };
 
     initAuth();
@@ -107,24 +98,26 @@ export const AuthProvider = ({ children }) => {
     return data.user;
   };
 
-  const demoLogin = async (role) => {
-    setLoading(true);
-    try {
-      const res = await fetch('/api/auth/demo-login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ role })
-      });
-      const data = await res.json();
-      if (!data.success) throw new Error(data.message || 'Demo login failed');
+  const forgotPassword = async (email) => {
+    const res = await fetch('/api/auth/forgot-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+    const data = await res.json();
+    if (!data.success) throw new Error(data.message || 'Failed to request password reset');
+    return data;
+  };
 
-      setUser(data.user);
-      setToken(data.token);
-      localStorage.setItem('nexus_token', data.token);
-      return data.user;
-    } finally {
-      setLoading(false);
-    }
+  const resetPassword = async (email, code, newPassword) => {
+    const res = await fetch('/api/auth/reset-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, code, newPassword })
+    });
+    const data = await res.json();
+    if (!data.success) throw new Error(data.message || 'Failed to reset password');
+    return data;
   };
 
   const logout = () => {
@@ -169,7 +162,8 @@ export const AuthProvider = ({ children }) => {
         loading,
         login,
         register,
-        demoLogin,
+        forgotPassword,
+        resetPassword,
         logout,
         toggleFavorite,
         notifications,

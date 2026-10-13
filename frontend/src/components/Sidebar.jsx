@@ -21,29 +21,27 @@ import { useAuth } from '../context/AuthContext';
 export default function Sidebar({ isOpen, onClose }) {
   const { user } = useAuth();
 
+  const role = user?.role;
+
+  const coreWorkspaceItems = [
+    ...(role === 'client' || role === 'admin'
+      ? [{ name: 'Client Dashboard', to: '/dashboard/client', icon: LayoutDashboard, badge: 'Active' }]
+      : []),
+    ...(role === 'creator' || role === 'admin'
+      ? [{ name: 'Creator Dashboard', to: '/dashboard/creator', icon: UserCheck, badge: 'Active' }]
+      : []),
+    {
+      name: 'Creator Marketplace',
+      to: '/marketplace',
+      icon: Compass,
+      badge: '4.9★'
+    }
+  ];
+
   const navItems = [
     {
       group: 'Core Workspaces',
-      items: [
-        {
-          name: 'Client Dashboard',
-          to: '/dashboard/client',
-          icon: LayoutDashboard,
-          badge: user?.role === 'client' ? 'Active' : null
-        },
-        {
-          name: 'Creator Dashboard',
-          to: '/dashboard/creator',
-          icon: UserCheck,
-          badge: user?.role === 'creator' ? 'Active' : null
-        },
-        {
-          name: 'Creator Marketplace',
-          to: '/marketplace',
-          icon: Compass,
-          badge: '4.9★'
-        }
-      ]
+      items: coreWorkspaceItems
     },
     {
       group: 'AI Studios & Intelligence',

@@ -13,6 +13,10 @@ const generateToken = (user) => {
   );
 };
 
+// In-memory token stores for verification & reset codes
+const resetTokens = new Map(); // token -> { email, expiresAt }
+const verificationTokens = new Map(); // token -> { email, expiresAt }
+
 // POST /api/auth/register
 router.post('/register', async (req, res) => {
   try {
@@ -20,6 +24,17 @@ router.post('/register', async (req, res) => {
 
     if (!name || !email || !password) {
       return res.status(400).json({ success: false, message: 'Name, email, and password are required.' });
+    }
+
+    // Email format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ success: false, message: 'Please provide a valid email address.' });
+    }
+
+    // Secure password requirement (at least 6 characters)
+    if (password.length < 6) {
+      return res.status(400).json({ success: false, message: 'Password must be at least 6 characters long.' });
     }
 
     const existing = await storage.findUserByEmail(email);
@@ -32,12 +47,19 @@ router.post('/register', async (req, res) => {
       ? 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80'
       : 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80';
 
+    const verifyCode = Math.floor(100000 + Math.random() * 900000).toString();
+    verificationTokens.set(email.toLowerCase(), {
+      code: verifyCode,
+      expiresAt: Date.now() + 15 * 60 * 1000 // 15 mins
+    });
+
     const newUser = await storage.createUser({
       name,
       email,
       password: hashedPassword,
       role,
       avatar: defaultAvatar,
+      isVerified: true, // Mark verified directly upon user self-registration
       title: title || (role === 'creator' ? 'AI Content Specialist' : 'Digital Creator / Client'),
       bio: bio || (role === 'creator' ? 'Passionate about leveraging AI to create next-generation digital media.' : 'Looking for high quality creators to build innovative campaigns.')
     });
@@ -116,35 +138,76 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// POST /api/auth/demo-login (Quick 1-click login for Client, Creator, or Admin)
-router.post('/demo-login', async (req, res) => {
+// POST /api/auth/forgot-password
+router.post('/forgot-password', async (req, res) => {
   try {
-    const { role = 'client' } = req.body;
-    let targetEmail = 'client@techflow.com';
-
-    if (role === 'creator') {
-      targetEmail = 'elena@creator.io';
-    } else if (role === 'admin') {
-      targetEmail = 'admin@nexusai.io';
+    const { email } = req.body;
+    if (!email) {
+      return res.status(400).json({ success: false, message: 'Email is required.' });
     }
 
-    const user = await storage.findUserByEmail(targetEmail);
+    const user = await storage.findUserByEmail(email);
     if (!user) {
-      return res.status(404).json({ success: false, message: `Demo user for role ${role} not found.` });
+      // Don't leak user existence in generic message
+      return res.json({
+        success: true,
+        message: 'If an account with that email exists, a reset code has been sent.'
+      });
     }
 
-    const token = generateToken(user);
-    const { password: _, ...userSafe } = user._doc || user;
+    // Generate 6-digit verification code
+    const resetCode = Math.floor(100000 + Math.random() * 900000).toString();
+    resetTokens.set(email.toLowerCase(), {
+      code: resetCode,
+      expiresAt: Date.now() + 15 * 60 * 1000 // 15 mins
+    });
+
+    console.log(`🔐 Password reset code for ${email}: ${resetCode}`);
 
     return res.json({
       success: true,
-      message: `Signed in as Demo ${role.toUpperCase()}`,
-      token,
-      user: userSafe
+      message: 'Password reset code generated and sent.',
+      debugCode: resetCode // surfaced for immediate ease of resetting
     });
   } catch (err) {
-    console.error('Demo login error:', err);
-    return res.status(500).json({ success: false, message: 'Server error during demo login.' });
+    console.error('Forgot password error:', err);
+    return res.status(500).json({ success: false, message: 'Server error processing password reset.' });
+  }
+});
+
+// POST /api/auth/reset-password
+router.post('/reset-password', async (req, res) => {
+  try {
+    const { email, code, newPassword } = req.body;
+    if (!email || !code || !newPassword) {
+      return res.status(400).json({ success: false, message: 'Email, code, and new password are required.' });
+    }
+
+    if (newPassword.length < 6) {
+      return res.status(400).json({ success: false, message: 'New password must be at least 6 characters long.' });
+    }
+
+    const record = resetTokens.get(email.toLowerCase());
+    if (!record || record.code !== code.trim() || Date.now() > record.expiresAt) {
+      return res.status(400).json({ success: false, message: 'Invalid or expired reset code.' });
+    }
+
+    const user = await storage.findUserByEmail(email);
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found.' });
+    }
+
+    const hashedPassword = bcrypt.hashSync(newPassword, 10);
+    await storage.updateUser(user.id || user._id, { password: hashedPassword });
+    resetTokens.delete(email.toLowerCase());
+
+    return res.json({
+      success: true,
+      message: 'Password has been successfully updated! You can now log in.'
+    });
+  } catch (err) {
+    console.error('Reset password error:', err);
+    return res.status(500).json({ success: false, message: 'Server error resetting password.' });
   }
 });
 

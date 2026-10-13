@@ -21,7 +21,7 @@ import { useCurrency } from '../context/CurrencyContext';
 import BackendStatusBadge from './BackendStatusBadge';
 
 export default function Navbar({ onToggleSidebar }) {
-  const { user, logout, demoLogin, notifications, unreadCount, markAllNotificationsRead } = useAuth();
+  const { user, logout, notifications, unreadCount, markAllNotificationsRead } = useAuth();
   const { currency, setCurrency, rates, isLive } = useCurrency();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
@@ -33,13 +33,6 @@ export default function Navbar({ onToggleSidebar }) {
     if (searchQuery.trim()) {
       navigate(`/marketplace?search=${encodeURIComponent(searchQuery.trim())}`);
     }
-  };
-
-  const handleRoleSwitch = async (role) => {
-    await demoLogin(role);
-    if (role === 'creator') navigate('/dashboard/creator');
-    else if (role === 'admin') navigate('/admin');
-    else navigate('/dashboard/client');
   };
 
   return (
@@ -110,40 +103,6 @@ export default function Navbar({ onToggleSidebar }) {
               <option value="JPY" className="bg-navy-950 text-white">JPY (¥)</option>
             </select>
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" title="Live Forex Feed" />
-          </div>
-
-          {/* Quick Demo Role Switcher Pill */}
-          <div className="hidden sm:flex items-center bg-navy-900/90 border border-purple-900/50 rounded-full p-0.5 text-xs">
-            <button
-              onClick={() => handleRoleSwitch('client')}
-              className={`px-2.5 py-1 rounded-full font-medium transition-all ${
-                user?.role === 'client' 
-                  ? 'bg-purple-600 text-white shadow-sm' 
-                  : 'text-slate-400 hover:text-white'
-              }`}
-            >
-              Client
-            </button>
-            <button
-              onClick={() => handleRoleSwitch('creator')}
-              className={`px-2.5 py-1 rounded-full font-medium transition-all ${
-                user?.role === 'creator' 
-                  ? 'bg-purple-600 text-white shadow-sm' 
-                  : 'text-slate-400 hover:text-white'
-              }`}
-            >
-              Creator
-            </button>
-            <button
-              onClick={() => handleRoleSwitch('admin')}
-              className={`px-2.5 py-1 rounded-full font-medium transition-all ${
-                user?.role === 'admin' 
-                  ? 'bg-purple-600 text-white shadow-sm' 
-                  : 'text-slate-400 hover:text-white'
-              }`}
-            >
-              Admin
-            </button>
           </div>
 
           {/* Quick Action: AI Studio */}

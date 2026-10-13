@@ -22,12 +22,50 @@ import SettingsPage from './pages/SettingsPage';
 import AuthenticityAssistantPage from './pages/AuthenticityAssistantPage';
 import SkillRadarPage from './pages/SkillRadarPage';
 import CheckoutPage from './pages/CheckoutPage';
+import { Navigate } from 'react-router-dom';
+import { useAuth } from './context/AuthContext';
+
+function ProtectedRoute({ children, requiredRole }) {
+  const { user, loading } = useAuth();
+  if (loading) {
+    return (
+      <div className="min-h-[70vh] flex items-center justify-center">
+        <div className="w-8 h-8 border-2 border-purple-500 border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+  if (!user) {
+    return <Navigate to="/auth" replace />;
+  }
+  if (requiredRole && user.role !== requiredRole && user.role !== 'admin') {
+    const fallbackPath = user.role === 'creator' ? '/dashboard/creator' : '/dashboard/client';
+    return <Navigate to={fallbackPath} replace />;
+  }
+  return children;
+}
+
+function RootRedirect() {
+  const { user, loading } = useAuth();
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-navy-950">
+        <div className="w-8 h-8 border-2 border-purple-500 border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+  if (!user) {
+    return <Navigate to="/auth" replace />;
+  }
+  if (user.role === 'creator') return <Navigate to="/dashboard/creator" replace />;
+  if (user.role === 'admin') return <Navigate to="/admin" replace />;
+  return <Navigate to="/dashboard/client" replace />;
+}
 
 function AppLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
 
-  const isStandalonePage = location.pathname === '/' || location.pathname === '/auth';
+  const isStandalonePage = location.pathname === '/auth';
 
   return (
     <div className="min-h-screen flex flex-col bg-navy-950 text-slate-100">
@@ -60,22 +98,54 @@ export default function App() {
         <Router>
           <AppLayout>
             <Routes>
-              <Route path="/" element={<LandingPage />} />
+              {/* Root directs immediately to Login page or user's dashboard if already authenticated */}
+              <Route path="/" element={<RootRedirect />} />
               <Route path="/auth" element={<AuthPage />} />
-              <Route path="/dashboard/client" element={<ClientDashboard />} />
-              <Route path="/dashboard/creator" element={<CreatorDashboard />} />
-              <Route path="/studio" element={<AIStudioPage />} />
-              <Route path="/marketplace" element={<MarketplacePage />} />
-              <Route path="/creator/:id" element={<CreatorProfilePage />} />
-              <Route path="/projects" element={<ClientDashboard />} />
-              <Route path="/projects/:id" element={<ProjectDetailPage />} />
-              <Route path="/checkout/:id" element={<CheckoutPage />} />
-              <Route path="/messages" element={<MessagesPage />} />
-              <Route path="/analytics" element={<AnalyticsPage />} />
-              <Route path="/admin" element={<AdminDashboard />} />
-              <Route path="/settings" element={<SettingsPage />} />
-              <Route path="/authenticity" element={<AuthenticityAssistantPage />} />
-              <Route path="/skill-radar" element={<SkillRadarPage />} />
+              <Route path="/landing" element={<LandingPage />} />
+
+              {/* Protected user routes */}
+              <Route path="/dashboard/client" element={
+                <ProtectedRoute requiredRole="client"><ClientDashboard /></ProtectedRoute>
+              } />
+              <Route path="/dashboard/creator" element={
+                <ProtectedRoute requiredRole="creator"><CreatorDashboard /></ProtectedRoute>
+              } />
+              <Route path="/studio" element={
+                <ProtectedRoute><AIStudioPage /></ProtectedRoute>
+              } />
+              <Route path="/marketplace" element={
+                <ProtectedRoute><MarketplacePage /></ProtectedRoute>
+              } />
+              <Route path="/creator/:id" element={
+                <ProtectedRoute><CreatorProfilePage /></ProtectedRoute>
+              } />
+              <Route path="/projects" element={
+                <ProtectedRoute><ClientDashboard /></ProtectedRoute>
+              } />
+              <Route path="/projects/:id" element={
+                <ProtectedRoute><ProjectDetailPage /></ProtectedRoute>
+              } />
+              <Route path="/checkout/:id" element={
+                <ProtectedRoute><CheckoutPage /></ProtectedRoute>
+              } />
+              <Route path="/messages" element={
+                <ProtectedRoute><MessagesPage /></ProtectedRoute>
+              } />
+              <Route path="/analytics" element={
+                <ProtectedRoute><AnalyticsPage /></ProtectedRoute>
+              } />
+              <Route path="/admin" element={
+                <ProtectedRoute requiredRole="admin"><AdminDashboard /></ProtectedRoute>
+              } />
+              <Route path="/settings" element={
+                <ProtectedRoute><SettingsPage /></ProtectedRoute>
+              } />
+              <Route path="/authenticity" element={
+                <ProtectedRoute><AuthenticityAssistantPage /></ProtectedRoute>
+              } />
+              <Route path="/skill-radar" element={
+                <ProtectedRoute><SkillRadarPage /></ProtectedRoute>
+              } />
             </Routes>
           </AppLayout>
         </Router>
