@@ -94,6 +94,24 @@ router.post('/', authenticate, async (req, res) => {
       pendingAction: `Fund escrow to send proposal to ${resolvedCreatorName}`
     });
 
+    // Automatically create a notification for the Creator about the booking request
+    try {
+      await storage.createNotification({
+        userId: resolvedCreatorId,
+        title: 'New Booking Request',
+        message: `${req.user.name} submitted a booking request for "${title}" (${category}) with a budget of $${budget}.`,
+        clientName: req.user.name,
+        service: category,
+        budget: Number(budget),
+        deadline,
+        projectId: newProject.id,
+        bookingDate: new Date(),
+        type: 'booking_request'
+      });
+    } catch (notifErr) {
+      console.warn('Failed to dispatch creator notification on booking creation:', notifErr.message);
+    }
+
     return res.status(201).json({
       success: true,
       message: 'Project proposal sent successfully!',
@@ -156,6 +174,29 @@ router.put('/:id/status', authenticate, async (req, res) => {
       status,
       pendingAction
     });
+
+    // Notify Client when Creator accepts or declines their booking request
+    try {
+      if (status === 'Accepted') {
+        await storage.createNotification({
+          userId: project.clientId,
+          title: 'Booking Request Accepted!',
+          message: `${project.creatorName} accepted your project proposal for "${project.title}". Production is starting!`,
+          projectId: project.id,
+          type: 'booking_accepted'
+        });
+      } else if (status === 'Declined') {
+        await storage.createNotification({
+          userId: project.clientId,
+          title: 'Booking Request Declined',
+          message: `${project.creatorName} was unable to accept your project proposal for "${project.title}".`,
+          projectId: project.id,
+          type: 'booking_declined'
+        });
+      }
+    } catch (e) {
+      console.warn('Notification dispatch error:', e.message);
+    }
 
     return res.json({
       success: true,
@@ -251,6 +292,19 @@ router.post('/:id/pay', async (req, res) => {
       cardLast4,
       pendingAction: `${project.creatorName} has received payment confirmation and started production sprints (Deadline: ${project.deadline})`
     });
+
+    // Notify Creator that client paid and funded escrow
+    try {
+      await storage.createNotification({
+        userId: project.creatorId,
+        title: 'Escrow Funded & Booking Confirmed! 💰',
+        message: `${project.clientName} funded the escrow ($${project.budget}) for "${project.title}". Production sprints are now live!`,
+        projectId: project.id,
+        type: 'escrow_funded'
+      });
+    } catch (e) {
+      console.warn('Escrow payment notification error:', e.message);
+    }
 
     return res.json({
       success: true,

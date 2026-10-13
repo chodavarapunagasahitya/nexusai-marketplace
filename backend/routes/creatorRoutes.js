@@ -3,9 +3,28 @@ const router = express.Router();
 const storage = require('../services/storage');
 const { authenticate } = require('../middleware/authMiddleware');
 
-// GET /api/creators (search & filter)
+// GET /api/creators (search & filter — for clients and visitors)
 router.get('/', async (req, res) => {
   try {
+    // If bearer token is provided and user is a creator, disallow browsing marketplace
+    const authHeader = req.headers.authorization;
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      const token = authHeader.split(' ')[1];
+      try {
+        const jwt = require('jsonwebtoken');
+        const { JWT_SECRET } = require('../middleware/authMiddleware');
+        const decoded = jwt.verify(token, JWT_SECRET);
+        if (decoded && decoded.role === 'creator') {
+          return res.status(403).json({
+            success: false,
+            message: 'Access denied. The Creator Marketplace is reserved for Client accounts to browse and hire talent.'
+          });
+        }
+      } catch (e) {
+        // Token invalid, proceed as guest
+      }
+    }
+
     const { category, search, maxBudget, minRating, availability, language } = req.query;
     const creators = await storage.getCreators({
       category,

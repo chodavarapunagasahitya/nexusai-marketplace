@@ -172,8 +172,13 @@ export default function CreatorDashboard() {
         </div>
 
         <div className="divide-y divide-purple-900/20">
-          {projects.filter(proj => proj.status !== 'Payment Pending').map(proj => (
-            <div key={proj.id} className="p-5 hover:bg-purple-950/20 transition-colors flex flex-col md:flex-row md:items-center justify-between gap-4">
+          {projects.length === 0 ? (
+            <div className="p-8 text-center text-xs text-slate-400">
+              No booking requests or client briefs yet. You will be notified when a client books your services!
+            </div>
+          ) : (
+            projects.map(proj => (
+              <div key={proj.id} className="p-5 hover:bg-purple-950/20 transition-colors flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div className="space-y-1.5 flex-1 min-w-0">
                 <div className="flex flex-wrap items-center gap-2">
                   <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${getStatusBadge(proj.status)}`}>
@@ -199,13 +204,13 @@ export default function CreatorDashboard() {
 
               {/* Action Buttons for Creator */}
               <div className="flex flex-wrap items-center gap-2 shrink-0">
-                {proj.status === 'Awaiting Creator' && (
+                {(proj.status === 'Awaiting Creator' || proj.status === 'Requested' || proj.status === 'Payment Pending') && (
                   <>
                     <button
                       onClick={() => handleUpdateStatus(proj.id, 'Accepted')}
-                      className="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-all"
+                      className="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-all shadow-glow-sm"
                     >
-                      Accept Proposal ({formatPrice(proj.budget)})
+                      Accept Request ({formatPrice(proj.budget)})
                     </button>
                     <button
                       onClick={() => handleUpdateStatus(proj.id, 'Declined')}
@@ -242,7 +247,7 @@ export default function CreatorDashboard() {
                 </Link>
               </div>
             </div>
-          ))}
+          )))}
         </div>
 
       </div>

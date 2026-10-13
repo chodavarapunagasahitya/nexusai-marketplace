@@ -25,17 +25,14 @@ export default function Sidebar({ isOpen, onClose }) {
 
   const coreWorkspaceItems = [
     ...(role === 'client' || role === 'admin'
-      ? [{ name: 'Client Dashboard', to: '/dashboard/client', icon: LayoutDashboard, badge: 'Active' }]
+      ? [
+          { name: 'Client Dashboard', to: '/dashboard/client', icon: LayoutDashboard, badge: 'Active' },
+          { name: 'Creator Marketplace', to: '/marketplace', icon: Compass, badge: '4.9★' }
+        ]
       : []),
     ...(role === 'creator' || role === 'admin'
       ? [{ name: 'Creator Dashboard', to: '/dashboard/creator', icon: UserCheck, badge: 'Active' }]
-      : []),
-    {
-      name: 'Creator Marketplace',
-      to: '/marketplace',
-      icon: Compass,
-      badge: '4.9★'
-    }
+      : [])
   ];
 
   const navItems = [

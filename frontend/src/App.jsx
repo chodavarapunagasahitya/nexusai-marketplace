@@ -122,7 +122,7 @@ export default function App() {
                 <ProtectedRoute><AIStudioPage /></ProtectedRoute>
               } />
               <Route path="/marketplace" element={
-                <ProtectedRoute><MarketplacePage /></ProtectedRoute>
+                <ProtectedRoute requiredRole="client"><MarketplacePage /></ProtectedRoute>
               } />
               <Route path="/creator/:id" element={
                 <ProtectedRoute><CreatorProfilePage /></ProtectedRoute>

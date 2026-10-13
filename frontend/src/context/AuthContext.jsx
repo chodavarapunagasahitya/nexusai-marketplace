@@ -6,32 +6,37 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(localStorage.getItem('nexus_token') || null);
   const [loading, setLoading] = useState(true);
-  const [notifications, setNotifications] = useState([
-    {
-      id: 'notif_1',
-      title: 'New Collaboration Request',
-      message: 'TechFlow sent a proposal for "AI Explainer Video Series"',
-      time: '15m ago',
-      read: false,
-      type: 'project'
-    },
-    {
-      id: 'notif_2',
-      title: 'Originality Check Complete',
-      message: 'Your recent draft passed authenticity verification with 94% score.',
-      time: '2h ago',
-      read: false,
-      type: 'ai'
-    },
-    {
-      id: 'notif_3',
-      title: 'Milestone Approved',
-      message: 'Article 1: Agentic Orchestration Patterns approved by client.',
-      time: '1d ago',
-      read: true,
-      type: 'payment'
+  const [notifications, setNotifications] = useState([]);
+
+  // Fetch notifications from live backend
+  const fetchNotifications = async (authToken) => {
+    const activeToken = authToken || token || localStorage.getItem('nexus_token');
+    if (!activeToken) {
+      setNotifications([]);
+      return;
     }
-  ]);
+    try {
+      const res = await fetch('/api/notifications', {
+        headers: { Authorization: `Bearer ${activeToken}` }
+      });
+      const data = await res.json();
+      if (data.success && Array.isArray(data.notifications)) {
+        setNotifications(data.notifications);
+      }
+    } catch (err) {
+      console.warn('Error fetching live notifications:', err);
+    }
+  };
+
+  // Reliable background polling for live notifications (every 4 seconds)
+  useEffect(() => {
+    if (!token) return;
+    fetchNotifications(token);
+    const interval = setInterval(() => {
+      fetchNotifications(token);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [token]);
 
   // Fetch current user if valid token exists in storage
   useEffect(() => {
@@ -46,6 +51,7 @@ export const AuthProvider = ({ children }) => {
           if (data.success && data.user) {
             setUser(data.user);
             setToken(storedToken);
+            fetchNotifications(storedToken);
           } else {
             // Invalid/expired token: clear storage
             localStorage.removeItem('nexus_token');
@@ -148,8 +154,32 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const markAllNotificationsRead = () => {
+  const markNotificationRead = async (id) => {
+    setNotifications(prev => prev.map(n => (n.id === id || n._id === id) ? { ...n, read: true } : n));
+    if (token) {
+      try {
+        await fetch(`/api/notifications/${id}/read`, {
+          method: 'PUT',
+          headers: { Authorization: `Bearer ${token}` }
+        });
+      } catch (e) {
+        console.warn('Failed to mark notification read on backend:', e);
+      }
+    }
+  };
+
+  const markAllNotificationsRead = async () => {
     setNotifications(prev => prev.map(n => ({ ...n, read: true })));
+    if (token) {
+      try {
+        await fetch('/api/notifications/read-all', {
+          method: 'PUT',
+          headers: { Authorization: `Bearer ${token}` }
+        });
+      } catch (e) {
+        console.warn('Failed to mark all notifications read on backend:', e);
+      }
+    }
   };
 
   const unreadCount = notifications.filter(n => !n.read).length;
@@ -167,6 +197,7 @@ export const AuthProvider = ({ children }) => {
         logout,
         toggleFavorite,
         notifications,
+        markNotificationRead,
         markAllNotificationsRead,
         unreadCount
       }}

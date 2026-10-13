@@ -80,7 +80,8 @@ const loadFromDisk = () => {
     projects: JSON.parse(JSON.stringify(seedProjects)),
     aiGenerations: JSON.parse(JSON.stringify(seedAIGenerations)),
     messages: JSON.parse(JSON.stringify(seedMessages)),
-    reportedContent: JSON.parse(JSON.stringify(seedReportedContent))
+    reportedContent: JSON.parse(JSON.stringify(seedReportedContent)),
+    notifications: []
   };
   saveToDisk(initial);
   return initial;
@@ -602,6 +603,65 @@ const storage = {
       return localStore.reportedContent[idx];
     }
     return null;
+  },
+
+  // NOTIFICATIONS
+  async getNotifications(userId) {
+    if (!localStore.notifications) localStore.notifications = [];
+    const creatorProf = localStore.creators.find(c => c.userId === userId || c.id === userId || c._id === userId);
+    const validIds = [userId];
+    if (creatorProf) {
+      if (creatorProf.id) validIds.push(creatorProf.id);
+      if (creatorProf._id) validIds.push(creatorProf._id);
+      if (creatorProf.userId) validIds.push(creatorProf.userId);
+    }
+    return localStore.notifications
+      .filter(n => validIds.includes(n.userId))
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  },
+
+  async createNotification(notifData) {
+    if (!localStore.notifications) localStore.notifications = [];
+    const id = 'notif_' + uuidv4().slice(0, 8);
+    const newNotif = {
+      _id: id,
+      id,
+      ...notifData,
+      read: false,
+      createdAt: new Date()
+    };
+    localStore.notifications.unshift(newNotif);
+    saveToDisk(localStore);
+    return newNotif;
+  },
+
+  async markNotificationRead(id, userId) {
+    if (!localStore.notifications) localStore.notifications = [];
+    const notif = localStore.notifications.find(n => n.id === id || n._id === id);
+    if (notif) {
+      notif.read = true;
+      saveToDisk(localStore);
+      return notif;
+    }
+    return null;
+  },
+
+  async markAllNotificationsRead(userId) {
+    if (!localStore.notifications) localStore.notifications = [];
+    const creatorProf = localStore.creators.find(c => c.userId === userId || c.id === userId || c._id === userId);
+    const validIds = [userId];
+    if (creatorProf) {
+      if (creatorProf.id) validIds.push(creatorProf.id);
+      if (creatorProf._id) validIds.push(creatorProf._id);
+      if (creatorProf.userId) validIds.push(creatorProf.userId);
+    }
+    localStore.notifications.forEach(n => {
+      if (validIds.includes(n.userId)) {
+        n.read = true;
+      }
+    });
+    saveToDisk(localStore);
+    return true;
   }
 };
 

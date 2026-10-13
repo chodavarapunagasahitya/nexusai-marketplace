@@ -21,7 +21,7 @@ import { useCurrency } from '../context/CurrencyContext';
 import BackendStatusBadge from './BackendStatusBadge';
 
 export default function Navbar({ onToggleSidebar }) {
-  const { user, logout, notifications, unreadCount, markAllNotificationsRead } = useAuth();
+  const { user, logout, notifications, unreadCount, markNotificationRead, markAllNotificationsRead } = useAuth();
   const { currency, setCurrency, rates, isLive } = useCurrency();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
@@ -143,18 +143,44 @@ export default function Navbar({ onToggleSidebar }) {
                   )}
                 </div>
 
-                <div className="divide-y divide-purple-900/20 max-h-72 overflow-y-auto mt-2">
-                  {notifications.map(n => (
-                    <div key={n.id} className="py-2.5 px-2 hover:bg-purple-950/40 rounded-lg transition-colors">
-                      <div className="flex items-start justify-between gap-2">
-                        <span className={`text-xs font-semibold ${n.read ? 'text-slate-300' : 'text-purple-300'}`}>
-                          {n.title}
-                        </span>
-                        <span className="text-[10px] text-slate-400">{n.time}</span>
-                      </div>
-                      <p className="text-xs text-slate-400 mt-0.5 leading-relaxed">{n.message}</p>
+                <div className="divide-y divide-purple-900/20 max-h-80 overflow-y-auto mt-2">
+                  {notifications.length === 0 ? (
+                    <div className="py-6 text-center text-xs text-slate-400">
+                      No new notifications right now.
                     </div>
-                  ))}
+                  ) : (
+                    notifications.map(n => (
+                      <div
+                        key={n.id || n._id}
+                        onClick={() => {
+                          markNotificationRead(n.id || n._id);
+                          if (n.projectId) {
+                            setShowNotifications(false);
+                            navigate(`/projects/${n.projectId}`);
+                          }
+                        }}
+                        className={`py-3 px-2.5 rounded-lg transition-colors cursor-pointer ${
+                          n.read ? 'hover:bg-purple-950/20 opacity-75' : 'bg-purple-950/40 hover:bg-purple-900/40'
+                        }`}
+                      >
+                        <div className="flex items-start justify-between gap-2">
+                          <span className={`text-xs font-semibold flex items-center gap-1.5 ${n.read ? 'text-slate-300' : 'text-purple-300'}`}>
+                            {!n.read && <span className="w-1.5 h-1.5 rounded-full bg-purple-400 shrink-0" />}
+                            {n.title}
+                          </span>
+                          <span className="text-[10px] text-slate-400 shrink-0">
+                            {n.createdAt ? new Date(n.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : (n.time || 'Just now')}
+                          </span>
+                        </div>
+                        <p className="text-xs text-slate-300 mt-1 leading-relaxed">{n.message}</p>
+                        {n.projectId && (
+                          <span className="inline-block mt-1 text-[10px] font-semibold text-purple-400 hover:text-purple-300">
+                            View Booking Request →
+                          </span>
+                        )}
+                      </div>
+                    ))
+                  )}
                 </div>
               </div>
             )}
